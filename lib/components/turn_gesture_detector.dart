@@ -30,7 +30,7 @@ class _TurnGestureDetectorState extends State<TurnGestureDetector> {
       final double hueDiff = (anglePercent * widget.maxHue < 0) ? 360 + (anglePercent * widget.maxHue) : anglePercent * widget.maxHue;
       final double newHue = startDragHue + hueDiff > 360 ? (360 - (startDragHue + hueDiff)).abs() : (startDragHue + hueDiff).abs();
 
-      print('new hue $newHue');
+//      print('new hue $newHue');
       widget.onHueSelected(newHue);
     }
   }
