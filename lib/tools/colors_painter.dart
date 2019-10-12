@@ -1,5 +1,5 @@
 import 'dart:core' show bool, double, int, override;
-import 'dart:math';
+import 'dart:math' show pi;
 
 import 'package:tinycolor/tinycolor.dart';
 import 'package:flutter/material.dart';
