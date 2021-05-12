@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_color_picker/tools/colors_painter.dart';
 
 class ColorGradientPaint extends StatelessWidget {
@@ -18,7 +19,7 @@ class ColorGradientPaint extends StatelessWidget {
           heightFactor: 0.75,
           child: Container(
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFFFFFFFF),
               shape: BoxShape.circle,
             ),
           ),

@@ -1,7 +1,6 @@
-import 'dart:core' show bool, double, int, override;
+import 'dart:core';
 import 'dart:math' show pi;
 
-import 'package:tinycolor/tinycolor.dart';
 import 'package:flutter/material.dart';
 
 class ColorsPainter extends CustomPainter {
@@ -28,8 +27,8 @@ class ColorsPainter extends CustomPainter {
 
   Paint drawSegment(int index) {
     final Paint line = Paint();
-    final HslColor hsl = HslColor(h: index * 1.0, s: 1.0, l: 0.5, a: 255.0);
-    final Color color = TinyColor.fromHSL(hsl).color;
+    final HSLColor hsl = HSLColor.fromAHSL(1.0, index * 1.0, 1.0, 0.5);
+    final Color color = hsl.toColor();
     line.color = color;
     return line;
   }

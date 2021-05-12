@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AnimatedColorListModel<E> {
-  AnimatedColorListModel({
+class AnimatedListModel<E> {
+  AnimatedListModel({
     @required this.listKey,
     @required this.removedItemBuilder,
     Iterable<E> initialItems,
-  }) : assert(listKey != null),
+  })  : assert(listKey != null),
         assert(removedItemBuilder != null),
         _items = List<E>.from(initialItems ?? <E>[]);
 
@@ -16,19 +16,23 @@ class AnimatedColorListModel<E> {
   AnimatedListState get _animatedList => listKey.currentState;
 
   void insert(int index, E item) {
-//    print(_items);
-//    print(_animatedList);
     _items.insert(index, item);
-    _animatedList.insertItem(index, duration: Duration(milliseconds: 300));
+    _animatedList.insertItem(
+      index,
+      duration: Duration(milliseconds: 300),
+    );
   }
 
   E removeAt(int index) {
     final E removedItem = _items.removeAt(index);
     if (removedItem != null) {
-      _animatedList.removeItem(index, (BuildContext context, Animation<double> animation) {
-        return removedItemBuilder(removedItem, context, animation);
-      },
-          duration: Duration(milliseconds: 600));
+      _animatedList.removeItem(
+        index,
+        (BuildContext context, Animation<double> animation) {
+          return removedItemBuilder(removedItem, context, animation);
+        },
+        duration: Duration(milliseconds: 600),
+      );
     }
     return removedItem;
   }

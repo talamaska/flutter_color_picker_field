@@ -4,7 +4,7 @@ import 'package:flutter_color_picker/models/color_state_model.dart';
 class ColorPickerDialogModel {
   const ColorPickerDialogModel({
     this.color,
-    this.colorStates
+    this.colorStates,
   });
 
   final Color color;
@@ -13,18 +13,16 @@ class ColorPickerDialogModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ColorPickerDialogModel &&
-              runtimeType == other.runtimeType &&
-              color == other.color &&
-              colorStates == other.colorStates;
+      other is ColorPickerDialogModel &&
+          runtimeType == other.runtimeType &&
+          color == other.color &&
+          colorStates == other.colorStates;
 
-  //New
   @override
-  int get hashCode =>
-      color.hashCode ^ colorStates.hashCode;
+  int get hashCode => color.hashCode ^ colorStates.hashCode;
 
   @override
   String toString() {
-    return 'ColorDialogModel{color: $color, colorStates: $colorStates';
+    return 'ColorDialogModel(color: $color, colorStates: $colorStates)';
   }
 }

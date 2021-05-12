@@ -1,13 +1,13 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ColorGradient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       decoration: const BoxDecoration(
-
         shape: BoxShape.circle,
         gradient: SweepGradient(
           center: FractionalOffset.center,
@@ -24,7 +24,17 @@ class ColorGradient extends StatelessWidget {
             Color(0xFFFF00BF), // purple
             Color(0xFFFF0000), // red
           ],
-          stops: <double>[0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0],
+          stops: <double>[
+            0.0,
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875,
+            1.0,
+          ],
         ),
       ),
       child: Container(
@@ -39,7 +49,7 @@ class ColorGradient extends StatelessWidget {
           heightFactor: 0.75,
           child: Container(
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFFFFFFFF),
               shape: BoxShape.circle,
             ),
           ),
@@ -48,4 +58,3 @@ class ColorGradient extends StatelessWidget {
     );
   }
 }
-

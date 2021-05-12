@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
           child: Form(
         key: _formKey,
-        autovalidate: false,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -47,11 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ColorPickerFormField(
                 initialValue: _colorList,
                 defaultColor: defaultColor,
-                autovalidate: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (List<Color> value) {
                   if (value.isEmpty) {
                     return 'a minimum of 1 color is required';
                   }
+                  return null;
                 },
                 onChanged: _onChanged,
                 onSaved: _onSaved,
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: RaisedButton(
+              child: ElevatedButton(
                 child: const Text('Submit'),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
@@ -71,20 +72,19 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       )),
-
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.card_giftcard),
-            title: Text('My wishes'),
+            label: 'My wishes',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people_outline),
-            title: Text('Friends'),
+            label: 'Friends',
           ),
         ],
       ),

@@ -1,9 +1,14 @@
-import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_color_picker/components/color_ripple.dart';
 
 class ColorKnob extends StatefulWidget {
-  const ColorKnob({this.color, this.ratio, this.saveColor});
+  const ColorKnob({
+    this.color,
+    this.ratio,
+    this.saveColor,
+  });
 
   final Color color;
   final double ratio;
@@ -17,15 +22,20 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
   AnimationController scaleAnimationController;
   AnimationController rippleAnimationController;
   Animation<double> scaleAnimation;
+  // timeDilation = 1.0;
 
   @override
   void initState() {
     super.initState();
-    scaleAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+    scaleAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 100),
+    );
 
-    rippleAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    rippleAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+    );
 
     scaleAnimationController.addStatusListener((AnimationStatus status) {
       if (status == AnimationStatus.completed) {
@@ -34,8 +44,11 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
     });
 
     scaleAnimation = Tween<double>(begin: 1.0, end: 0.8).animate(
-        CurvedAnimation(
-            parent: scaleAnimationController, curve: Curves.easeOut));
+      CurvedAnimation(
+        parent: scaleAnimationController,
+        curve: Curves.easeOut,
+      ),
+    );
 
     rippleAnimationController.addStatusListener((AnimationStatus status) {
       if (status == AnimationStatus.completed) {
@@ -60,7 +73,9 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
     return Center(
       child: Container(
           decoration: const BoxDecoration(
-              shape: BoxShape.circle, color: Colors.transparent),
+            shape: BoxShape.circle,
+            color: Colors.transparent,
+          ),
           child: FractionallySizedBox(
             widthFactor: widget.ratio,
             heightFactor: widget.ratio,
@@ -74,7 +89,6 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
                   ),
                   GestureDetector(
                     onTap: () {
-                      //            timeDilation = 1.0;
                       scaleAnimationController.forward(from: 0.0);
                       rippleAnimationController.forward(from: 0.0);
                     },
@@ -85,21 +99,22 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
                         width: 60.0,
                         height: 60.0,
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: widget.color,
-                            border: Border.all(
-                              color: const Color(0xFFFFFFFF),
-                              style: BorderStyle.solid,
-                              width: 4.0,
-                            ),
-                            boxShadow: const <BoxShadow>[
-                              BoxShadow(
-                                offset: Offset(0.0, 1.0),
-                                blurRadius: 6.0,
-                                spreadRadius: 1.0,
-                                color: Color(0x44000000),
-                              )
-                            ]),
+                          shape: BoxShape.circle,
+                          color: widget.color,
+                          border: Border.all(
+                            color: const Color(0xFFFFFFFF),
+                            style: BorderStyle.solid,
+                            width: 4.0,
+                          ),
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(
+                              offset: Offset(0.0, 1.0),
+                              blurRadius: 6.0,
+                              spreadRadius: 1.0,
+                              color: Color(0x44000000),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

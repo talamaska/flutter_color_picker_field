@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ColorItem extends StatelessWidget {
   const ColorItem({
     Key key,
     @required this.item,
-  }) : assert(item != null),
+  })  : assert(item != null),
         super(key: key);
 
   final Color item;
-
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +19,14 @@ class ColorItem extends StatelessWidget {
       decoration: BoxDecoration(
           color: item,
           shape: BoxShape.circle,
-//          border: Border.all(
-//              color: Colors.white,
-//              width: 1.0,
-//              style: BorderStyle.solid
-//          ),
           boxShadow: const <BoxShadow>[
-
             BoxShadow(
-                offset: Offset(0.0, 1.0),
-                blurRadius: 1.0,
-                spreadRadius: 0.0,
-                color: Color(0x44000000)
+              offset: Offset(0.0, 1.0),
+              blurRadius: 1.0,
+              spreadRadius: 0.0,
+              color: Color(0x44000000),
             )
-          ]
-      ),
+          ]),
     );
   }
 }

@@ -1,29 +1,24 @@
 import 'dart:core';
 
-
 import 'package:angles/angles.dart';
-import 'package:tinycolor/tinycolor.dart';
+import 'package:flutter/widgets.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_color_picker/components/color_gradient_paint.dart';
 import 'package:flutter_color_picker/components/color_knob.dart';
 
 import 'package:flutter_color_picker/components/color_picker_dial.dart';
 import 'package:flutter_color_picker/components/turn_gesture_detector.dart';
 
-
-
 class ColorPicker extends StatefulWidget {
   const ColorPicker({
     this.currentColor,
     this.saveColor,
-    this.changeColor
+    this.changeColor,
   });
 
   final Color currentColor;
   final Function saveColor;
   final Function changeColor;
-
 
   @override
   _ColorPickerState createState() => _ColorPickerState();
@@ -32,17 +27,15 @@ class ColorPicker extends StatefulWidget {
 class _ColorPickerState extends State<ColorPicker> {
   Color _currentColor;
 
-
   @override
   void initState() {
     super.initState();
     _currentColor = widget.currentColor;
-
   }
 
   double _extractHue(Color color) {
-    final HslColor hsl = TinyColor(color).toHsl();
-    final double hue = hsl.h;
+    final HSLColor hslColor = HSLColor.fromColor(color);
+    final double hue = hslColor.hue;
     return Angle.fromDegrees(hue).degrees;
   }
 
@@ -92,22 +85,21 @@ class _ColorPickerState extends State<ColorPicker> {
                         hue: _extractHue(_currentColor),
                         color: _currentColor,
                         ratio: 0.96,
-                        dialRatio: 0.09
+                        dialRatio: 0.09,
                       ),
                       ColorKnob(
                         color: _currentColor,
                         ratio: 0.75,
-                        saveColor: confirmColor
+                        saveColor: confirmColor,
                       ),
                     ],
-                  )
-
+                  ),
                 ),
               ),
-            ]),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
-
-

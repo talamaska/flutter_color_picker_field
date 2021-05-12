@@ -22,23 +22,24 @@ class RadialDragGestureDetector extends StatefulWidget {
   final RadialDragEnd onRadialDragEnd;
   final Widget child;
 
-
-
   @override
-  _RadialDragGestureDetectorState createState() => _RadialDragGestureDetectorState();
+  _RadialDragGestureDetectorState createState() =>
+      _RadialDragGestureDetectorState();
 }
 
 class _RadialDragGestureDetectorState extends State<RadialDragGestureDetector> {
   void _onPanStart(DragStartDetails details) {
     if (null != widget.onRadialDragStart) {
-      final PolarCoord polarCoord = _polarCoordFromGlobalOffset(details.globalPosition);
+      final PolarCoord polarCoord =
+          _polarCoordFromGlobalOffset(details.globalPosition);
       widget.onRadialDragStart(polarCoord);
     }
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
     if (null != widget.onRadialDragUpdate) {
-      final PolarCoord polarCoord = _polarCoordFromGlobalOffset(details.globalPosition);
+      final PolarCoord polarCoord =
+          _polarCoordFromGlobalOffset(details.globalPosition);
       widget.onRadialDragUpdate(polarCoord);
     }
   }
@@ -52,13 +53,16 @@ class _RadialDragGestureDetectorState extends State<RadialDragGestureDetector> {
   PolarCoord _polarCoordFromGlobalOffset(Offset globalOffset) {
     // Convert the user's global touch offset to an offset that is local to
     // this Widget.
-    final Offset localTouchOffset = (context.findRenderObject() as RenderBox).globalToLocal(globalOffset);
+    final Offset localTouchOffset =
+        (context.findRenderObject() as RenderBox).globalToLocal(globalOffset);
 
     // Convert the local offset to a Point so that we can do math with it.
-    final Point<double> localTouchPoint = Point<double>(localTouchOffset.dx, localTouchOffset.dy);
+    final Point<double> localTouchPoint =
+        Point<double>(localTouchOffset.dx, localTouchOffset.dy);
 
     // Create a Point at the center of this Widget to act as the origin.
-    final Point<double> originPoint = Point<double>(context.size.width / 2, context.size.height / 2);
+    final Point<double> originPoint =
+        Point<double>(context.size.width / 2, context.size.height / 2);
 
     return PolarCoord.fromPoints(originPoint, localTouchPoint);
   }
@@ -91,10 +95,8 @@ class PolarCoord {
     );
   }
 
-
   final double angle;
   final double radius;
-
 
   @override
   String toString() {

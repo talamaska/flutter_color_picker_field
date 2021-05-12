@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_color_picker/tools/radial_drag_gesture_detector.dart';
 
 class TurnGestureDetector extends StatefulWidget {
-  const TurnGestureDetector({this.currentHue, this.maxHue, this.onHueSelected, this.child});
+  const TurnGestureDetector({
+    this.currentHue,
+    this.maxHue,
+    this.onHueSelected,
+    this.child,
+  });
 
   final double currentHue;
   final double maxHue;
@@ -27,10 +32,13 @@ class _TurnGestureDetectorState extends State<TurnGestureDetector> {
     if (startDragCoord != null) {
       final double angleDiff = coord.angle - startDragCoord.angle;
       final double anglePercent = angleDiff / (2 * pi);
-      final double hueDiff = (anglePercent * widget.maxHue < 0) ? 360 + (anglePercent * widget.maxHue) : anglePercent * widget.maxHue;
-      final double newHue = startDragHue + hueDiff > 360 ? (360 - (startDragHue + hueDiff)).abs() : (startDragHue + hueDiff).abs();
+      final double hueDiff = (anglePercent * widget.maxHue < 0)
+          ? 360 + (anglePercent * widget.maxHue)
+          : anglePercent * widget.maxHue;
+      final double newHue = startDragHue + hueDiff > 360
+          ? (360 - (startDragHue + hueDiff)).abs()
+          : (startDragHue + hueDiff).abs();
 
-//      print('new hue $newHue');
       widget.onHueSelected(newHue);
     }
   }
