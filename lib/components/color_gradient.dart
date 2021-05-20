@@ -39,7 +39,7 @@ class ColorGradient extends StatelessWidget {
       ),
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.transparent,
+          color: Color(0x00000000),
           shape: BoxShape.circle,
         ),
         height: double.infinity,

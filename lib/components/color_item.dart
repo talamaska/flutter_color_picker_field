@@ -1,12 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class ColorItem extends StatelessWidget {
   const ColorItem({
-    Key key,
-    @required this.item,
-  })  : assert(item != null),
-        super(key: key);
+    Key? key,
+    required this.item,
+  }) : super(key: key);
 
   final Color item;
 

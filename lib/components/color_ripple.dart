@@ -3,7 +3,7 @@
 import 'package:flutter/widgets.dart';
 
 class ColorRipple extends StatelessWidget {
-  ColorRipple({this.controller, this.color, this.size})
+  ColorRipple({required this.controller, this.color, this.size})
       : scaleUpAnimation = Tween<double>(begin: 0.8, end: 5.0).animate(
           CurvedAnimation(
             parent: controller,
@@ -35,14 +35,14 @@ class ColorRipple extends StatelessWidget {
   final Animation<double> scaleUpAnimation;
   final Animation<double> scaleDownAnimation;
   final Animation<double> opacityAnimation;
-  final Color color;
-  final Size size;
+  final Color? color;
+  final Size? size;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Container(
           child: Transform(
             alignment: Alignment.center,
@@ -57,7 +57,7 @@ class ColorRipple extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: color,
+                    color: color!,
                     style: BorderStyle.solid,
                     width: 4.0 - (2 * controller.value),
                   ),

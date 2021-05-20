@@ -5,37 +5,36 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_color_picker/models/animated_color_list_model.dart';
 import 'package:flutter_color_picker/screens/color_dialog.dart';
 import 'package:flutter_color_picker/models/color_dialog_model.dart';
-
 import 'package:flutter_color_picker/components/color_item.dart';
 import 'package:flutter_color_picker/models/color_state_model.dart';
 
 class ColorPickerInput extends StatefulWidget {
   const ColorPickerInput({
-    this.defaultColor,
-    this.colors,
+    required this.defaultColor,
+    this.colors = const <Color>[],
     this.onChanged,
-    this.state,
+    required this.state,
+    this.labelText = 'Colors',
   });
 
   final Color defaultColor;
   final List<Color> colors;
-  final Function onChanged;
+  final ValueChanged<List<Color>>? onChanged;
   final FormFieldState<List<Color>> state;
+  final String labelText;
 
   @override
   _ColorPickerInputState createState() => _ColorPickerInputState();
 }
 
 class _ColorPickerInputState extends State<ColorPickerInput> {
-  Color _defaultColor;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  AnimatedListModel<Color> _colorListAnimated;
+  late AnimatedListModel<Color> _colorListAnimated;
 
   @override
   void initState() {
     super.initState();
-    _defaultColor =
-        widget.defaultColor != null ? widget.defaultColor : Color(0xff03a9f4);
+
     if (widget.colors != null) {
       _colorListAnimated = AnimatedListModel<Color>(
         listKey: _listKey,
@@ -46,7 +45,10 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
   }
 
   Widget _buildRemovedItem(
-      Color item, BuildContext context, Animation<double> animation) {
+    Color item,
+    BuildContext context,
+    Animation<double> animation,
+  ) {
     return ScaleTransition(
       scale: CurvedAnimation(parent: animation, curve: Curves.elasticIn),
       child: ColorItem(
@@ -56,14 +58,22 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
   }
 
   Widget _buildItem(
-      BuildContext context, int index, Animation<double> animation) {
+    BuildContext context,
+    int index,
+    Animation<double> animation,
+  ) {
     return ScaleTransition(
-      scale: CurvedAnimation(parent: animation, curve: Curves.bounceOut),
+      scale: CurvedAnimation(
+        parent: animation,
+        curve: Curves.bounceOut,
+      ),
       child: ColorItem(
         item: _colorListAnimated[index],
       ),
     );
   }
+
+  get isEmpty => _colorListAnimated.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -95,23 +105,23 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: _colorListAnimated.isNotEmpty
-                  ? MainAxisAlignment.start
-                  : MainAxisAlignment.center,
+              mainAxisAlignment:
+                  isEmpty ? MainAxisAlignment.start : MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: _colorListAnimated.isNotEmpty
+                  padding: isEmpty
                       ? const EdgeInsets.only(bottom: 3.0)
                       : const EdgeInsets.only(bottom: 0.0),
                   child: SizedBox(
-                    height: _colorListAnimated.isNotEmpty ? 14.0 : 16.0,
-                    child: Text(
-                      'Colors',
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    height: isEmpty ? 14.0 : 16.0,
+                    child: AnimatedDefaultTextStyle(
+                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
                             color: const Color(0x8a000000),
-                            fontSize:
-                                _colorListAnimated.isNotEmpty ? 14.0 : 16.0,
+                            fontSize: isEmpty ? 0.75 * 16.0 : 16.0,
                           ),
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.fastOutSlowIn,
+                      child: Text(widget.labelText),
                     ),
                   ),
                 ),
@@ -130,7 +140,7 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
           ),
           widget.state.hasError
               ? Text(
-                  widget.state.errorText,
+                  widget.state.errorText!,
                   style: TextStyle(color: Theme.of(context).errorColor),
                 )
               : Container()
@@ -143,23 +153,26 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
     final MaterialPageRoute<ColorPickerDialogModel> dialog =
         MaterialPageRoute<ColorPickerDialogModel>(
       builder: (BuildContext context) {
-        return ColorPickerDialog.add(_defaultColor, _colorListAnimated.items);
+        return ColorPickerDialog(
+          initialColor: widget.defaultColor,
+          colorList: _colorListAnimated.items,
+        );
       },
       fullscreenDialog: true,
     );
 
-    final ColorPickerDialogModel save =
+    final ColorPickerDialogModel? save =
         await Navigator.of(context).push(dialog);
 
-    dialog.completed.then((ColorPickerDialogModel value) {
+    dialog.completed.then((ColorPickerDialogModel? value) {
       print(value.toString());
       if (value != null) {
-        if (save.colorStates.isNotEmpty) {
+        if (save!.colorStates.isNotEmpty) {
           _updateColors(value.color, value.colorStates);
         }
 
         if (value.color != null) {
-          _saveColor(value.color);
+          _saveColor(value.color!);
         }
       }
     });
@@ -170,17 +183,17 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
     setState(() {
       if (!_colorListAnimated.contains(_color)) {
         _colorListAnimated.insert(_colorListAnimated.length, _color);
-        widget.onChanged(_colorListAnimated.items);
+        widget.onChanged?.call(_colorListAnimated.items);
       }
     });
   }
 
-  void _updateColors(Color _color, List<ColorState> _colors) {
+  void _updateColors(Color? _color, List<ColorState> _colors) {
     print(_colors);
     setState(() {
       // ignore: always_specify_types
       for (var i = 0; i < _colors.length; i++) {
-        if (!_colors[i].state) {
+        if (!_colors[i].selected) {
           var index = _colorListAnimated.indexOf(_colors[i].color);
           if (index != -1) {
             _colorListAnimated.removeAt(index);
@@ -189,7 +202,7 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
       }
 
       if (_color == null) {
-        widget.onChanged(_colorListAnimated.items);
+        widget.onChanged?.call(_colorListAnimated.items);
       }
     });
   }

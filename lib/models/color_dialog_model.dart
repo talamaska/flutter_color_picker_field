@@ -4,10 +4,10 @@ import 'package:flutter_color_picker/models/color_state_model.dart';
 class ColorPickerDialogModel {
   const ColorPickerDialogModel({
     this.color,
-    this.colorStates,
+    required this.colorStates,
   });
 
-  final Color color;
+  final Color? color;
   final List<ColorState> colorStates;
 
   @override

@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
+typedef RemovedItemBuilder = Widget Function<T>(
+  T item,
+  BuildContext context,
+  Animation<double> animation,
+);
+
 class AnimatedListModel<E> {
   AnimatedListModel({
-    @required this.listKey,
-    @required this.removedItemBuilder,
-    Iterable<E> initialItems,
-  })  : assert(listKey != null),
-        assert(removedItemBuilder != null),
-        _items = List<E>.from(initialItems ?? <E>[]);
+    required this.listKey,
+    required this.removedItemBuilder,
+    Iterable<E>? initialItems,
+  }) : _items = List<E>.from(initialItems ?? <E>[]);
 
   final GlobalKey<AnimatedListState> listKey;
-  final dynamic removedItemBuilder;
+  final Function removedItemBuilder;
   final List<E> _items;
 
-  AnimatedListState get _animatedList => listKey.currentState;
+  AnimatedListState? get _animatedList => listKey.currentState;
 
   void insert(int index, E item) {
     _items.insert(index, item);
-    _animatedList.insertItem(
+    _animatedList!.insertItem(
       index,
       duration: Duration(milliseconds: 300),
     );
@@ -26,7 +30,7 @@ class AnimatedListModel<E> {
   E removeAt(int index) {
     final E removedItem = _items.removeAt(index);
     if (removedItem != null) {
-      _animatedList.removeItem(
+      _animatedList!.removeItem(
         index,
         (BuildContext context, Animation<double> animation) {
           return removedItemBuilder(removedItem, context, animation);
@@ -41,8 +45,8 @@ class AnimatedListModel<E> {
 
   List<E> get items => _items;
 
-  Iterable<E> map(Function f) => _items.map<E>(f);
-  Iterable<E> where(Function f) => _items.where(f);
+  Iterable<E> map(Function f) => _items.map<E>(f as E Function(E));
+  Iterable<E> where(Function f) => _items.where(f as bool Function(E));
 
   bool contains(E item) => _items.contains(item);
 

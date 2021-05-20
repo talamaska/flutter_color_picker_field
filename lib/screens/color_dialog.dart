@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter_color_picker/components/colored_checkbox.dart';
 import 'package:flutter_color_picker/models/color_dialog_model.dart';
@@ -6,18 +7,13 @@ import 'package:flutter_color_picker/models/color_state_model.dart';
 
 @immutable
 class ColorPickerDialog extends StatefulWidget {
-  const ColorPickerDialog.add(
-      this.initialColor,
-      this.colorList
-      ) : colorToEdit = null;
-
-  const ColorPickerDialog.edit(
-      this.colorToEdit,
-      this.colorList
-      ) : initialColor = colorToEdit;
+  const ColorPickerDialog({
+    required this.initialColor,
+    required this.colorList,
+  });
 
   final Color initialColor;
-  final Color colorToEdit;
+
   final List<Color> colorList;
 
   @override
@@ -28,35 +24,43 @@ class ColorPickerDialog extends StatefulWidget {
 
 class ColorPickerDialogState extends State<ColorPickerDialog> {
   List<ColorState> _colorListState = <ColorState>[];
-  Color _newColor;
+  late Color _newColor;
 
   @override
   void initState() {
     super.initState();
     _colorListState = widget.colorList.map((Color _color) {
-      return ColorState(color: _color, state: true);
+      return ColorState(color: _color, selected: true);
     }).toList();
     _newColor = widget.initialColor;
   }
 
-  bool _getColorState(Color _color) {
-    return _colorListState.firstWhere((ColorState _cs) {
-      return _cs.color == _color;
-    }).state;
+  bool? _getColorState(Color color) {
+    if (color == null) {
+      return false;
+    }
+
+    if (_colorListState.isEmpty) {
+      return false;
+    }
+
+    return _colorListState
+        .firstWhereOrNull(
+          (ColorState _cs) => _cs.color == color,
+        )
+        ?.selected;
   }
 
-  void _saveColor(Color _color) {
-    Navigator
-      .of(context)
-      .pop(ColorPickerDialogModel(
-        color: _color,
-        colorStates: _colorListState
-      ));
+  void _saveColor(Color? color) {
+    Navigator.of(context).pop(ColorPickerDialogModel(
+      color: color,
+      colorStates: _colorListState,
+    ));
   }
 
-  void _changeColor(Color _color) {
+  void _changeColor(Color color) {
     setState(() {
-      _newColor = _color;
+      _newColor = color;
     });
   }
 
@@ -80,41 +84,55 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
           Center(
             child: ColorPicker(
               currentColor: widget.initialColor,
-              saveColor: _saveColor,
-              changeColor: _changeColor
-            )
-
+              onSave: _saveColor,
+              onChange: _changeColor,
+            ),
           ),
-
-          Container(
+          Padding(
             padding: const EdgeInsets.all(16.0),
-            width: double.infinity,
-            child:  Wrap(
-              runSpacing: 13.0,
-              spacing: 13.0,
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: widget.colorList.map((Color _color) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _colorListState = _colorListState.map((ColorState _cs) {
-                      if(_cs.color == _color) {
-                        return ColorState(color: _color, state: !_cs.state);
-                      } else {
-                        return _cs;
-                      }
-                    }).toList();
-                  });
-                },
-                child: ColoredCheckbox(color: _color, state: _getColorState(_color)),
-              )).toList(),
+            child: SizedBox(
+              width: double.infinity,
+              child: Wrap(
+                runSpacing: 13.0,
+                spacing: 13.0,
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                children: _getColorCheckboxes(),
+              ),
             ),
           ),
         ],
-      )
+      ),
     );
   }
+
+  void _onColorSeletionChanged(bool value, Color color) {
+    setState(() {
+      _colorListState = _colorListState.map((ColorState cs) {
+        if (cs.color == color) {
+          return ColorState(
+            color: color,
+            selected: value,
+          );
+        } else {
+          return cs;
+        }
+      }).toList();
+    });
+  }
+
+  List<ColoredCheckbox> _getColorCheckboxes() {
+    return widget.colorList.map(
+      (Color color) {
+        return ColoredCheckbox(
+          color: color,
+          value: _getColorState(color),
+          onChanged: (bool value) {
+            _onColorSeletionChanged(value, color);
+          },
+        );
+      },
+    ).toList();
+  }
 }
-
-

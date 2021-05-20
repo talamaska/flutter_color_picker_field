@@ -11,21 +11,21 @@ import 'package:flutter_color_picker/components/turn_gesture_detector.dart';
 
 class ColorPicker extends StatefulWidget {
   const ColorPicker({
-    this.currentColor,
-    this.saveColor,
-    this.changeColor,
+    required this.currentColor,
+    this.onSave,
+    this.onChange,
   });
 
   final Color currentColor;
-  final Function saveColor;
-  final Function changeColor;
+  final ValueChanged<Color>? onSave;
+  final ValueChanged<Color>? onChange;
 
   @override
   _ColorPickerState createState() => _ColorPickerState();
 }
 
 class _ColorPickerState extends State<ColorPicker> {
-  Color _currentColor;
+  late Color _currentColor;
 
   @override
   void initState() {
@@ -36,49 +36,47 @@ class _ColorPickerState extends State<ColorPicker> {
   double _extractHue(Color color) {
     final HSLColor hslColor = HSLColor.fromColor(color);
     final double hue = hslColor.hue;
-    return Angle.fromDegrees(hue).degrees;
+    return Angle.degrees(hue).degrees;
   }
 
   void confirmColor() {
-    widget.saveColor(_currentColor);
+    widget.onSave?.call(_currentColor);
   }
 
   void _onHueSelected(double newHue) {
     setState(() {
       _currentColor = HSLColor.fromAHSL(1.0, newHue, 1.0, 0.5).toColor();
-      widget.changeColor(_currentColor);
+      widget.onChange?.call(_currentColor);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.only(left: 45.0, right: 45.0),
-        child: AspectRatio(
-          aspectRatio: 1.0,
-          child: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 45.0, right: 45.0),
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
               shape: BoxShape.circle,
               boxShadow: <BoxShadow>[
                 BoxShadow(
                     color: Color(0x44000000),
                     blurRadius: 2.0,
                     spreadRadius: 1.0,
-                    offset: Offset(0.0, 1.0)
-                )
+                    offset: Offset(0.0, 1.0))
               ]),
-            child: Stack(children: <Widget>[
+          child: Stack(
+            children: <Widget>[
               ColorGradientPaint(),
-
               ClipOval(
                 clipBehavior: Clip.antiAlias,
                 child: TurnGestureDetector(
-                  currentHue: _extractHue(_currentColor),
-                  maxHue: 360.0,
-                  onHueSelected: _onHueSelected,
+                  currentValue: _extractHue(_currentColor),
+                  maxValue: 360.0,
+                  onChanged: _onHueSelected,
                   child: Stack(
                     children: <Widget>[
                       ColorPickerDial(

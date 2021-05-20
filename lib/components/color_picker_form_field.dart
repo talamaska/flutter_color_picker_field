@@ -1,14 +1,16 @@
 import 'package:flutter/widgets.dart';
+
 import 'package:flutter_color_picker/components/color_picker_input.dart';
 
 class ColorPickerFormField extends FormField<List<Color>> {
   ColorPickerFormField({
-    FormFieldSetter<List<Color>> onSaved,
-    FormFieldValidator<List<Color>> validator,
-    List<Color> initialValue,
+    FormFieldSetter<List<Color>>? onSaved,
+    FormFieldValidator<List<Color>>? validator,
+    List<Color>? initialValue,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     this.onChanged,
     this.defaultColor,
+    this.labelText = 'Colors',
   }) : super(
             onSaved: onSaved,
             validator: validator,
@@ -18,17 +20,19 @@ class ColorPickerFormField extends FormField<List<Color>> {
               void _onChanged(List<Color> _colors) {
                 debugPrint('onChange input $_colors');
                 state.didChange(_colors);
-                onChanged(_colors);
+                onChanged!(_colors);
               }
 
               return ColorPickerInput(
-                defaultColor: defaultColor,
-                colors: initialValue,
+                defaultColor: defaultColor!,
+                colors: initialValue!,
                 state: state,
                 onChanged: _onChanged,
+                labelText: labelText,
               );
             });
 
-  final Function onChanged;
-  final Color defaultColor;
+  final ValueChanged<List<Color>>? onChanged;
+  final Color? defaultColor;
+  final String labelText;
 }

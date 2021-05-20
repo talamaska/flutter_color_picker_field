@@ -5,23 +5,23 @@ import 'package:flutter_color_picker/components/color_ripple.dart';
 
 class ColorKnob extends StatefulWidget {
   const ColorKnob({
-    this.color,
-    this.ratio,
+    required this.color,
+    required this.ratio,
     this.saveColor,
   });
 
   final Color color;
   final double ratio;
-  final Function saveColor;
+  final VoidCallback? saveColor;
 
   @override
   _ColorKnobState createState() => _ColorKnobState();
 }
 
 class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
-  AnimationController scaleAnimationController;
-  AnimationController rippleAnimationController;
-  Animation<double> scaleAnimation;
+  late AnimationController scaleAnimationController;
+  late AnimationController rippleAnimationController;
+  late Animation<double> scaleAnimation;
   // timeDilation = 1.0;
 
   @override
@@ -52,7 +52,7 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
 
     rippleAnimationController.addStatusListener((AnimationStatus status) {
       if (status == AnimationStatus.completed) {
-        widget.saveColor();
+        widget.saveColor?.call();
       }
     });
 
@@ -74,7 +74,7 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
       child: Container(
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.transparent,
+            color: Color(0x00000000),
           ),
           child: FractionallySizedBox(
             widthFactor: widget.ratio,

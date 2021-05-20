@@ -17,10 +17,10 @@ class RadialDragGestureDetector extends StatefulWidget {
     this.child,
   });
 
-  final RadialDragStart onRadialDragStart;
-  final RadialDragUpdate onRadialDragUpdate;
-  final RadialDragEnd onRadialDragEnd;
-  final Widget child;
+  final RadialDragStart? onRadialDragStart;
+  final RadialDragUpdate? onRadialDragUpdate;
+  final RadialDragEnd? onRadialDragEnd;
+  final Widget? child;
 
   @override
   _RadialDragGestureDetectorState createState() =>
@@ -32,7 +32,7 @@ class _RadialDragGestureDetectorState extends State<RadialDragGestureDetector> {
     if (null != widget.onRadialDragStart) {
       final PolarCoord polarCoord =
           _polarCoordFromGlobalOffset(details.globalPosition);
-      widget.onRadialDragStart(polarCoord);
+      widget.onRadialDragStart!(polarCoord);
     }
   }
 
@@ -40,13 +40,13 @@ class _RadialDragGestureDetectorState extends State<RadialDragGestureDetector> {
     if (null != widget.onRadialDragUpdate) {
       final PolarCoord polarCoord =
           _polarCoordFromGlobalOffset(details.globalPosition);
-      widget.onRadialDragUpdate(polarCoord);
+      widget.onRadialDragUpdate!(polarCoord);
     }
   }
 
   void _onPanEnd(DragEndDetails details) {
     if (null != widget.onRadialDragEnd) {
-      widget.onRadialDragEnd();
+      widget.onRadialDragEnd!();
     }
   }
 
@@ -62,7 +62,7 @@ class _RadialDragGestureDetectorState extends State<RadialDragGestureDetector> {
 
     // Create a Point at the center of this Widget to act as the origin.
     final Point<double> originPoint =
-        Point<double>(context.size.width / 2, context.size.height / 2);
+        Point<double>(context.size!.width / 2, context.size!.height / 2);
 
     return PolarCoord.fromPoints(originPoint, localTouchPoint);
   }

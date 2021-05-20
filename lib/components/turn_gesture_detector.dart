@@ -4,42 +4,42 @@ import 'package:flutter_color_picker/tools/radial_drag_gesture_detector.dart';
 
 class TurnGestureDetector extends StatefulWidget {
   const TurnGestureDetector({
-    this.currentHue,
-    this.maxHue,
-    this.onHueSelected,
+    required this.currentValue,
+    required this.maxValue,
+    this.onChanged,
     this.child,
   });
 
-  final double currentHue;
-  final double maxHue;
-  final Widget child;
-  final Function(double) onHueSelected;
+  final double currentValue;
+  final double maxValue;
+  final Widget? child;
+  final ValueChanged<double>? onChanged;
 
   @override
   _TurnGestureDetectorState createState() => _TurnGestureDetectorState();
 }
 
 class _TurnGestureDetectorState extends State<TurnGestureDetector> {
-  PolarCoord startDragCoord;
-  double startDragHue;
+  PolarCoord? startDragCoord;
+  late double startDragValue;
 
   void _onRadialDragStart(PolarCoord coord) {
     startDragCoord = coord;
-    startDragHue = widget.currentHue;
+    startDragValue = widget.currentValue;
   }
 
   void _onRadialDragUpdate(PolarCoord coord) {
     if (startDragCoord != null) {
-      final double angleDiff = coord.angle - startDragCoord.angle;
+      final double angleDiff = coord.angle - startDragCoord!.angle;
       final double anglePercent = angleDiff / (2 * pi);
-      final double hueDiff = (anglePercent * widget.maxHue < 0)
-          ? 360 + (anglePercent * widget.maxHue)
-          : anglePercent * widget.maxHue;
-      final double newHue = startDragHue + hueDiff > 360
-          ? (360 - (startDragHue + hueDiff)).abs()
-          : (startDragHue + hueDiff).abs();
+      final double hueDiff = (anglePercent * widget.maxValue < 0)
+          ? 360 + (anglePercent * widget.maxValue)
+          : anglePercent * widget.maxValue;
+      final double newHue = startDragValue + hueDiff > 360
+          ? (360 - (startDragValue + hueDiff)).abs()
+          : (startDragValue + hueDiff).abs();
 
-      widget.onHueSelected(newHue);
+      widget.onChanged?.call(newHue);
     }
   }
 

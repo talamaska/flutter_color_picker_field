@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 
 class ColorPickerDial extends StatefulWidget {
   const ColorPickerDial({
-    this.hue,
-    this.ratio,
-    this.dialRatio,
-    this.color,
+    required this.hue,
+    required this.ratio,
+    required this.dialRatio,
+    required this.color,
   });
 
   final double hue;
@@ -23,14 +23,14 @@ class _ColorPickerDialState extends State<ColorPickerDial> {
   @override
   Widget build(BuildContext context) {
     return Transform.rotate(
-      angle: Angle.fromDegrees(widget.hue).radians,
+      angle: Angle.degrees(widget.hue).radians,
       child: Center(
         child: FractionallySizedBox(
           widthFactor: widget.ratio,
           heightFactor: widget.ratio,
           child: Container(
             decoration: const BoxDecoration(
-              color: Colors.transparent,
+              color: Color(0x00000000),
               shape: BoxShape.circle,
             ),
             child: Align(
