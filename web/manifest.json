@@ -1,6 +1,6 @@
 {
-    "name": "flutter_color_picker",
-    "short_name": "flutter_color_picker",
+    "name": "color_picker_field",
+    "short_name": "color_picker_field",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

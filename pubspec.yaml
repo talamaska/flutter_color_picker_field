@@ -1,6 +1,6 @@
-name: flutter_color_picker
-description: Color Picker
-version: 1.0.0+1
+name: color_picker_field
+description: Color Picker filed for Material and Cupertino, including a Radial Color picker(Hue based)
+version: 1.0.0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -9,12 +9,12 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.3
-  collection: ^1.15.0
   angles: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.3
 
 flutter:
   uses-material-design: true

@@ -1,4 +1,4 @@
-package com.example.flutter_color_picker
+package com.example.color_picker_field
 
 import io.flutter.embedding.android.FlutterActivity
 
