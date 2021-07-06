@@ -104,25 +104,25 @@ class _MyHomePageState extends State<MyHomePage> {
               //     clearButtonMode: ClearButtonVisibilityMode.always,
               //   ),
               // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              //   child: Directionality(
-              //     textDirection: TextDirection.rtl,
-              //     child: CupertinoColorPickerField(
-              //       placeholder: 'CupertinoColorPickerField',
-              //       colors: _colorList,
-              //       defaultColor: defaultColor,
-              //       onChanged: _onChanged,
-              //       clearButtonMode: ClearButtonVisibilityMode.always,
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: CupertinoColorPickerField(
+                    placeholder: 'CupertinoColorPickerField',
+                    colors: _colorList,
+                    defaultColor: defaultColor,
+                    onChanged: _onChanged,
+                    clearButtonMode: ClearButtonVisibilityMode.always,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               // CupertinoFormSection.insetGrouped(
               //   header: const Text('Section 1'),
               //   children: [

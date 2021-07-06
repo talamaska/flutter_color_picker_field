@@ -447,6 +447,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
                       _handleFocus();
 
                       _openAddEntryDialog(
+                        context,
                         _effectiveController,
                         textDirection,
                       );
@@ -467,18 +468,25 @@ class _ColorPickerFieldState extends State<ColorPickerField>
   }
 
   Future<void> _openAddEntryDialog(
+    BuildContext context,
     ColorPickerFieldController controller,
     TextDirection textDirection,
   ) async {
-    showDialog<ColorPickerDialogModel>(
-        context: context,
-        builder: (BuildContext context) {
-          return ColorPickerDialog(
-            initialColor: widget.defaultColor,
-            colorList: _colorListAnimated.items,
-            textDirection: textDirection,
-          );
-        }).then((ColorPickerDialogModel? value) {
+    final DialogRoute<ColorPickerDialogModel> dialog =
+        DialogRoute<ColorPickerDialogModel>(
+      context: context,
+      builder: (BuildContext context) {
+        return ColorPickerDialog(
+          initialColor: widget.defaultColor,
+          colorList: _colorListAnimated.items,
+          textDirection: textDirection,
+        );
+      },
+    );
+
+    await Navigator.of(context).push(dialog);
+
+    dialog.completed.then((ColorPickerDialogModel? value) {
       if (value != null) {
         _updateColors(value, controller);
       }

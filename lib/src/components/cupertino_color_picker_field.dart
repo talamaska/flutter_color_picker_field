@@ -519,15 +519,21 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
     ColorPickerFieldController controller,
     TextDirection textDirection,
   ) async {
-    showDialog<ColorPickerDialogModel>(
-        context: context,
-        builder: (BuildContext context) {
-          return ColorPickerDialog(
-            initialColor: widget.defaultColor,
-            colorList: _colorListAnimated.items,
-            textDirection: textDirection,
-          );
-        }).then((ColorPickerDialogModel? value) {
+    final CupertinoDialogRoute<ColorPickerDialogModel> dialog =
+        CupertinoDialogRoute<ColorPickerDialogModel>(
+      context: context,
+      builder: (BuildContext context) {
+        return ColorPickerDialog(
+          initialColor: widget.defaultColor,
+          colorList: _colorListAnimated.items,
+          textDirection: textDirection,
+        );
+      },
+    );
+
+    await Navigator.of(context).push(dialog);
+
+    dialog.completed.then((ColorPickerDialogModel? value) {
       if (value != null) {
         _updateColors(value, controller);
       }
@@ -536,6 +542,23 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
         _effectiveFocusNode.unfocus();
       }
     });
+    // showDialog<ColorPickerDialogModel>(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return ColorPickerDialog(
+    //         initialColor: widget.defaultColor,
+    //         colorList: _colorListAnimated.items,
+    //         textDirection: textDirection,
+    //       );
+    //     }).then((ColorPickerDialogModel? value) {
+    //   if (value != null) {
+    //     _updateColors(value, controller);
+    //   }
+
+    //   if (_effectiveFocusNode.hasFocus && _colorListAnimated.isEmpty) {
+    //     _effectiveFocusNode.unfocus();
+    //   }
+    // });
   }
 
   void _updateColors(
