@@ -15,7 +15,6 @@ class MyCupertinoApp extends StatelessWidget {
       theme: CupertinoThemeData(
         primaryColor: CupertinoColors.activeOrange,
         brightness: Brightness.light,
-        // accentColor: const Color(0xff03a9f4),
       ),
       home: const CupertinoHomePage(title: 'Home'),
       localizationsDelegates: [
