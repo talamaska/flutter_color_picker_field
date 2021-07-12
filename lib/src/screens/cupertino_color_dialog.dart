@@ -109,7 +109,7 @@ class CupertinoColorPickerDialogState
     final Color onPrimarySurface = theme.brightness == Brightness.light
         ? theme.primaryContrastingColor
         : theme.scaffoldBackgroundColor;
-    final TextStyle? titleStyle = orientation == Orientation.landscape
+    final TextStyle titleStyle = orientation == Orientation.landscape
         ? textTheme.dateTimePickerTextStyle.copyWith(color: onPrimarySurface)
         : textTheme.navLargeTitleTextStyle.copyWith(color: onPrimarySurface);
 
@@ -382,7 +382,7 @@ class _CupertinoColorPickerHeader extends StatelessWidget {
   final String? titleSemanticsLabel;
 
   /// The [TextStyle] that the title text is displayed with.
-  final TextStyle? titleStyle;
+  final TextStyle titleStyle;
 
   /// The orientation is used to decide how to layout its children.
   final Orientation orientation;
@@ -401,23 +401,26 @@ class _CupertinoColorPickerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = theme.colorScheme;
-    final TextTheme textTheme = theme.textTheme;
+    final CupertinoThemeData theme = CupertinoTheme.of(context);
+    // final ColorScheme colorScheme = theme.colorScheme;
+    final CupertinoTextThemeData textTheme = theme.textTheme;
 
     // The header should use the primary color in light themes and surface color in dark
-    final bool isDark = colorScheme.brightness == Brightness.dark;
+    final bool isDark = theme.brightness == Brightness.dark;
     final Color primarySurfaceColor =
-        isDark ? colorScheme.surface : colorScheme.primary;
+        isDark ? theme.scaffoldBackgroundColor : theme.primaryColor;
     final Color onPrimarySurfaceColor =
-        isDark ? colorScheme.onSurface : colorScheme.onPrimary;
+        isDark ? theme.primaryColor : theme.primaryContrastingColor;
 
-    final TextStyle? helpStyle = textTheme.overline?.copyWith(
+    final TextStyle? helpStyle = textTheme.textStyle.copyWith(
+      color: onPrimarySurfaceColor,
+    );
+    final TextStyle _titleStyle = titleStyle.copyWith(
       color: onPrimarySurfaceColor,
     );
 
     final Widget help = Text(
-      helpText ?? '',
+      helpText ?? 'test',
       style: helpStyle,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -426,7 +429,7 @@ class _CupertinoColorPickerHeader extends StatelessWidget {
     final Text title = Text(
       titleText ?? 'Color Picker',
       semanticsLabel: titleSemanticsLabel ?? titleText,
-      style: titleStyle,
+      style: _titleStyle,
       maxLines: orientation == Orientation.portrait ? 1 : 2,
       overflow: TextOverflow.ellipsis,
       textDirection: Directionality.of(context),

@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   color_picker_field:
     path: ../
+  flutter_localizations: # Add this line
+    sdk: flutter 
   flutter_lints: ^1.0.3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
