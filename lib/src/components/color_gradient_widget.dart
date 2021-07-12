@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../tools/colors_painter.dart';
@@ -5,6 +7,7 @@ import '../tools/colors_painter.dart';
 class ColorGradientWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    log('build gradient');
     return CustomPaint(
       painter: const ColorsPainter(),
       child: Container(

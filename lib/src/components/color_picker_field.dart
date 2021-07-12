@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import '../models/color_editing_value.dart';
@@ -31,7 +32,7 @@ class ColorPickerField extends StatefulWidget {
     this.style,
     this.scrollPhysics,
     this.scrollController,
-    this.maxLength,
+    this.maxColors,
     this.controller,
     this.mouseCursor,
     this.restorationId,
@@ -55,7 +56,7 @@ class ColorPickerField extends StatefulWidget {
   final TextStyle? style;
   final ScrollPhysics? scrollPhysics;
   final ScrollController? scrollController;
-  final int? maxLength;
+  final int? maxColors;
   final ColorPickerFieldController? controller;
 
   /// The cursor for a mouse pointer when it enters or is hovering over the
@@ -78,7 +79,7 @@ class ColorPickerField extends StatefulWidget {
   final MouseCursor? mouseCursor;
   final String? restorationId;
 
-  /// If [maxLength] is set to this value, only the "current input length"
+  /// If [maxColors] is set to this value, only the "current input length"
   /// part of the character counter is shown.
   static const int noMaxLength = -1;
 
@@ -133,7 +134,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
       widget.focusNode ?? (_focusNode ??= FocusNode());
 
   bool get needsCounter =>
-      widget.maxLength != null &&
+      widget.maxColors != null &&
       widget.decoration != null &&
       widget.decoration!.counterText == null;
 
@@ -142,9 +143,9 @@ class _ColorPickerFieldState extends State<ColorPickerField>
   int get _currentLength => _effectiveController.value.colors.length;
 
   bool get _hasIntrinsicError =>
-      widget.maxLength != null &&
-      widget.maxLength! > 0 &&
-      _effectiveController.value.colors.length > widget.maxLength!;
+      widget.maxColors != null &&
+      widget.maxColors! > 0 &&
+      _effectiveController.value.colors.length > widget.maxColors!;
 
   bool get _hasError =>
       widget.decoration?.errorText != null || _hasIntrinsicError;
@@ -175,7 +176,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
       final Widget? builtCounter = widget.buildCounter!(
         context,
         currentLength: currentLength,
-        maxLength: widget.maxLength,
+        maxLength: widget.maxColors,
         isFocused: isFocused,
       );
       // If buildCounter returns null, don't add a counter widget to the field.
@@ -189,18 +190,18 @@ class _ColorPickerFieldState extends State<ColorPickerField>
       return effectiveDecoration.copyWith(counter: counter);
     }
 
-    if (widget.maxLength == null)
+    if (widget.maxColors == null)
       return effectiveDecoration; // No counter widget
 
     String counterText = '$currentLength';
     String semanticCounterText = '';
 
     // Handle a real maxLength (positive number)
-    if (widget.maxLength! > 0) {
+    if (widget.maxColors! > 0) {
       // Show the maxLength in the counter
-      counterText += '/${widget.maxLength}';
+      counterText += '/${widget.maxColors}';
       final int remaining =
-          (widget.maxLength! - currentLength).clamp(0, widget.maxLength!);
+          (widget.maxColors! - currentLength).clamp(0, widget.maxColors!);
       semanticCounterText =
           localizations.remainingTextFieldCharacterCount(remaining);
     }
@@ -409,8 +410,8 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     );
 
     final int? semanticsMaxValueLength;
-    if (widget.maxLength != null && widget.maxLength! > 0) {
-      semanticsMaxValueLength = widget.maxLength;
+    if (widget.maxColors != null && widget.maxColors! > 0) {
+      semanticsMaxValueLength = widget.maxColors;
     } else {
       semanticsMaxValueLength = null;
     }

@@ -75,7 +75,7 @@ class CupertinoColorPickerField extends StatefulWidget {
     this.style,
     this.scrollPhysics,
     this.scrollController,
-    this.maxLength,
+    this.maxColors,
     this.controller,
     this.restorationId,
     this.placeholder,
@@ -100,7 +100,7 @@ class CupertinoColorPickerField extends StatefulWidget {
     this.style,
     this.scrollPhysics,
     this.scrollController,
-    this.maxLength,
+    this.maxColors,
     this.controller,
     this.restorationId,
     this.placeholder,
@@ -131,7 +131,7 @@ class CupertinoColorPickerField extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final ScrollController? scrollController;
 
-  final int? maxLength;
+  final int? maxColors;
   final ColorPickerFieldController? controller;
   final ClearButtonVisibilityMode clearButtonMode;
 
@@ -523,7 +523,7 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
         CupertinoDialogRoute<ColorPickerDialogModel>(
       context: context,
       builder: (BuildContext context) {
-        return ColorPickerDialog(
+        return CupertinoColorPickerDialog(
           initialColor: widget.defaultColor,
           colorList: _colorListAnimated.items,
           textDirection: textDirection,

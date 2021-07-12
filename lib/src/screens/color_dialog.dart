@@ -6,9 +6,9 @@ import '../models/color_dialog_model.dart';
 import '../components/color_picker.dart';
 import '../models/color_state_model.dart';
 
-const Size _calendarPortraitDialogSize = Size(330.0, 518.0);
-const Size _calendarLandscapeDialogSize = Size(496.0, 346.0);
-const Duration _dialogSizeAnimationDuration = Duration(milliseconds: 200);
+const Size colorPickerPortraitDialogSize = Size(330.0, 518.0);
+const Size colorPickerLandscapeDialogSize = Size(496.0, 346.0);
+const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
 
 @immutable
 class ColorPickerDialog extends StatefulWidget {
@@ -78,9 +78,9 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final Orientation orientation = MediaQuery.of(context).orientation;
     switch (orientation) {
       case Orientation.portrait:
-        return _calendarPortraitDialogSize;
+        return colorPickerPortraitDialogSize;
       case Orientation.landscape:
-        return _calendarLandscapeDialogSize;
+        return colorPickerLandscapeDialogSize;
     }
   }
 
@@ -99,7 +99,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final Color onPrimarySurface = colorScheme.brightness == Brightness.light
         ? colorScheme.onPrimary
         : colorScheme.onSurface;
-    final TextStyle? dateStyle = orientation == Orientation.landscape
+    final TextStyle? titleStyle = orientation == Orientation.landscape
         ? textTheme.headline5?.copyWith(color: onPrimarySurface)
         : textTheme.headline4?.copyWith(color: onPrimarySurface);
 
@@ -108,7 +108,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final Widget header = _ColorPickerHeader(
       helpText: widget.helpText,
       titleText: widget.titleText,
-      titleStyle: dateStyle,
+      titleStyle: titleStyle,
       orientation: orientation,
       isShort: orientation == Orientation.landscape,
       textDirection: widget.textDirection,
@@ -176,7 +176,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
 
     final Widget checkboxesGrid = GridView.count(
       crossAxisCount: 4,
-      shrinkWrap: true,
+      shrinkWrap: false,
       children: [
         for (var i = 0; i < widget.colorList.length; i++)
           ColoredGridCheckbox(
@@ -189,14 +189,15 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
       ],
     );
 
-    final Widget switcher = InkWell(
-      onTap: () {
-        setState(() {
-          colorPickerVisible = false;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+    final Widget switcher = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Color(0xFFFFFFFF)),
+        onPressed: () {
+          setState(() {
+            colorPickerVisible = false;
+          });
+        },
         child: Directionality(
           textDirection: widget.textDirection,
           child: SizedBox(
@@ -224,10 +225,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
         child: AnimatedContainer(
           width: dialogSize.width,
           height: dialogSize.height,
-          duration: _dialogSizeAnimationDuration,
-          onEnd: () {
-            print('end animation');
-          },
+          duration: dialogSizeAnimationDuration,
           curve: Curves.easeIn,
           child: MediaQuery(
             data: MediaQuery.of(context).copyWith(
@@ -281,11 +279,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                         header,
                         secondaryActions,
                         Flexible(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [checkboxesGrid],
-                          ),
+                          child: checkboxesGrid,
                         ),
                         actions,
                       ],
@@ -298,11 +292,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                         header,
                         secondaryActions,
                         Flexible(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [checkboxesGrid],
-                          ),
+                          child: checkboxesGrid,
                         ),
                         actions,
                       ],

@@ -1,6 +1,6 @@
 import 'dart:math' show Point, pi;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Gesture detector that reports user drags in terms of [PolarCoord]s with the
 /// origin at the center of the provided [child].

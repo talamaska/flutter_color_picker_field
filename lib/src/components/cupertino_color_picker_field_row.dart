@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 
 import '../models/color_editing_value.dart';
 import 'color_picker_controllers.dart';
@@ -191,7 +190,7 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
                 style: style,
                 autofocus: autofocus,
                 readOnly: readOnly,
-                maxLength: maxLength,
+                maxColors: maxLength,
                 onChanged: onChangedHandler,
                 onSubmitted: onFieldSubmitted,
                 enabled: enabled,

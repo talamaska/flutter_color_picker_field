@@ -1,5 +1,7 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
+
+import 'package:flutter/widgets.dart';
+
 import '../tools/radial_drag_gesture_detector.dart';
 
 class TurnGestureDetector extends StatefulWidget {

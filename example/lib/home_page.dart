@@ -64,46 +64,46 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              //   child: Directionality(
-              //     textDirection: TextDirection.rtl,
-              //     child: CupertinoTextField(
-              //       placeholder: 'CupertinoTextField',
-              //       clearButtonMode: OverlayVisibilityMode.always,
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              //   child: CupertinoColorPickerField(
-              //     placeholder: 'CupertinoColorPickerField',
-              //     colors: _colorList,
-              //     defaultColor: defaultColor,
-              //     onChanged: _onChanged,
-              //     clearButtonMode: ClearButtonVisibilityMode.always,
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              //   child: CupertinoColorPickerField(
-              //     placeholder: 'CupertinoColorPickerField reversed',
-              //     colors: _colorList,
-              //     defaultColor: defaultColor,
-              //     onChanged: _onChanged,
-              //     colorListReversed: true,
-              //     clearButtonMode: ClearButtonVisibilityMode.always,
-              //   ),
-              // ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: CupertinoTextField(
+                    placeholder: 'CupertinoTextField',
+                    clearButtonMode: OverlayVisibilityMode.always,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: CupertinoColorPickerField(
+                  placeholder: 'CupertinoColorPickerField',
+                  colors: _colorList,
+                  defaultColor: defaultColor,
+                  onChanged: _onChanged,
+                  clearButtonMode: ClearButtonVisibilityMode.always,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: CupertinoColorPickerField(
+                  placeholder: 'CupertinoColorPickerField reversed',
+                  colors: _colorList,
+                  defaultColor: defaultColor,
+                  onChanged: _onChanged,
+                  colorListReversed: true,
+                  clearButtonMode: ClearButtonVisibilityMode.always,
+                ),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -123,90 +123,114 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 20,
               ),
-              // CupertinoFormSection.insetGrouped(
-              //   header: const Text('Section 1'),
-              //   children: [
-              //     CupertinoTextFormFieldRow(
-              //       placeholder: 'Ordinary text field',
-              //       prefix: const Text('Enter Text'),
-              //     ),
-              //     Directionality(
-              //       textDirection: TextDirection.rtl,
-              //       child: CupertinoTextFormFieldRow(
-              //         placeholder: 'Ordinary text field rtl',
-              //         prefix: const Text('Enter Text rtl'),
-              //       ),
-              //     ),
-              //     CupertinoColorPickerFormFieldRow(
-              //       prefix: const Text('Enter Color'),
-              //       defaultColor: defaultColor,
-              //       clearButtonMode: ClearButtonVisibilityMode.always,
-              //       placeholder: 'Enter Color',
-              //       onChanged: _onChanged,
-              //       validator: (List<Color>? value) {
-              //         if (value == null || value.isEmpty) {
-              //           return 'Please enter at least one color';
-              //         }
-              //         return null;
-              //       },
-              //     ),
-              //     CupertinoColorPickerFormFieldRow(
-              //       prefix: const Text('Enter Color'),
-              //       defaultColor: defaultColor,
-              //       placeholder: 'Enter Color',
-              //       onChanged: _onChanged,
-              //       colorListReversed: true,
-              //       validator: (List<Color>? value) {
-              //         if (value == null || value.isEmpty) {
-              //           return 'Please enter at least one color';
-              //         }
-              //         return null;
-              //       },
-              //     ),
-              //     Directionality(
-              //       textDirection: TextDirection.rtl,
-              //       child: CupertinoColorPickerFormFieldRow(
-              //         prefix: const Text('Enter Color rtl'),
-              //         defaultColor: defaultColor,
-              //         placeholder: 'Enter Color rtl',
-              //         onChanged: _onChanged,
-              //         validator: (List<Color>? value) {
-              //           if (value == null || value.isEmpty) {
-              //             return 'Please enter at least one color';
-              //           }
-              //           return null;
-              //         },
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              //   child: Directionality(
-              //     textDirection: TextDirection.rtl,
-              //     child: TextField(
-              //       textDirection: TextDirection.rtl,
-              //       textInputAction: TextInputAction.done,
-              //       decoration: InputDecoration(
-              //         labelText: 'TextField rtl',
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              //   child: TextFormField(
-              //     decoration: InputDecoration(
-              //       labelText: 'TextFormField',
-              //     ),
-              //   ),
-              // ),
+              CupertinoFormSection.insetGrouped(
+                header: const Text('Section 1'),
+                children: [
+                  CupertinoTextFormFieldRow(
+                    placeholder: 'Ordinary text field',
+                    prefix: const Text('Enter Text'),
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Ordinary text field rtl',
+                      prefix: const Text('Enter Text rtl'),
+                    ),
+                  ),
+                  CupertinoColorPickerFormFieldRow(
+                    prefix: const Text('Enter Color'),
+                    defaultColor: defaultColor,
+                    clearButtonMode: ClearButtonVisibilityMode.always,
+                    placeholder: 'Enter Color',
+                    onChanged: _onChanged,
+                    validator: (List<Color>? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter at least one color';
+                      }
+                      return null;
+                    },
+                  ),
+                  CupertinoColorPickerFormFieldRow(
+                    prefix: const Text('Enter Color'),
+                    defaultColor: defaultColor,
+                    placeholder: 'Enter Color',
+                    onChanged: _onChanged,
+                    colorListReversed: true,
+                    validator: (List<Color>? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter at least one color';
+                      }
+                      return null;
+                    },
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: CupertinoColorPickerFormFieldRow(
+                      prefix: const Text('Enter Color rtl'),
+                      defaultColor: defaultColor,
+                      placeholder: 'Enter Color rtl',
+                      onChanged: _onChanged,
+                      validator: (List<Color>? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter at least one color';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextField(
+                    textDirection: TextDirection.rtl,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      labelText: 'TextField rtl',
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'TextFormField',
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: ColorPickerFormField(
+                  initialValue: _colorList,
+                  defaultColor: defaultColor,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxColors: 3,
+                  decoration: InputDecoration(
+                    labelText: 'Colors',
+                    helperText: 'test',
+                  ),
+                  validator: (List<Color>? value) {
+                    if (value!.isEmpty) {
+                      return 'a minimum of 1 color is required';
+                    }
+                    return null;
+                  },
+                  onChanged: _onChanged,
+                  onSaved: _onSaved,
+                ),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -228,28 +252,28 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 20,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              //   child: ColorPickerFormField(
-              //     initialValue: _colorList,
-              //     defaultColor: defaultColor,
-              //     colorListReversed: true,
-              //     autovalidateMode: AutovalidateMode.onUserInteraction,
-              //     maxLength: 3,
-              //     decoration: InputDecoration(
-              //       labelText: 'Colors reversed',
-              //       helperText: 'test',
-              //     ),
-              //     validator: (List<Color>? value) {
-              //       if (value!.isEmpty) {
-              //         return 'a minimum of 1 color is required';
-              //       }
-              //       return null;
-              //     },
-              //     onChanged: _onChanged,
-              //     onSaved: _onSaved,
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: ColorPickerFormField(
+                  initialValue: _colorList,
+                  defaultColor: defaultColor,
+                  colorListReversed: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxColors: 3,
+                  decoration: InputDecoration(
+                    labelText: 'Colors reversed',
+                    helperText: 'test',
+                  ),
+                  validator: (List<Color>? value) {
+                    if (value!.isEmpty) {
+                      return 'a minimum of 1 color is required';
+                    }
+                    return null;
+                  },
+                  onChanged: _onChanged,
+                  onSaved: _onSaved,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
