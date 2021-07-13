@@ -1,5 +1,4 @@
-import 'package:angles/angles.dart';
-import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math.dart';
 import 'package:flutter/widgets.dart';
 
 class ColorPickerDial extends StatefulWidget {
@@ -23,7 +22,7 @@ class _ColorPickerDialState extends State<ColorPickerDial> {
   @override
   Widget build(BuildContext context) {
     return Transform.rotate(
-      angle: Angle.degrees(widget.hue).radians,
+      angle: radians(widget.hue),
       child: Center(
         child: FractionallySizedBox(
           widthFactor: widget.ratio,

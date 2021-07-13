@@ -62,7 +62,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                height: 20,
+                height: 100,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0),

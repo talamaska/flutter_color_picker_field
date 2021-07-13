@@ -23,7 +23,6 @@ class ColorPickerFormField extends FormField<List<Color>> {
     int? maxColors,
     InputCounterWidgetBuilder? buildCounter,
     bool readOnly = false,
-    bool autofocus = false,
     this.onChanged,
     required this.defaultColor,
     this.controller,
@@ -55,7 +54,6 @@ class ColorPickerFormField extends FormField<List<Color>> {
                 controller: state._effectiveController,
                 focusNode: focusNode,
                 style: style,
-                autofocus: autofocus,
                 colorListReversed: colorListReversed,
                 readOnly: readOnly,
                 maxColors: maxColors,
@@ -65,9 +63,9 @@ class ColorPickerFormField extends FormField<List<Color>> {
                 scrollPhysics: scrollPhysics,
                 onSubmitted: onFieldSubmitted,
                 defaultColor: defaultColor,
-                // colors: controller != null
-                //     ? controller.value.colors
-                //     : (initialValue ?? <Color>[]),
+                colors: controller != null
+                    ? controller.value.colors
+                    : (initialValue ?? <Color>[]),
                 onChanged: onChangedHandler,
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,

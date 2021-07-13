@@ -51,7 +51,6 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        // backgroundColor: Colors.deepPurple.shade700,
       ),
       body: SingleChildScrollView(
         child: Form(

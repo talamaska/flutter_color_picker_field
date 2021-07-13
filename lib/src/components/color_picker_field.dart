@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -7,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import '../models/color_editing_value.dart';
 
-import '../components/color_item.dart';
-import '../components/color_picker_controllers.dart';
+import 'color_item.dart';
+import 'color_picker_controllers.dart';
 import 'editable_color_picker_field.dart';
+import '../models/color_editing_value.dart';
 import '../models/animated_color_list_model.dart';
 import '../models/color_dialog_model.dart';
 import '../screens/color_dialog.dart';
@@ -19,7 +18,6 @@ import '../screens/color_dialog.dart';
 class ColorPickerField extends StatefulWidget {
   const ColorPickerField({
     Key? key,
-    this.autofocus = false,
     this.focusNode,
     this.colorListReversed = false,
     this.decoration = const InputDecoration(),
@@ -40,23 +38,48 @@ class ColorPickerField extends StatefulWidget {
   }) : super(key: key);
 
   final FocusNode? focusNode;
+
   final bool colorListReversed;
+
   final InputDecoration? decoration;
+
+  /// Required. Controls the default color of the color picker launched from the field.
   final Color defaultColor;
-  final bool readOnly;
-  final bool autofocus;
+
+  /// Controls of the color picker field is read only, defaults to false
+  final bool? readOnly;
+
+  /// An initial list of colors, if not passed, default to an empty list
   final List<Color> colors;
+
+  /// A callback triggered everytime a color was added or removed to/from the field
   final ValueChanged<List<Color>>? onChanged;
+
   final ValueChanged<String>? onSubmitted;
+
+  /// Controls if the color picker field is enabled, default to true
   final bool? enabled;
 
   /// This text style is used as the base style for the [decoration].
   ///
   /// If null, defaults to the `subtitle1` text style from the current [Theme].
   final TextStyle? style;
+
+  /// If null, defaults to default for the platform scroll physics.
+  /// Responsible for the scroll physics of the horizontal animated colors list in the field
   final ScrollPhysics? scrollPhysics;
+
+  /// Responsible for controlling the horizontal animated colors list in the field
   final ScrollController? scrollController;
+
+  /// If [maxColors] is set to this value, only the "current colors number"
+  /// part of the colors counter is shown.
   final int? maxColors;
+
+  /// Provides a way to listen for colors list changes
+  /// Controls the colors being edited.
+  ///
+  /// If null, this widget will create its own [ColorPickerFieldController].
   final ColorPickerFieldController? controller;
 
   /// The cursor for a mouse pointer when it enters or is hovering over the
@@ -77,11 +100,23 @@ class ColorPickerField extends StatefulWidget {
   /// stand for the text cursor, which is usually a blinking vertical line at
   /// the editing position.
   final MouseCursor? mouseCursor;
-  final String? restorationId;
 
-  /// If [maxColors] is set to this value, only the "current input length"
-  /// part of the character counter is shown.
-  static const int noMaxLength = -1;
+  /// Restoration ID to save and restore the state of the color picker field.
+  ///
+  /// If no [controller] has been provided - the content of the
+  /// color picker field will persist and will be restored.
+  /// If a [controller] has been provided, it is the responsibility
+  /// of the owner of that controller to persist and restore it, e.g. by using
+  /// a [RestorableColorPickerFieldController].
+  ///
+  /// The state of this widget is persisted in a [RestorationBucket] claimed
+  /// from the surrounding [RestorationScope] using the provided restoration ID.
+  ///
+  /// See also:
+  ///
+  ///  * [RestorationManager], which explains how state restoration works in
+  ///    Flutter.
+  final String? restorationId;
 
   /// Callback that generates a custom [InputDecoration.counter] widget.
   ///
@@ -117,6 +152,36 @@ class ColorPickerField extends StatefulWidget {
 
   @override
   _ColorPickerFieldState createState() => _ColorPickerFieldState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<FocusNode?>('focusNode', focusNode));
+    properties
+        .add(DiagnosticsProperty<bool>('colorListReversed', colorListReversed));
+    properties
+        .add(DiagnosticsProperty<InputDecoration?>('decoration', decoration));
+    properties.add(ColorProperty('defaultColor', defaultColor));
+    properties.add(DiagnosticsProperty<bool?>('readOnly', readOnly));
+    properties.add(IterableProperty<Color>('colors', colors));
+    properties.add(ObjectFlagProperty<ValueChanged<List<Color>>?>.has(
+        'onChanged', onChanged));
+    properties.add(ObjectFlagProperty<ValueChanged<String>?>.has(
+        'onSubmitted', onSubmitted));
+    properties.add(DiagnosticsProperty<bool?>('enabled', enabled));
+    properties.add(DiagnosticsProperty<TextStyle?>('style', style));
+    properties.add(
+        DiagnosticsProperty<ScrollPhysics?>('scrollPhysics', scrollPhysics));
+    properties.add(DiagnosticsProperty<ScrollController?>(
+        'scrollController', scrollController));
+    properties.add(IntProperty('maxColors', maxColors));
+    properties.add(DiagnosticsProperty<ColorPickerFieldController?>(
+        'controller', controller));
+    properties
+        .add(DiagnosticsProperty<MouseCursor?>('mouseCursor', mouseCursor));
+    properties.add(StringProperty('restorationId', restorationId));
+    properties.add(ObjectFlagProperty<InputCounterWidgetBuilder?>.has(
+        'buildCounter', buildCounter));
+  }
 }
 
 class _ColorPickerFieldState extends State<ColorPickerField>
@@ -442,11 +507,10 @@ class _ColorPickerFieldState extends State<ColorPickerField>
             //   child: child,
             // );
             return InkWell(
-              onTap: widget.readOnly
+              onTap: (widget.readOnly ?? false)
                   ? null
                   : () {
                       _handleFocus();
-
                       _openAddEntryDialog(
                         context,
                         _effectiveController,

@@ -1,4 +1,5 @@
 //import 'package:flutter/scheduler.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../components/color_ripple.dart';
@@ -70,6 +71,8 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final CupertinoThemeData ct = CupertinoTheme.of(context);
+
     return Center(
       child: Container(
           decoration: const BoxDecoration(
@@ -104,16 +107,18 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
                           shape: BoxShape.circle,
                           color: widget.color,
                           border: Border.all(
-                            color: const Color(0xFFFFFFFF),
+                            color: ct.scaffoldBackgroundColor,
                             style: BorderStyle.solid,
                             width: 4.0,
                           ),
-                          boxShadow: const <BoxShadow>[
+                          boxShadow: <BoxShadow>[
                             BoxShadow(
                               offset: Offset(0.0, 1.0),
                               blurRadius: 6.0,
                               spreadRadius: 1.0,
-                              color: Color(0x44000000),
+                              color: ct.brightness == Brightness.dark
+                                  ? Color(0x44FFFFFF)
+                                  : Color(0x44000000),
                             )
                           ],
                         ),

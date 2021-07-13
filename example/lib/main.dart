@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'home_page.dart';
 
 // void main() => runApp(MyCupertinoApp());
-void main() => runApp(MyMaterialApp());
+void main() => runApp(MyCupertinoApp());
 
 class MyCupertinoApp extends StatelessWidget {
   @override
@@ -16,7 +16,7 @@ class MyCupertinoApp extends StatelessWidget {
         primaryColor: CupertinoColors.activeOrange,
         brightness: Brightness.light,
       ),
-      home: const CupertinoHomePage(title: 'Home'),
+      home: const CupertinoHomePage(title: 'Color Picker Cupertino'),
       localizationsDelegates: [
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -33,10 +33,10 @@ class MyMaterialApp extends StatelessWidget {
     return MaterialApp(
       title: 'Color Picker',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.pink,
         brightness: Brightness.light,
       ),
-      home: const MaterialHomePage(title: 'Home'),
+      home: const MaterialHomePage(title: 'Color Picker Material'),
       localizationsDelegates: [
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

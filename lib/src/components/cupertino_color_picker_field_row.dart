@@ -4,9 +4,9 @@
 
 import 'package:flutter/cupertino.dart';
 
-import '../models/color_editing_value.dart';
 import 'color_picker_controllers.dart';
 import 'cupertino_color_picker_field.dart';
+import '../models/color_editing_value.dart';
 
 /// Creates a [CupertinoFormRow] containing a [FormField] that wraps
 /// a [CupertinoColorPickerField].
@@ -142,7 +142,6 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
     TextStyle? style,
     ClearButtonVisibilityMode clearButtonMode = ClearButtonVisibilityMode.never,
     TextAlign textAlign = TextAlign.start,
-    bool autofocus = false,
     bool readOnly = false,
     int? maxLength,
     ValueChanged<List<Color>>? onChanged,
@@ -188,7 +187,6 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
                 clearButtonMode: clearButtonMode,
                 decoration: decoration,
                 style: style,
-                autofocus: autofocus,
                 readOnly: readOnly,
                 maxColors: maxLength,
                 onChanged: onChangedHandler,

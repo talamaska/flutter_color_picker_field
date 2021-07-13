@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
 import 'color_gradient_widget.dart';
@@ -21,16 +22,19 @@ class ColorPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CupertinoThemeData ct = CupertinoTheme.of(context);
     return Container(
       child: AspectRatio(
         aspectRatio: 1.0,
         child: Container(
           width: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: Color(0x44000000),
+                color: ct.brightness == Brightness.dark
+                    ? Color(0x44FFFFFF)
+                    : Color(0x44000000),
                 blurRadius: 2.0,
                 spreadRadius: 1.0,
                 offset: Offset(0.0, 1.0),

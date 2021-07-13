@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../color_picker_field.dart';
 import 'color_item.dart';
 import 'color_picker_controllers.dart';
 import 'editable_color_picker_field.dart';
 import '../models/color_editing_value.dart';
 import '../models/animated_color_list_model.dart';
 import '../models/color_dialog_model.dart';
+import '../screens/cupertino_color_dialog.dart';
 
 const TextStyle _kDefaultPlaceholderStyle = TextStyle(
   fontWeight: FontWeight.w400,
@@ -61,7 +61,6 @@ const CupertinoDynamicColor _kClearButtonColor =
 class CupertinoColorPickerField extends StatefulWidget {
   const CupertinoColorPickerField({
     Key? key,
-    this.autofocus = false,
     this.focusNode,
     this.colorListReversed = false,
     this.decoration = _kDefaultRoundedBorderDecoration,
@@ -86,7 +85,6 @@ class CupertinoColorPickerField extends StatefulWidget {
 
   const CupertinoColorPickerField.borderless({
     Key? key,
-    this.autofocus = false,
     this.focusNode,
     this.decoration,
     this.colorListReversed = false,
@@ -110,36 +108,140 @@ class CupertinoColorPickerField extends StatefulWidget {
   });
 
   final FocusNode? focusNode;
+
+  /// Controls the [BoxDecoration] of the box behind the text input.
+  ///
+  /// Defaults to having a rounded rectangle grey border and can be null to have
+  /// no box decoration.
   final BoxDecoration? decoration;
+
+  /// Padding around the text entry area between the [prefix] and [suffix]
+  /// or the clear button when [clearButtonMode] is not never.
+  ///
+  /// Defaults to a padding of 6 pixels on all sides and can be null.
   final EdgeInsetsGeometry padding;
+
+  /// A lighter colored placeholder hint that appears on the first line of the
+  /// text field when the text entry is empty.
+  ///
+  /// Defaults to having no placeholder text.
+  ///
+  /// The text style of the placeholder text matches that of the text field's
+  /// main text entry except a lighter font weight and a grey font color.
   final String? placeholder;
+
+  /// The style to use for the placeholder text.
+  ///
+  /// The [placeholderStyle] is merged with the [style] [TextStyle] when applied
+  /// to the [placeholder] text. To avoid merging with [style], specify
+  /// [TextStyle.inherit] as false.
+  ///
+  /// Defaults to the [style] property with w300 font weight and grey color.
+  ///
+  /// If specifically set to null, placeholder's style will be the same as [style].
   final TextStyle? placeholderStyle;
+
+  /// Required. Controls the default color of the color picker launched from the field.
   final Color defaultColor;
+
+  /// Controls of the color picker field is read only, defaults to false
   final bool readOnly;
-  final bool autofocus;
+
+  /// An initial list of colors, if not passed, default to an empty list
   final List<Color> colors;
+
   final ValueChanged<List<Color>>? onChanged;
+
+  /// A callback triggered everytime a color was added or removed to/from the field
   final ValueChanged<List<Color>>? onSubmitted;
+
+  /// Controls if the color picker field is enabled, default to true
   final bool? enabled;
+
+  /// Controls the text align of the placeholder
   final TextAlign textAlign;
+
+  /// Controls if the color list appears reversed, use with caution as it will override the [Directionality]
   final bool colorListReversed;
 
   /// This text style is used as the base style for the [decoration].
   ///
   /// If null, defaults to the `subtitle1` text style from the current [Theme].
   final TextStyle? style;
+
+  /// If null, defaults to default for the platform scroll physics.
+  /// Responsible for the scroll physics of the horizontal animated colors list in the field
   final ScrollPhysics? scrollPhysics;
+
+  /// Responsible for controlling the horizontal animated colors list in the field
   final ScrollController? scrollController;
 
+  /// If [maxColors] is set to this value, only the "current colors number"
+  /// part of the colors counter is shown.
   final int? maxColors;
+
+  /// Provides a way to listen for colors list changes
+  /// Controls the colors being edited.
+  ///
+  /// If null, this widget will create its own [ColorPickerFieldController].
   final ColorPickerFieldController? controller;
+
+  /// Defaults to never appearing and cannot be null.
   final ClearButtonVisibilityMode clearButtonMode;
 
+  /// Restoration ID to save and restore the state of the color picker field.
+  ///
+  /// If no [controller] has been provided - the content of the
+  /// color picker field will persist and will be restored.
+  /// If a [controller] has been provided, it is the responsibility
+  /// of the owner of that controller to persist and restore it, e.g. by using
+  /// a [RestorableColorPickerFieldController].
+  ///
+  /// The state of this widget is persisted in a [RestorationBucket] claimed
+  /// from the surrounding [RestorationScope] using the provided restoration ID.
+  ///
+  /// See also:
+  ///
+  ///  * [RestorationManager], which explains how state restoration works in
+  ///    Flutter.
   final String? restorationId;
 
   @override
   _CupertinoColorPickerFieldState createState() =>
       _CupertinoColorPickerFieldState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<FocusNode?>('focusNode', focusNode));
+    properties
+        .add(DiagnosticsProperty<BoxDecoration?>('decoration', decoration));
+    properties.add(DiagnosticsProperty<EdgeInsetsGeometry>('padding', padding));
+    properties.add(StringProperty('placeholder', placeholder));
+    properties.add(
+        DiagnosticsProperty<TextStyle?>('placeholderStyle', placeholderStyle));
+    properties.add(ColorProperty('defaultColor', defaultColor));
+    properties.add(DiagnosticsProperty<bool>('readOnly', readOnly));
+    properties.add(IterableProperty<Color>('colors', colors));
+    properties.add(ObjectFlagProperty<ValueChanged<List<Color>>?>.has(
+        'onChanged', onChanged));
+    properties.add(ObjectFlagProperty<ValueChanged<List<Color>>?>.has(
+        'onSubmitted', onSubmitted));
+    properties.add(DiagnosticsProperty<bool?>('enabled', enabled));
+    properties.add(EnumProperty<TextAlign>('textAlign', textAlign));
+    properties
+        .add(DiagnosticsProperty<bool>('colorListReversed', colorListReversed));
+    properties.add(DiagnosticsProperty<TextStyle?>('style', style));
+    properties.add(
+        DiagnosticsProperty<ScrollPhysics?>('scrollPhysics', scrollPhysics));
+    properties.add(DiagnosticsProperty<ScrollController?>(
+        'scrollController', scrollController));
+    properties.add(IntProperty('maxColors', maxColors));
+    properties.add(DiagnosticsProperty<ColorPickerFieldController?>(
+        'controller', controller));
+    properties.add(EnumProperty<ClearButtonVisibilityMode>(
+        'clearButtonMode', clearButtonMode));
+    properties.add(StringProperty('restorationId', restorationId));
+  }
 }
 
 class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>

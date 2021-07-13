@@ -1,28 +1,35 @@
-import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../tools/colors_painter.dart';
 
 class ColorGradientWidget extends StatelessWidget {
+  const ColorGradientWidget({
+    Key? key,
+    this.ratio = 0.75,
+  }) : super(key: key);
+
+  final double ratio;
+
   @override
   Widget build(BuildContext context) {
-    log('build gradient');
+    final CupertinoThemeData ct = CupertinoTheme.of(context);
+
+    // log('build gradient');
     return CustomPaint(
       painter: const ColorsPainter(),
       child: Container(
         decoration: const BoxDecoration(
-          color: Color(0x00000000),
           shape: BoxShape.circle,
         ),
         height: double.infinity,
         width: double.infinity,
         child: FractionallySizedBox(
-          widthFactor: 0.75,
-          heightFactor: 0.75,
+          widthFactor: ratio,
+          heightFactor: ratio,
           child: Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFFFFFFFF),
+            decoration: BoxDecoration(
+              color: ct.scaffoldBackgroundColor,
               shape: BoxShape.circle,
             ),
           ),
