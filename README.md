@@ -112,12 +112,11 @@ CupertinoFormSection.insetGrouped(
 ## Screenshots
 
 ### Material
-![Material Color Picker fields](https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_fields.png?raw=true)
-![Material Color Picker screen 1](https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker1.png?raw=true)
-![Material Color Picker screen 2](https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker2.png?raw=true)
+| Material Color Picker fields | Material Color Picker screen 1 | Material Color Picker screen 2 |
+|------------------------------|--------------------------------|--------------------------------|
+|<img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_fields.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker1.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker2.png?raw=true" width="200" /> |
 
 ### Cupertino
-![Cupertino Color Picker fields](https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_fields.png?raw=true)
-![Cupertino Color Picker screen 1](https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker1.png?raw=true)
-![Cupertino Color Picker screen 2](https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker2.png?raw=true)
-
+| Cupertino Color Picker fields | Cupertino Color Picker screen 1 | Cupertino Color Picker screen 2 |
+|-------------------------------|---------------------------------|---------------------------------|
+|<img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_fields.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker1.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker2.png?raw=true" width="200" /> |
