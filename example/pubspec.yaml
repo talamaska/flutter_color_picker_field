@@ -11,17 +11,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter 
   color_picker_field:
     path: ../
-  flutter_localizations: # Add this line
-    sdk: flutter 
-  flutter_lints: ^1.0.3
 
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.3
 
 flutter:
   uses-material-design: true
