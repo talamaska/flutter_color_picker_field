@@ -589,7 +589,8 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
           ? null
           : () {
               _handleFocus();
-              _openAddEntryDialog(controller, textDirection);
+              _openAddEntryDialog(
+                  controller, textDirection, effectiveDecoration);
             },
       child: IgnorePointer(
         ignoring: !enabled,
@@ -620,6 +621,7 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
   Future<void> _openAddEntryDialog(
     ColorPickerFieldController controller,
     TextDirection textDirection,
+    BoxDecoration? decoration,
   ) async {
     final CupertinoDialogRoute<ColorPickerDialogModel> dialog =
         CupertinoDialogRoute<ColorPickerDialogModel>(
@@ -629,6 +631,7 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
           initialColor: widget.defaultColor,
           colorList: _colorListAnimated.items,
           textDirection: textDirection,
+          decoration: decoration,
         );
       },
     );

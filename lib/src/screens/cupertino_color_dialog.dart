@@ -31,6 +31,7 @@ class CupertinoColorPickerDialog extends StatefulWidget {
     this.titleText,
     this.style,
     this.textDirection = TextDirection.ltr,
+    this.decoration,
   });
 
   final Color initialColor;
@@ -41,6 +42,7 @@ class CupertinoColorPickerDialog extends StatefulWidget {
   final String? confirmText;
   final TextStyle? style;
   final TextDirection textDirection;
+  final BoxDecoration? decoration;
 
   final List<Color> colorList;
 
@@ -202,28 +204,31 @@ class CupertinoColorPickerDialogState
 
     final Widget switcher = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: Color(0xFFFFFFFF)),
-        onPressed: () {
+      child: GestureDetector(
+        onTap: () {
           setState(() {
             colorPickerVisible = false;
           });
         },
-        child: Directionality(
-          textDirection: widget.textDirection,
-          child: SizedBox(
-            width: double.infinity,
-            height: style.fontSize,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(1.0),
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.colorList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ColorItem(
-                  size: style.fontSize,
-                  item: widget.colorList[index],
-                );
-              },
+        child: Container(
+          decoration: widget.decoration,
+          padding: EdgeInsets.all(6.0),
+          child: Directionality(
+            textDirection: widget.textDirection,
+            child: SizedBox(
+              width: double.infinity,
+              height: style.fontSize,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(1.0),
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.colorList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ColorItem(
+                    size: style.fontSize,
+                    item: widget.colorList[index],
+                  );
+                },
+              ),
             ),
           ),
         ),
