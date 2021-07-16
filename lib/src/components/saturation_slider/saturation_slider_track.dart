@@ -155,8 +155,11 @@ class SaturationSliderTrack extends SliderTrackShape {
           : trackRadius,
     );
 
+    Path shadowPath = Path();
+    shadowPath.addRRect(shapeRect);
+    context.canvas.drawShadow(shadowPath, Colors.black, 1.5, true);
+
     context.canvas.drawRRect(shapeRect, leftTrackPaint);
-    // context.canvas.drawRRect(shapeRect, bgImagePaint);
     context.canvas.drawRRect(shapeRect, rightTrackPaint);
   }
 }

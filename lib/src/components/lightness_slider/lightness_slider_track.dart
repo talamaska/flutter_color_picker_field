@@ -171,6 +171,10 @@ class LightnessSliderTrack extends SliderTrackShape {
           : trackRadius,
     );
 
+    Path shadowPath = Path();
+    shadowPath.addRRect(shapeRect);
+    context.canvas.drawShadow(shadowPath, Colors.black, 1.5, true);
+
     context.canvas.drawRRect(shapeRect, leftTrackPaint);
     context.canvas.drawRRect(shapeRect, rightTrackPaint);
     context.canvas.drawRRect(shapeRect, colorPaint);
