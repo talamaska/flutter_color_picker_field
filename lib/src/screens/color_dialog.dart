@@ -231,14 +231,15 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
       onChange: _handleOnChange,
     );
 
-    final Widget checkboxes = Wrap(
-      runSpacing: 13.0,
-      spacing: 13.0,
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.start,
-      crossAxisAlignment: WrapCrossAlignment.start,
-      children: _getColorCheckboxes(),
-    );
+    // deprecated
+    // final Widget checkboxes = Wrap(
+    //   runSpacing: 13.0,
+    //   spacing: 13.0,
+    //   direction: Axis.horizontal,
+    //   alignment: WrapAlignment.start,
+    //   crossAxisAlignment: WrapCrossAlignment.start,
+    //   children: _getColorCheckboxes(),
+    // );
 
     final Widget checkboxesGrid = GridView.count(
       crossAxisCount: 4,

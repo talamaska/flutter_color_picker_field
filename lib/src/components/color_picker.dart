@@ -5,9 +5,9 @@ import 'package:flutter/widgets.dart';
 
 import 'color_gradient_widget.dart';
 import '../tools/helpers.dart';
+import 'color_knob.dart';
 import 'color_picker_dial.dart';
 import 'turn_gesture_detector.dart';
-import 'hsl_color_knob.dart';
 
 class ColorPicker extends StatelessWidget {
   const ColorPicker({
@@ -75,14 +75,11 @@ class ColorChooser extends StatefulWidget {
 
 class _ColorChooserState extends State<ColorChooser> {
   late Color _currentColor;
-  late double hue;
-  late double saturation;
 
   @override
   void initState() {
     super.initState();
     _currentColor = widget.currentColor;
-    hue = extractHue(widget.currentColor);
   }
 
   void confirmColor() {
@@ -91,7 +88,6 @@ class _ColorChooserState extends State<ColorChooser> {
 
   void _onHueSelected(double newHue) {
     setState(() {
-      hue = newHue;
       _currentColor = HSLColor.fromAHSL(1.0, newHue, 1.0, 0.5).toColor();
       widget.onChange?.call(_currentColor);
     });
@@ -102,22 +98,20 @@ class _ColorChooserState extends State<ColorChooser> {
     return ClipOval(
       clipBehavior: Clip.antiAlias,
       child: TurnGestureDetector(
-        currentValue: hue,
+        currentValue: extractHue(_currentColor),
         maxValue: 360.0,
         onChanged: _onHueSelected,
         child: Stack(
           children: <Widget>[
             ColorPickerDial(
-              hue: hue,
+              hue: extractHue(_currentColor),
               color: _currentColor,
               ratio: 0.96,
               dialRatio: 0.09,
             ),
-            HSLColorKnob(
-              hue: hue,
-              saturation: 1.0,
-              lightness: 0.5,
+            ColorKnob(
               ratio: 0.75,
+              color: _currentColor,
               saveColor: confirmColor,
             ),
           ],
