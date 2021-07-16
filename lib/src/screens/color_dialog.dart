@@ -7,7 +7,7 @@ import '../components/color_picker.dart';
 import '../models/color_state_model.dart';
 
 const Size colorPickerPortraitDialogSize = Size(330.0, 518.0);
-const Size colorPickerLandscapeDialogSize = Size(496.0, 346.0);
+const Size colorPickerLandscapeDialogSize = Size(556.0, 346.0);
 const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
 
 @immutable
@@ -188,9 +188,25 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
           )
       ],
     );
+    final Widget checkboxesGridLandscape = GridView.count(
+      crossAxisCount: 8,
+      shrinkWrap: false,
+      children: [
+        for (var i = 0; i < widget.colorList.length; i++)
+          ColoredGridCheckbox(
+            color: widget.colorList[i],
+            value: _getColorState(widget.colorList[i]),
+            onChanged: (bool value) {
+              _onColorSeletionChanged(value, widget.colorList[i]);
+            },
+          )
+      ],
+    );
 
     final Widget switcher = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: orientation == Orientation.portrait
+          ? EdgeInsets.symmetric(horizontal: 16.0)
+          : EdgeInsets.only(left: 8.0, top: 16.0, bottom: 16.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Color(0xFFFFFFFF)),
         onPressed: () {
@@ -200,21 +216,42 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
         },
         child: Directionality(
           textDirection: widget.textDirection,
-          child: SizedBox(
-            width: double.infinity,
-            height: style.fontSize,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(1.0),
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.colorList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ColorItem(
-                  size: style.fontSize,
-                  item: widget.colorList[index],
+          child: Builder(builder: (context) {
+            switch (orientation) {
+              case Orientation.portrait:
+                return SizedBox(
+                  width: double.infinity,
+                  height: style.fontSize,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(1.0),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.colorList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ColorItem(
+                        size: style.fontSize,
+                        item: widget.colorList[index],
+                      );
+                    },
+                  ),
                 );
-              },
-            ),
-          ),
+              case Orientation.landscape:
+                return SizedBox(
+                  width: style.fontSize,
+                  height: double.infinity,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(1.0),
+                    scrollDirection: Axis.vertical,
+                    itemCount: widget.colorList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ColorItem(
+                        size: style.fontSize,
+                        item: widget.colorList[index],
+                      );
+                    },
+                  ),
+                );
+            }
+          }),
         ),
       ),
     );
@@ -254,15 +291,9 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                       children: <Widget>[
                         header,
                         Flexible(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: picker,
-                              ),
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: picker,
                           ),
                         ),
                         if (widget.colorList.isNotEmpty) switcher,
@@ -290,11 +321,18 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         header,
-                        secondaryActions,
                         Flexible(
-                          child: checkboxesGrid,
-                        ),
-                        actions,
+                            child: Container(
+                          child: Column(
+                            children: [
+                              secondaryActions,
+                              Flexible(
+                                child: checkboxesGridLandscape,
+                              ),
+                              actions,
+                            ],
+                          ),
+                        ))
                       ],
                     );
                 }
