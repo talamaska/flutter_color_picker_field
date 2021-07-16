@@ -580,7 +580,8 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     }
 
     if (value.color != null) {
-      if (!_colorListAnimated.contains(value.color!)) {
+      if (!_colorListAnimated.contains(value.color!) &&
+          _colorListAnimated.length < widget.maxColors!) {
         _colorListAnimated.insert(_colorListAnimated.length, value.color!);
       }
     }
