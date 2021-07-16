@@ -11,7 +11,7 @@ import '../models/color_dialog_model.dart';
 import '../models/color_state_model.dart';
 
 const Size colorPickerPortraitDialogSize = Size(330.0, 518.0);
-const Size colorPickerLandscapeDialogSize = Size(496.0, 346.0);
+const Size colorPickerLandscapeDialogSize = Size(556.0, 346.0);
 const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
 
 @immutable
