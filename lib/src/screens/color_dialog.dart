@@ -1,9 +1,13 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../color_picker_field.dart';
+import '../components/lightness_slider/lightness_slider.dart';
+import '../components/color_gradient_widget.dart';
+import '../components/color_item.dart';
+import '../components/hsl_color_picker.dart';
+import '../components/saturation_slider/saturation_slider.dart';
 import '../components/colored_checkbox.dart';
 import '../models/color_dialog_model.dart';
-import '../components/color_picker.dart';
+
 import '../models/color_state_model.dart';
 
 const Size colorPickerPortraitDialogSize = Size(330.0, 518.0);
@@ -13,6 +17,7 @@ const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
 @immutable
 class ColorPickerDialog extends StatefulWidget {
   const ColorPickerDialog({
+    Key? key,
     required this.initialColor,
     required this.colorList,
     this.cancelText,
@@ -22,7 +27,9 @@ class ColorPickerDialog extends StatefulWidget {
     this.titleText,
     this.style,
     this.textDirection = TextDirection.ltr,
-  });
+    this.enableSaturation = false,
+    this.enableLightness = false,
+  }) : super(key: key);
 
   final Color initialColor;
   final String? helpText;
@@ -35,6 +42,32 @@ class ColorPickerDialog extends StatefulWidget {
 
   final List<Color> colorList;
 
+  /// Enable the saturation control for the color value.
+  ///
+  /// Set to true to allow users to control the saturation value of the
+  /// selected color. The displayed Saturation value on the slider goes from 0%,
+  /// which is totally transparent, to 100%, which if fully opaque.
+  ///
+  /// When enabled, the saturation value is not returned as a separate value,
+  /// it is returned in the alpha channel of the returned ARGB color value, in
+  /// the onColor callbacks.
+  ///
+  /// Defaults to false.
+  final bool enableSaturation;
+
+  /// Enable the lightness control for the color value.
+  ///
+  /// Set to true to allow users to control the lightness value of the
+  /// selected color. The displayed lightness value on the slider goes from 0%,
+  /// which is totally transparent, to 100%, which if fully opaque.
+  ///
+  /// When enabled, the lightness value is not returned as a separate value,
+  /// it is returned in the alpha channel of the returned ARGB color value, in
+  /// the onColor callbacks.
+  ///
+  /// Defaults to false.
+  final bool enableLightness;
+
   @override
   ColorPickerDialogState createState() {
     return ColorPickerDialogState();
@@ -43,14 +76,29 @@ class ColorPickerDialog extends StatefulWidget {
 
 class ColorPickerDialogState extends State<ColorPickerDialog> {
   List<ColorState> _colorListState = <ColorState>[];
+  late Color currentColor;
+  late double hue;
+  late double saturation;
+  late double lightness;
+  late HSLColor hslColor;
   bool colorPickerVisible = true;
+  late FocusNode _saturationFocusNode;
+  late FocusNode _lightnessFocusNode;
 
   @override
   void initState() {
     super.initState();
+    _saturationFocusNode = FocusNode();
+    _lightnessFocusNode = FocusNode();
     _colorListState = widget.colorList.map((Color _color) {
       return ColorState(color: _color, selected: true);
     }).toList();
+
+    currentColor = widget.initialColor;
+    hslColor = HSLColor.fromColor(widget.initialColor);
+    hue = hslColor.hue;
+    saturation = hslColor.saturation;
+    lightness = hslColor.lightness;
   }
 
   bool _getColorState(Color color) {
@@ -61,6 +109,12 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     return _colorListState.firstWhere((ColorState _cs) {
       return _cs.color == color;
     }, orElse: () => ColorState(color: color, selected: false)).selected;
+  }
+
+  void _handleOnChange(Color color) {
+    setState(() {
+      currentColor = color;
+    });
   }
 
   void _handleOk(Color? color) {
@@ -76,12 +130,20 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
 
   Size _dialogSize(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
+    final Size size = MediaQuery.of(context).size;
     switch (orientation) {
       case Orientation.portrait:
-        return colorPickerPortraitDialogSize;
+        return size;
       case Orientation.landscape:
-        return colorPickerLandscapeDialogSize;
+        return size;
     }
+  }
+
+  @override
+  void dispose() {
+    _saturationFocusNode.dispose();
+    _lightnessFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -160,9 +222,13 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
       ),
     );
 
-    final Widget picker = ColorPicker(
-      currentColor: widget.initialColor,
+    final Widget picker = HSLColorPicker(
+      currentColor: currentColor,
+      hue: hue,
+      saturation: saturation,
+      lightness: lightness,
       onSave: _handleOk,
+      onChange: _handleOnChange,
     );
 
     final Widget checkboxes = Wrap(
@@ -188,9 +254,95 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
           )
       ],
     );
+    final Widget checkboxesGridLandscape = GridView.count(
+      crossAxisCount: 8,
+      shrinkWrap: false,
+      children: [
+        for (var i = 0; i < widget.colorList.length; i++)
+          ColoredGridCheckbox(
+            color: widget.colorList[i],
+            value: _getColorState(widget.colorList[i]),
+            onChanged: (bool value) {
+              _onColorSeletionChanged(value, widget.colorList[i]);
+            },
+          )
+      ],
+    );
+
+    final Widget saturationSlider = Padding(
+      padding: orientation == Orientation.portrait
+          ? EdgeInsets.symmetric(horizontal: 16.0)
+          : EdgeInsets.symmetric(vertical: 16.0),
+      child: SizedBox(
+        width: orientation == Orientation.portrait ? double.infinity : null,
+        height: orientation == Orientation.landscape ? double.infinity : null,
+        child: RepaintBoundary(
+          child: RotatedBox(
+            quarterTurns: orientation == Orientation.landscape ? -1 : 0,
+            child: SaturationSlider(
+              color: currentColor,
+              saturation: saturation,
+              focusNode: _saturationFocusNode,
+              onChangeStart: (double value) {
+                setState(() {
+                  saturation = value;
+                });
+              },
+              onChanged: (double value) {
+                setState(() {
+                  saturation = value;
+                });
+              },
+              onChangeEnd: (double value) {
+                setState(() {
+                  saturation = value;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final Widget lightnessSlider = Padding(
+      padding: orientation == Orientation.portrait
+          ? EdgeInsets.symmetric(horizontal: 16.0)
+          : EdgeInsets.symmetric(vertical: 16.0),
+      child: SizedBox(
+        width: orientation == Orientation.portrait ? double.infinity : null,
+        height: orientation == Orientation.landscape ? double.infinity : null,
+        child: RepaintBoundary(
+          child: RotatedBox(
+            quarterTurns: orientation == Orientation.landscape ? -1 : 0,
+            child: LightnessSlider(
+              color: currentColor,
+              lightness: lightness,
+              focusNode: _lightnessFocusNode,
+              onChangeStart: (double value) {
+                setState(() {
+                  lightness = value;
+                });
+              },
+              onChanged: (double value) {
+                setState(() {
+                  lightness = value;
+                });
+              },
+              onChangeEnd: (double value) {
+                setState(() {
+                  lightness = value;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+    );
 
     final Widget switcher = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: orientation == Orientation.portrait
+          ? EdgeInsets.symmetric(horizontal: 16.0)
+          : EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Color(0xFFFFFFFF)),
         onPressed: () {
@@ -200,21 +352,42 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
         },
         child: Directionality(
           textDirection: widget.textDirection,
-          child: SizedBox(
-            width: double.infinity,
-            height: style.fontSize,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(1.0),
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.colorList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ColorItem(
-                  size: style.fontSize,
-                  item: widget.colorList[index],
+          child: Builder(builder: (context) {
+            switch (orientation) {
+              case Orientation.portrait:
+                return SizedBox(
+                  width: double.infinity,
+                  height: style.fontSize,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(1.0),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.colorList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ColorItem(
+                        size: style.fontSize,
+                        item: widget.colorList[index],
+                      );
+                    },
+                  ),
                 );
-              },
-            ),
-          ),
+              case Orientation.landscape:
+                return SizedBox(
+                  width: style.fontSize,
+                  height: double.infinity,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(1.0),
+                    scrollDirection: Axis.vertical,
+                    itemCount: widget.colorList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ColorItem(
+                        size: style.fontSize,
+                        item: widget.colorList[index],
+                      );
+                    },
+                  ),
+                );
+            }
+          }),
         ),
       ),
     );
@@ -244,6 +417,10 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                           padding: const EdgeInsets.all(16.0),
                           child: picker,
                         ),
+                        // if(widget.enableSaturation)
+                        saturationSlider,
+                        // if(widget.enableLightness)
+                        lightnessSlider,
                         if (widget.colorList.isNotEmpty) switcher,
                       ],
                     );
@@ -254,17 +431,15 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                       children: <Widget>[
                         header,
                         Flexible(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: picker,
-                              ),
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: picker,
                           ),
                         ),
+                        // if(widget.enableSaturation)
+                        saturationSlider,
+                        // if(widget.enableLightness)
+                        lightnessSlider,
                         if (widget.colorList.isNotEmpty) switcher,
                       ],
                     );
@@ -290,11 +465,19 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         header,
-                        secondaryActions,
                         Flexible(
-                          child: checkboxesGrid,
-                        ),
-                        actions,
+                          child: Container(
+                            child: Column(
+                              children: [
+                                secondaryActions,
+                                Flexible(
+                                  child: checkboxesGridLandscape,
+                                ),
+                                actions,
+                              ],
+                            ),
+                          ),
+                        )
                       ],
                     );
                 }

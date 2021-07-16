@@ -4,8 +4,8 @@ import 'cupertino_home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'home_page.dart';
 
+void main() => runApp(MyMaterialApp());
 // void main() => runApp(MyCupertinoApp());
-void main() => runApp(MyCupertinoApp());
 
 class MyCupertinoApp extends StatelessWidget {
   @override

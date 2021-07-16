@@ -14,7 +14,10 @@ class MaterialHomePage extends StatefulWidget {
 }
 
 class _MaterialHomePageState extends State<MaterialHomePage> {
-  Color defaultColor = Colors.blue;
+  Color defaultColor = HSLColor.fromColor(Colors.blue)
+      .withSaturation(1.0)
+      .withLightness(0.5)
+      .toColor();
   List<Color> _colorList = <Color>[];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController textController = TextEditingController();

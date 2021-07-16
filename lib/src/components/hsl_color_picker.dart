@@ -4,19 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
 import 'color_gradient_widget.dart';
-import '../tools/helpers.dart';
 import 'color_picker_dial.dart';
 import 'turn_gesture_detector.dart';
 import 'hsl_color_knob.dart';
 
-class ColorPicker extends StatelessWidget {
-  const ColorPicker({
+class HSLColorPicker extends StatelessWidget {
+  const HSLColorPicker({
     required this.currentColor,
+    required this.hue,
+    required this.saturation,
+    required this.lightness,
     this.onSave,
     this.onChange,
   });
 
   final Color currentColor;
+  final double hue;
+  final double saturation;
+  final double lightness;
   final ValueChanged<Color>? onSave;
   final ValueChanged<Color>? onChange;
 
@@ -44,8 +49,11 @@ class ColorPicker extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               ColorGradientWidget(),
-              ColorChooser(
+              HSLColorChooser(
                 currentColor: currentColor,
+                hue: hue,
+                saturation: saturation,
+                lightness: lightness,
                 onSave: onSave,
                 onChange: onChange,
               ),
@@ -57,42 +65,63 @@ class ColorPicker extends StatelessWidget {
   }
 }
 
-class ColorChooser extends StatefulWidget {
-  ColorChooser({
+class HSLColorChooser extends StatefulWidget {
+  HSLColorChooser({
     Key? key,
     required this.currentColor,
+    required this.hue,
+    required this.saturation,
+    required this.lightness,
     this.onSave,
     this.onChange,
   }) : super(key: key);
 
   final Color currentColor;
+  final double hue;
+  final double saturation;
+  final double lightness;
   final ValueChanged<Color>? onSave;
   final ValueChanged<Color>? onChange;
 
   @override
-  _ColorChooserState createState() => _ColorChooserState();
+  _HSLColorChooserState createState() => _HSLColorChooserState();
 }
 
-class _ColorChooserState extends State<ColorChooser> {
+class _HSLColorChooserState extends State<HSLColorChooser> {
   late Color _currentColor;
   late double hue;
-  late double saturation;
 
   @override
   void initState() {
     super.initState();
-    _currentColor = widget.currentColor;
-    hue = extractHue(widget.currentColor);
+    hue = widget.hue;
+    _currentColor = HSLColor.fromAHSL(
+      1.0,
+      widget.hue,
+      widget.saturation,
+      widget.lightness,
+    ).toColor();
   }
 
   void confirmColor() {
-    widget.onSave?.call(_currentColor);
+    final Color color = HSLColor.fromAHSL(
+      1.0,
+      hue,
+      widget.saturation,
+      widget.lightness,
+    ).toColor();
+    widget.onSave?.call(color);
   }
 
   void _onHueSelected(double newHue) {
     setState(() {
       hue = newHue;
-      _currentColor = HSLColor.fromAHSL(1.0, newHue, 1.0, 0.5).toColor();
+      _currentColor = HSLColor.fromAHSL(
+        1.0,
+        newHue,
+        widget.saturation,
+        widget.lightness,
+      ).toColor();
       widget.onChange?.call(_currentColor);
     });
   }
@@ -115,8 +144,8 @@ class _ColorChooserState extends State<ColorChooser> {
             ),
             HSLColorKnob(
               hue: hue,
-              saturation: 1.0,
-              lightness: 0.5,
+              saturation: widget.saturation,
+              lightness: widget.lightness,
               ratio: 0.75,
               saveColor: confirmColor,
             ),
