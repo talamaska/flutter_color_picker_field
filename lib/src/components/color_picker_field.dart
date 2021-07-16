@@ -580,9 +580,14 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     }
 
     if (value.color != null) {
-      if (!_colorListAnimated.contains(value.color!) &&
-          _colorListAnimated.length < widget.maxColors!) {
-        _colorListAnimated.insert(_colorListAnimated.length, value.color!);
+      if (!_colorListAnimated.contains(value.color!)) {
+        if (widget.maxColors == null) {
+          _colorListAnimated.insert(_colorListAnimated.length, value.color!);
+        } else {
+          if (_colorListAnimated.length < widget.maxColors!) {
+            _colorListAnimated.insert(_colorListAnimated.length, value.color!);
+          }
+        }
       }
     }
 
