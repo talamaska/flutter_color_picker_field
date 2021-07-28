@@ -163,6 +163,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       print('form is valid');
+                      _formKey.currentState?.save();
                     }
                   },
                 ),

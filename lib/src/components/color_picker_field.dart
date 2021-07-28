@@ -294,6 +294,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
       _createLocalController();
     }
     _effectiveFocusNode.canRequestFocus = _isEnabled;
+
     _effectiveController.addListener(_handleOnChange);
     _colorListAnimated = AnimatedListModel<Color>(
       listKey: _listKey,
