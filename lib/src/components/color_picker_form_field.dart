@@ -26,9 +26,12 @@ class ColorPickerFormField extends FormField<List<Color>> {
     this.onChanged,
     required this.defaultColor,
     this.controller,
+    this.enableLightness = false,
+    this.enableSaturation = false,
   })  : assert(initialValue == null || controller == null),
         assert(maxColors == null || maxColors > 0),
         super(
+            key: key,
             onSaved: onSaved,
             validator: validator,
             initialValue: controller != null
@@ -40,7 +43,7 @@ class ColorPickerFormField extends FormField<List<Color>> {
               final _ColorPickerFormFieldState state =
                   field as _ColorPickerFormFieldState;
               final InputDecoration effectiveDecoration = (decoration ??
-                      InputDecoration())
+                      const InputDecoration())
                   .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
               void onChangedHandler(List<Color> value) {
@@ -70,8 +73,28 @@ class ColorPickerFormField extends FormField<List<Color>> {
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,
                 ),
+                enableLightness: enableLightness,
+                enableSaturation: enableSaturation,
               );
             });
+
+  /// Enable the saturation control for the color value.
+  ///
+  /// Set to true to allow users to control the saturation value of the
+  /// selected color. The displayed Saturation value on the slider goes from 0%,
+  /// which is totally unsaturated, to 100%, which if fully saturated.
+  ///
+  /// Defaults to false.
+  final bool enableSaturation;
+
+  /// Enable the lightness control for the color value.
+  ///
+  /// Set to true to allow users to control the lightness value of the
+  /// selected color. The displayed lightness value on the slider goes from 0%,
+  /// which is totally black, to 100%, which if fully white.
+  ///
+  /// Defaults to false.
+  final bool enableLightness;
 
   final ValueChanged<List<Color>>? onChanged;
   final Color defaultColor;
@@ -107,9 +130,10 @@ class _ColorPickerFormFieldState extends FormFieldState<List<Color>> {
       oldWidget.controller?.removeListener(_handleControllerChanged);
       widget.controller?.addListener(_handleControllerChanged);
 
-      if (oldWidget.controller != null && widget.controller == null)
+      if (oldWidget.controller != null && widget.controller == null) {
         _controller =
             ColorPickerFieldController.fromValue(oldWidget.controller!.value);
+      }
       if (widget.controller != null) {
         setValue(widget.controller!.value.colors);
         if (oldWidget.controller == null) _controller = null;
@@ -127,10 +151,11 @@ class _ColorPickerFormFieldState extends FormFieldState<List<Color>> {
   void didChange(List<Color>? value) {
     super.didChange(value);
 
-    if (_effectiveController!.value.colors != value)
+    if (_effectiveController!.value.colors != value) {
       _effectiveController!.value = value != null
           ? ColorEditingValue(colors: value)
           : ColorEditingValue.empty;
+    }
   }
 
   @override
@@ -151,7 +176,8 @@ class _ColorPickerFormFieldState extends FormFieldState<List<Color>> {
     // notifications for changes originating from within this class -- for
     // example, the reset() method. In such cases, the FormField value will
     // already have been set.
-    if (_effectiveController!.colors != value)
+    if (_effectiveController!.colors != value) {
       didChange(_effectiveController!.colors);
+    }
   }
 }

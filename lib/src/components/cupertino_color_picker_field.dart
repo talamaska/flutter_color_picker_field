@@ -81,6 +81,8 @@ class CupertinoColorPickerField extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.placeholderStyle = _kDefaultPlaceholderStyle,
     this.clearButtonMode = ClearButtonVisibilityMode.never,
+    this.enableLightness = false,
+    this.enableSaturation = false,
   }) : super(key: key);
 
   const CupertinoColorPickerField.borderless({
@@ -105,6 +107,8 @@ class CupertinoColorPickerField extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.placeholderStyle = _kDefaultPlaceholderStyle,
     this.clearButtonMode = ClearButtonVisibilityMode.never,
+    this.enableLightness = false,
+    this.enableSaturation = false,
   });
 
   final FocusNode? focusNode;
@@ -205,6 +209,24 @@ class CupertinoColorPickerField extends StatefulWidget {
   ///  * [RestorationManager], which explains how state restoration works in
   ///    Flutter.
   final String? restorationId;
+
+  /// Enable the saturation control for the color value.
+  ///
+  /// Set to true to allow users to control the saturation value of the
+  /// selected color. The displayed Saturation value on the slider goes from 0%,
+  /// which is totally unsaturated, to 100%, which if fully saturated.
+  ///
+  /// Defaults to false.
+  final bool enableSaturation;
+
+  /// Enable the lightness control for the color value.
+  ///
+  /// Set to true to allow users to control the lightness value of the
+  /// selected color. The displayed lightness value on the slider goes from 0%,
+  /// which is totally black, to 100%, which if fully white.
+  ///
+  /// Defaults to false.
+  final bool enableLightness;
 
   @override
   _CupertinoColorPickerFieldState createState() =>
@@ -325,7 +347,7 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
     super.dispose();
   }
 
-  get isEmpty => _colorListAnimated.isNotEmpty;
+  bool get isEmpty => _colorListAnimated.isNotEmpty;
 
   @override
   bool get wantKeepAlive => _controller?.value.colors.isNotEmpty == true;
@@ -590,7 +612,10 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
           : () {
               _handleFocus();
               _openAddEntryDialog(
-                  controller, textDirection, effectiveDecoration);
+                controller,
+                textDirection,
+                effectiveDecoration,
+              );
             },
       child: IgnorePointer(
         ignoring: !enabled,
@@ -632,6 +657,8 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
           colorList: _colorListAnimated.items,
           textDirection: textDirection,
           decoration: decoration,
+          enableLightness: widget.enableLightness,
+          enableSaturation: widget.enableSaturation,
         );
       },
     );

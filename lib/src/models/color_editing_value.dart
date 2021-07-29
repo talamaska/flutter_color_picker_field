@@ -12,21 +12,23 @@ class ColorEditingValue {
   final List<Color> colors;
 
   Map<String, dynamic> toMap() {
-    return {
-      'colors': colors.map((x) => x.value).toList(),
+    return <String, dynamic>{
+      'colors': colors.map((Color x) => x.value).toList(),
     };
   }
 
   factory ColorEditingValue.fromMap(Map<String, dynamic> map) {
+    final List<Color> colorsList = (map['colors'] as List<int>)
+        .map<Color>((int x) => Color(x)) as List<Color>;
     return ColorEditingValue(
-      colors: List<Color>.from(map['colors']?.map((x) => Color(x))),
+      colors: List<Color>.from(colorsList),
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory ColorEditingValue.fromJson(String source) =>
-      ColorEditingValue.fromMap(json.decode(source));
+      ColorEditingValue.fromMap(json.decode(source) as Map<String, dynamic>);
 
   static const ColorEditingValue empty = ColorEditingValue();
 

@@ -22,7 +22,7 @@ class ColorState {
   }
 
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'color': color.value,
       'selected': selected,
     };
@@ -30,15 +30,15 @@ class ColorState {
 
   factory ColorState.fromMap(Map<String, dynamic> map) {
     return ColorState(
-      color: Color(map['color']),
-      selected: map['selected'],
+      color: Color(map['color'] as int),
+      selected: map['selected'] as bool,
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory ColorState.fromJson(String source) =>
-      ColorState.fromMap(json.decode(source));
+      ColorState.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'ColorState(color: $color, selected: $selected)';
