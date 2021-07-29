@@ -39,3 +39,16 @@ export 'src/components/editable_color_picker_field.dart'
     show EditableColorPickerField;
 export 'src/components/turn_gesture_detector.dart' show TurnGestureDetector;
 export 'src/tools/helpers.dart' show extractHue;
+export 'src/components/lightness_slider/lightness_slider.dart'
+    show LightnessSlider;
+export 'src/components/lightness_slider/lightness_slider_thumb.dart'
+    show LightnessSliderThumb;
+export 'src/components/lightness_slider/lightness_slider_track.dart'
+    show LightnessSliderTrack;
+
+export 'src/components/saturation_slider/saturation_slider.dart'
+    show SaturationSlider;
+export 'src/components/saturation_slider/saturation_slider_thumb.dart'
+    show SaturationSliderThumb;
+export 'src/components/saturation_slider/saturation_slider_track.dart'
+    show SaturationSliderTrack;

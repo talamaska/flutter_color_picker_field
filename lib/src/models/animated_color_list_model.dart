@@ -23,7 +23,7 @@ class AnimatedListModel<E> {
     _items.insert(index, item);
     _animatedList!.insertItem(
       index,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
   }
 
@@ -33,9 +33,9 @@ class AnimatedListModel<E> {
       _animatedList!.removeItem(
         index,
         (BuildContext context, Animation<double> animation) {
-          return removedItemBuilder(context, removedItem, animation);
+          return removedItemBuilder(context, removedItem, animation) as Widget;
         },
-        duration: Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 600),
       );
     }
     return removedItem;
@@ -43,14 +43,14 @@ class AnimatedListModel<E> {
 
   void clear() {
     final int count = _items.length;
-    for (var index = 0; index < count; index++) {
+    for (int index = 0; index < count; index++) {
       final E removedItem = _items.removeAt(0);
       _animatedList!.removeItem(
         0,
         (BuildContext context, Animation<double> animation) {
-          return removedItemBuilder(context, removedItem, animation);
+          return removedItemBuilder(context, removedItem, animation) as Widget;
         },
-        duration: Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 600),
       );
     }
   }
