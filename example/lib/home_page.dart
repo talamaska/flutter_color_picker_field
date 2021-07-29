@@ -100,8 +100,34 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxColors: 3,
                   decoration: InputDecoration(
-                    labelText: 'Colors',
-                    helperText: 'test',
+                    labelText: 'Colors ',
+                    helperText: 'helper Text',
+                  ),
+                  validator: (List<Color>? value) {
+                    if (value!.isEmpty) {
+                      return 'a minimum of 1 color is required';
+                    }
+                    return null;
+                  },
+                  onChanged: _onChanged,
+                  onSaved: _onSaved,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: ColorPickerFormField(
+                  initialValue: _colorList,
+                  defaultColor: defaultColor,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxColors: 3,
+                  enableLightness: true,
+                  enableSaturation: true,
+                  decoration: InputDecoration(
+                    labelText: 'Colors with saturation and lightness',
+                    helperText: 'helper Text',
                   ),
                   validator: (List<Color>? value) {
                     if (value!.isEmpty) {

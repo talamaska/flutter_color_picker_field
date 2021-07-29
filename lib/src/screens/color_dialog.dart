@@ -10,8 +10,6 @@ import '../models/color_dialog_model.dart';
 
 import '../models/color_state_model.dart';
 
-const Size colorPickerPortraitDialogSize = Size(330.0, 518.0);
-const Size colorPickerLandscapeDialogSize = Size(556.0, 346.0);
 const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
 
 @immutable
@@ -46,11 +44,7 @@ class ColorPickerDialog extends StatefulWidget {
   ///
   /// Set to true to allow users to control the saturation value of the
   /// selected color. The displayed Saturation value on the slider goes from 0%,
-  /// which is totally transparent, to 100%, which if fully opaque.
-  ///
-  /// When enabled, the saturation value is not returned as a separate value,
-  /// it is returned in the alpha channel of the returned ARGB color value, in
-  /// the onColor callbacks.
+  /// which is totally unsaturated, to 100%, which if fully saturated.
   ///
   /// Defaults to false.
   final bool enableSaturation;
@@ -59,11 +53,7 @@ class ColorPickerDialog extends StatefulWidget {
   ///
   /// Set to true to allow users to control the lightness value of the
   /// selected color. The displayed lightness value on the slider goes from 0%,
-  /// which is totally transparent, to 100%, which if fully opaque.
-  ///
-  /// When enabled, the lightness value is not returned as a separate value,
-  /// it is returned in the alpha channel of the returned ARGB color value, in
-  /// the onColor callbacks.
+  /// which is totally black, to 100%, which if fully white.
   ///
   /// Defaults to false.
   final bool enableLightness;
@@ -90,6 +80,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     super.initState();
     _saturationFocusNode = FocusNode();
     _lightnessFocusNode = FocusNode();
+
     _colorListState = widget.colorList.map((Color _color) {
       return ColorState(color: _color, selected: true);
     }).toList();
@@ -210,7 +201,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
             width: 20,
             height: 20,
             child: InkWell(
-              child: ColorGradientWidget(),
+              child: const ColorGradientWidget(),
               onTap: () {
                 setState(() {
                   colorPickerVisible = true;
@@ -244,8 +235,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final Widget checkboxesGrid = GridView.count(
       crossAxisCount: 4,
       shrinkWrap: false,
-      children: [
-        for (var i = 0; i < widget.colorList.length; i++)
+      children: <Widget>[
+        for (int i = 0; i < widget.colorList.length; i++)
           ColoredGridCheckbox(
             color: widget.colorList[i],
             value: _getColorState(widget.colorList[i]),
@@ -255,11 +246,12 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
           )
       ],
     );
+
     final Widget checkboxesGridLandscape = GridView.count(
       crossAxisCount: 8,
       shrinkWrap: false,
-      children: [
-        for (var i = 0; i < widget.colorList.length; i++)
+      children: <Widget>[
+        for (int i = 0; i < widget.colorList.length; i++)
           ColoredGridCheckbox(
             color: widget.colorList[i],
             value: _getColorState(widget.colorList[i]),
@@ -272,8 +264,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
 
     final Widget saturationSlider = Padding(
       padding: orientation == Orientation.portrait
-          ? EdgeInsets.symmetric(horizontal: 16.0)
-          : EdgeInsets.symmetric(vertical: 16.0),
+          ? const EdgeInsets.symmetric(horizontal: 16.0)
+          : const EdgeInsets.symmetric(vertical: 16.0),
       child: SizedBox(
         width: orientation == Orientation.portrait ? double.infinity : null,
         height: orientation == Orientation.landscape ? double.infinity : null,
@@ -307,8 +299,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
 
     final Widget lightnessSlider = Padding(
       padding: orientation == Orientation.portrait
-          ? EdgeInsets.symmetric(horizontal: 16.0)
-          : EdgeInsets.symmetric(vertical: 16.0),
+          ? const EdgeInsets.symmetric(horizontal: 16.0)
+          : const EdgeInsets.symmetric(vertical: 16.0),
       child: SizedBox(
         width: orientation == Orientation.portrait ? double.infinity : null,
         height: orientation == Orientation.landscape ? double.infinity : null,
@@ -342,10 +334,10 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
 
     final Widget switcher = Padding(
       padding: orientation == Orientation.portrait
-          ? EdgeInsets.symmetric(horizontal: 16.0)
-          : EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
+          ? const EdgeInsets.symmetric(horizontal: 16.0)
+          : const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: Color(0xFFFFFFFF)),
+        style: ElevatedButton.styleFrom(primary: const Color(0xFFFFFFFF)),
         onPressed: () {
           setState(() {
             colorPickerVisible = false;
@@ -353,7 +345,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
         },
         child: Directionality(
           textDirection: widget.textDirection,
-          child: Builder(builder: (context) {
+          child: Builder(builder: (BuildContext context) {
             switch (orientation) {
               case Orientation.portrait:
                 return SizedBox(
@@ -418,10 +410,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                           padding: const EdgeInsets.all(16.0),
                           child: picker,
                         ),
-                        // if(widget.enableSaturation)
-                        saturationSlider,
-                        // if(widget.enableLightness)
-                        lightnessSlider,
+                        if (widget.enableSaturation) saturationSlider,
+                        if (widget.enableLightness) lightnessSlider,
                         if (widget.colorList.isNotEmpty) switcher,
                       ],
                     );
@@ -437,10 +427,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                             child: picker,
                           ),
                         ),
-                        // if(widget.enableSaturation)
-                        saturationSlider,
-                        // if(widget.enableLightness)
-                        lightnessSlider,
+                        if (widget.enableSaturation) saturationSlider,
+                        if (widget.enableLightness) lightnessSlider,
                         if (widget.colorList.isNotEmpty) switcher,
                       ],
                     );
@@ -467,16 +455,14 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                       children: <Widget>[
                         header,
                         Flexible(
-                          child: Container(
-                            child: Column(
-                              children: [
-                                secondaryActions,
-                                Flexible(
-                                  child: checkboxesGridLandscape,
-                                ),
-                                actions,
-                              ],
-                            ),
+                          child: Column(
+                            children: <Widget>[
+                              secondaryActions,
+                              Flexible(
+                                child: checkboxesGridLandscape,
+                              ),
+                              actions,
+                            ],
                           ),
                         )
                       ],
@@ -515,7 +501,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
       (Color color) {
         return ColoredCheckbox(
           color: color,
-          size: Size(24.0, 24.0),
+          size: const Size(24.0, 24.0),
           value: _getColorState(color),
           onChanged: (bool value) {
             _onColorSeletionChanged(value, color);

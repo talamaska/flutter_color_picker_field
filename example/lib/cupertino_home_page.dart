@@ -93,6 +93,35 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                 child: CupertinoColorPickerField(
+                  placeholder:
+                      'CupertinoColorPickerField with saturation and lightness',
+                  colors: _colorList,
+                  defaultColor: defaultColor,
+                  onChanged: _onChanged,
+                  clearButtonMode: ClearButtonVisibilityMode.always,
+                  enableLightness: true,
+                  enableSaturation: true,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: CupertinoColorPickerField(
+                  placeholder: 'CupertinoColorPickerField',
+                  colors: _colorList,
+                  defaultColor: defaultColor,
+                  onChanged: _onChanged,
+                  clearButtonMode: ClearButtonVisibilityMode.always,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: CupertinoColorPickerField(
                   placeholder: 'CupertinoColorPickerField reversed',
                   colors: _colorList,
                   defaultColor: defaultColor,

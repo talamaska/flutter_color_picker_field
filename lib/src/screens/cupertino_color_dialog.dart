@@ -1,14 +1,18 @@
 import 'dart:math' as math;
+import '../components/hsl_color_picker.dart';
+import '../components/lightness_slider/lightness_slider.dart';
+import '../components/saturation_slider/saturation_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../color_picker_field.dart';
 import '../components/colored_checkbox.dart';
 import '../models/color_dialog_model.dart';
-import '../components/color_picker.dart';
 import '../models/color_state_model.dart';
 import 'color_dialog.dart';
 
+const Size colorPickerPortraitDialogSize = Size(330.0, 518.0);
+const Size colorPickerLandscapeDialogSize = Size(556.0, 346.0);
 // final CupertinoThemeData themeData = CupertinoTheme.of(context);
 
 //     final TextStyle? resolvedStyle = widget.style?.copyWith(
@@ -22,6 +26,7 @@ import 'color_dialog.dart';
 @immutable
 class CupertinoColorPickerDialog extends StatefulWidget {
   const CupertinoColorPickerDialog({
+    Key? key,
     required this.initialColor,
     required this.colorList,
     this.cancelText,
@@ -32,7 +37,27 @@ class CupertinoColorPickerDialog extends StatefulWidget {
     this.style,
     this.textDirection = TextDirection.ltr,
     this.decoration,
-  });
+    this.enableSaturation = false,
+    this.enableLightness = false,
+  }) : super(key: key);
+
+  /// Enable the saturation control for the color value.
+  ///
+  /// Set to true to allow users to control the saturation value of the
+  /// selected color. The displayed Saturation value on the slider goes from 0%,
+  /// which is totally unsaturated, to 100%, which if fully saturated.
+  ///
+  /// Defaults to false.
+  final bool enableSaturation;
+
+  /// Enable the lightness control for the color value.
+  ///
+  /// Set to true to allow users to control the lightness value of the
+  /// selected color. The displayed lightness value on the slider goes from 0%,
+  /// which is totally black, to 100%, which if fully white.
+  ///
+  /// Defaults to false.
+  final bool enableLightness;
 
   final Color initialColor;
   final String? helpText;
@@ -55,14 +80,30 @@ class CupertinoColorPickerDialog extends StatefulWidget {
 class CupertinoColorPickerDialogState
     extends State<CupertinoColorPickerDialog> {
   List<ColorState> _colorListState = <ColorState>[];
+  late Color currentColor;
+  late double hue;
+  late double saturation;
+  late double lightness;
+  late HSLColor hslColor;
   bool colorPickerVisible = true;
+  late FocusNode _saturationFocusNode;
+  late FocusNode _lightnessFocusNode;
 
   @override
   void initState() {
     super.initState();
+    _saturationFocusNode = FocusNode();
+    _lightnessFocusNode = FocusNode();
+
     _colorListState = widget.colorList.map((Color _color) {
       return ColorState(color: _color, selected: true);
     }).toList();
+
+    currentColor = widget.initialColor;
+    hslColor = HSLColor.fromColor(widget.initialColor);
+    hue = hslColor.hue;
+    saturation = hslColor.saturation;
+    lightness = hslColor.lightness;
   }
 
   bool _getColorState(Color color) {
@@ -73,6 +114,12 @@ class CupertinoColorPickerDialogState
     return _colorListState.firstWhere((ColorState _cs) {
       return _cs.color == color;
     }, orElse: () => ColorState(color: color, selected: false)).selected;
+  }
+
+  void _handleOnChange(Color color) {
+    setState(() {
+      currentColor = color;
+    });
   }
 
   void _handleOk(Color? color) {
@@ -87,13 +134,22 @@ class CupertinoColorPickerDialogState
   }
 
   Size _dialogSize(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
     final Orientation orientation = MediaQuery.of(context).orientation;
+    final Size size = MediaQuery.of(context).size;
     switch (orientation) {
       case Orientation.portrait:
-        return colorPickerPortraitDialogSize;
+        return Size(size.width, size.height - statusBarHeight);
       case Orientation.landscape:
-        return colorPickerLandscapeDialogSize;
+        return Size(size.width, size.height - statusBarHeight);
     }
+  }
+
+  @override
+  void dispose() {
+    _saturationFocusNode.dispose();
+    _lightnessFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -161,7 +217,7 @@ class CupertinoColorPickerDialogState
             width: 20,
             height: 20,
             child: InkWell(
-              child: ColorGradientWidget(),
+              child: const ColorGradientWidget(),
               onTap: () {
                 setState(() {
                   colorPickerVisible = true;
@@ -173,9 +229,13 @@ class CupertinoColorPickerDialogState
       ),
     );
 
-    final Widget picker = ColorPicker(
-      currentColor: widget.initialColor,
+    final Widget picker = HSLColorPicker(
+      currentColor: currentColor,
+      hue: hue,
+      saturation: saturation,
+      lightness: lightness,
       onSave: _handleOk,
+      onChange: _handleOnChange,
     );
 
     final Widget checkboxes = Wrap(
@@ -202,6 +262,76 @@ class CupertinoColorPickerDialogState
       ],
     );
 
+    final Widget saturationSlider = Padding(
+      padding: orientation == Orientation.portrait
+          ? const EdgeInsets.symmetric(horizontal: 16.0)
+          : const EdgeInsets.symmetric(vertical: 16.0),
+      child: SizedBox(
+        width: orientation == Orientation.portrait ? double.infinity : null,
+        height: orientation == Orientation.landscape ? double.infinity : null,
+        child: RepaintBoundary(
+          child: RotatedBox(
+            quarterTurns: orientation == Orientation.landscape ? -1 : 0,
+            child: SaturationSlider(
+              color: currentColor,
+              saturation: saturation,
+              focusNode: _saturationFocusNode,
+              onChangeStart: (double value) {
+                setState(() {
+                  saturation = value;
+                });
+              },
+              onChanged: (double value) {
+                setState(() {
+                  saturation = value;
+                });
+              },
+              onChangeEnd: (double value) {
+                setState(() {
+                  saturation = value;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final Widget lightnessSlider = Padding(
+      padding: orientation == Orientation.portrait
+          ? const EdgeInsets.symmetric(horizontal: 16.0)
+          : const EdgeInsets.symmetric(vertical: 16.0),
+      child: SizedBox(
+        width: orientation == Orientation.portrait ? double.infinity : null,
+        height: orientation == Orientation.landscape ? double.infinity : null,
+        child: RepaintBoundary(
+          child: RotatedBox(
+            quarterTurns: orientation == Orientation.landscape ? -1 : 0,
+            child: LightnessSlider(
+              color: currentColor,
+              lightness: lightness,
+              focusNode: _lightnessFocusNode,
+              onChangeStart: (double value) {
+                setState(() {
+                  lightness = value;
+                });
+              },
+              onChanged: (double value) {
+                setState(() {
+                  lightness = value;
+                });
+              },
+              onChangeEnd: (double value) {
+                setState(() {
+                  lightness = value;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
     final Widget switcher = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GestureDetector(
@@ -212,7 +342,7 @@ class CupertinoColorPickerDialogState
         },
         child: Container(
           decoration: widget.decoration,
-          padding: EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(6.0),
           child: Directionality(
             textDirection: widget.textDirection,
             child: SizedBox(
@@ -260,6 +390,8 @@ class CupertinoColorPickerDialogState
                           padding: const EdgeInsets.all(16.0),
                           child: picker,
                         ),
+                        if (widget.enableSaturation) saturationSlider,
+                        if (widget.enableLightness) lightnessSlider,
                         if (widget.colorList.isNotEmpty) switcher,
                       ],
                     );
@@ -281,6 +413,8 @@ class CupertinoColorPickerDialogState
                             ],
                           ),
                         ),
+                        if (widget.enableSaturation) saturationSlider,
+                        if (widget.enableLightness) lightnessSlider,
                         if (widget.colorList.isNotEmpty) switcher,
                       ],
                     );

@@ -35,6 +35,8 @@ class ColorPickerField extends StatefulWidget {
     this.mouseCursor,
     this.restorationId,
     this.buildCounter,
+    this.enableLightness = false,
+    this.enableSaturation = false,
   }) : super(key: key);
 
   final FocusNode? focusNode;
@@ -81,6 +83,24 @@ class ColorPickerField extends StatefulWidget {
   ///
   /// If null, this widget will create its own [ColorPickerFieldController].
   final ColorPickerFieldController? controller;
+
+  /// Enable the saturation control for the color value.
+  ///
+  /// Set to true to allow users to control the saturation value of the
+  /// selected color. The displayed Saturation value on the slider goes from 0%,
+  /// which is totally unsaturated, to 100%, which if fully saturated.
+  ///
+  /// Defaults to false.
+  final bool enableSaturation;
+
+  /// Enable the lightness control for the color value.
+  ///
+  /// Set to true to allow users to control the lightness value of the
+  /// selected color. The displayed lightness value on the slider goes from 0%,
+  /// which is totally black, to 100%, which if fully white.
+  ///
+  /// Defaults to false.
+  final bool enableLightness;
 
   /// The cursor for a mouse pointer when it enters or is hovering over the
   /// widget.
@@ -303,7 +323,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     );
   }
 
-  _handleOnChange() {
+  void _handleOnChange() {
     widget.onChanged?.call(_colorListAnimated.items);
   }
 
@@ -417,7 +437,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     );
   }
 
-  get isEmpty => _colorListAnimated.isNotEmpty;
+  bool get isEmpty => _colorListAnimated.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -546,6 +566,8 @@ class _ColorPickerFieldState extends State<ColorPickerField>
           initialColor: widget.defaultColor,
           colorList: _colorListAnimated.items,
           textDirection: textDirection,
+          enableLightness: widget.enableLightness,
+          enableSaturation: widget.enableSaturation,
         );
       },
     );

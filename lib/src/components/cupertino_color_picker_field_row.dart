@@ -158,6 +158,8 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
       fontWeight: FontWeight.w400,
       color: CupertinoColors.placeholderText,
     ),
+    this.enableLightness = false,
+    this.enableSaturation = false,
   })  : assert(initialValue == null || controller == null),
         super(
           key: key,
@@ -196,6 +198,8 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
                 placeholder: placeholder,
                 placeholderStyle: placeholderStyle,
                 colorListReversed: colorListReversed,
+                enableLightness: enableLightness,
+                enableSaturation: enableSaturation,
               ),
             );
           },
@@ -225,6 +229,24 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
   final ColorPickerFieldController? controller;
 
   final Color defaultColor;
+
+  /// Enable the saturation control for the color value.
+  ///
+  /// Set to true to allow users to control the saturation value of the
+  /// selected color. The displayed Saturation value on the slider goes from 0%,
+  /// which is totally unsaturated, to 100%, which if fully saturated.
+  ///
+  /// Defaults to false.
+  final bool enableSaturation;
+
+  /// Enable the lightness control for the color value.
+  ///
+  /// Set to true to allow users to control the lightness value of the
+  /// selected color. The displayed lightness value on the slider goes from 0%,
+  /// which is totally black, to 100%, which if fully white.
+  ///
+  /// Defaults to false.
+  final bool enableLightness;
 
   @override
   _CupertinoColorPickerFormFieldRowState createState() =>
