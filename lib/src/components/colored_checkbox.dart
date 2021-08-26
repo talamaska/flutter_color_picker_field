@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import '../tools/helpers.dart';
 
 class ColoredCheckbox extends StatefulWidget {
   const ColoredCheckbox({
+    Key? key,
+    this.size,
     required this.color,
     this.value = false,
     this.onChanged,
-    this.size,
-  });
+  }) : super(key: key);
 
   final Size? size;
   final Color color;
@@ -60,12 +62,12 @@ class _ColoredCheckboxState extends State<ColoredCheckbox> {
             )
           ],
           shape: BoxShape.circle,
-          color: widget.value! ? widget.color : Color(0xFFFFFFFF),
+          color: widget.value! ? widget.color : const Color(0xFFFFFFFF),
         ),
         child: Center(
           child: Icon(
             checkboxIcon,
-            color: Color(0xFFFFFFFF),
+            color: const Color(0xFFFFFFFF),
             size: size.width * 0.8,
           ),
         ),

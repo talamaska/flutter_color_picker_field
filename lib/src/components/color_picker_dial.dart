@@ -1,13 +1,14 @@
-import 'package:vector_math/vector_math.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vector_math/vector_math.dart';
 
 class ColorPickerDial extends StatefulWidget {
   const ColorPickerDial({
+    Key? key,
     required this.hue,
     required this.ratio,
     required this.dialRatio,
     required this.color,
-  });
+  }) : super(key: key);
 
   final double hue;
   final double ratio;

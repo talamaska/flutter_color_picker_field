@@ -5,18 +5,19 @@ import 'package:flutter/widgets.dart';
 
 import 'color_gradient_widget.dart';
 import 'color_picker_dial.dart';
-import 'turn_gesture_detector.dart';
 import 'hsl_color_knob.dart';
+import 'turn_gesture_detector.dart';
 
 class HSLColorPicker extends StatelessWidget {
   const HSLColorPicker({
+    Key? key,
     required this.currentColor,
     required this.hue,
     required this.saturation,
     required this.lightness,
     this.onSave,
     this.onChange,
-  });
+  }) : super(key: key);
 
   final Color currentColor;
   final double hue;

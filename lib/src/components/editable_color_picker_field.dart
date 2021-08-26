@@ -5,7 +5,7 @@ import '../components/color_picker_controllers.dart';
 import '../models/animated_color_list_model.dart';
 
 class EditableColorPickerField extends StatefulWidget {
-  EditableColorPickerField({
+  const EditableColorPickerField({
     Key? key,
     required this.style,
     required this.listKey,

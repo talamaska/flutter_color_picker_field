@@ -4,12 +4,13 @@ import 'color_ripple.dart';
 
 class HSLColorKnob extends StatefulWidget {
   const HSLColorKnob({
+    Key? key,
     required this.hue,
     required this.saturation,
     required this.lightness,
     required this.ratio,
     this.saveColor,
-  });
+  }) : super(key: key);
 
   final double hue;
   final double saturation;

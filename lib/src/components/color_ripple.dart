@@ -3,8 +3,12 @@
 import 'package:flutter/widgets.dart';
 
 class ColorRipple extends StatelessWidget {
-  ColorRipple({required this.controller, this.color, this.size})
-      : scaleUpAnimation = Tween<double>(begin: 0.8, end: 5.0).animate(
+  ColorRipple({
+    Key? key,
+    required this.controller,
+    this.color,
+    this.size,
+  })  : scaleUpAnimation = Tween<double>(begin: 0.8, end: 5.0).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
@@ -29,7 +33,8 @@ class ColorRipple extends StatelessWidget {
             parent: controller,
             curve: const Interval(0.0, 0.2, curve: Curves.easeOut),
           ),
-        );
+        ),
+        super(key: key);
 
   final AnimationController controller;
   final Animation<double> scaleUpAnimation;

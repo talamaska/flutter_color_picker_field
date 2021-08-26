@@ -2,14 +2,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import '../components/color_ripple.dart';
 
 class ColorKnob extends StatefulWidget {
   const ColorKnob({
+    Key? key,
     required this.color,
     required this.ratio,
     this.saveColor,
-  });
+  }) : super(key: key);
 
   final Color color;
   final double ratio;

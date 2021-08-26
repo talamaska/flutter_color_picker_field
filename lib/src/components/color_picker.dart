@@ -3,18 +3,19 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
-import 'color_gradient_widget.dart';
 import '../tools/helpers.dart';
+import 'color_gradient_widget.dart';
 import 'color_knob.dart';
 import 'color_picker_dial.dart';
 import 'turn_gesture_detector.dart';
 
 class ColorPicker extends StatelessWidget {
   const ColorPicker({
+    Key? key,
     required this.currentColor,
     this.onSave,
     this.onChange,
-  });
+  }) : super(key: key);
 
   final Color currentColor;
   final ValueChanged<Color>? onSave;
