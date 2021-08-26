@@ -304,10 +304,13 @@ class _CupertinoColorPickerFormFieldRowState
   @override
   void didChange(List<Color>? value) {
     super.didChange(value);
-    if (_effectiveController!.value.colors != value)
-      _effectiveController!.value = value != null
-          ? ColorEditingValue(colors: value)
-          : ColorEditingValue.empty;
+    if (_effectiveController!.value.colors != value) {
+      if (value != null) {
+        _effectiveController!.value = ColorEditingValue(colors: value);
+      } else {
+        _effectiveController!.value = ColorEditingValue.empty;
+      }
+    }
   }
 
   @override
@@ -326,7 +329,8 @@ class _CupertinoColorPickerFormFieldRowState
     // notifications for changes originating from within this class -- for
     // example, the reset() method. In such cases, the FormField value will
     // already have been set.
-    if (_effectiveController!.colors != value)
+    if (_effectiveController!.colors != value) {
       didChange(_effectiveController!.colors);
+    }
   }
 }
