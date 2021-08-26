@@ -1,22 +1,23 @@
-# color_picker_field
+# Color Picker Field
 
-Color Picker Field
+[![Pub](https://img.shields.io/pub/v/color_picker_field)](https://pub.dev/packages/color_picker_field)
 
 Color Picker field for Material and Cupertino, including a Radial Color picker(Hue based)
-## Getting Started
 
-* Install from pub.dev
-```
-flutter pub color_picker_field
-```
+## Material
+| Material Fields | Color wheel | Remove colors | Saturation and Lightness |
+|------------------------------|--------------------------------|--------------------------------|--------------------------------|
+|<img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_fields.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker1.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker2.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker3.png?raw=true" width="200" /> |
 
-* Include in code
-```
-import 'color_picker_field/color_picker_field.dart';
-```
+## Cupertino
+| Cupertino Fields | Color wheel | Remove colors | Saturation and Lightness |
+|-------------------------------|---------------------------------|---------------------------------|---------------------------------|
+|<img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_fields.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker1.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker2.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker3.png?raw=true" width="200" /> |
 
-* Usage
 
+## Usage
+
+### Just the ColorPickerField without a Form with a controller set
 ```dart
 final ColorPickerFieldController controller = ColorPickerFieldController();
 ColorPickerField(
@@ -30,6 +31,7 @@ ColorPickerField(
 ),
 ```
 
+### ColorPickerFieldFor with a validator, decoration and an onChange callback
 ```dart
 ColorPickerFormField(
   initialValue: [],
@@ -50,6 +52,7 @@ ColorPickerFormField(
 ),
 ```
 
+### Just a CupertinoColorPickerField without a Form
 ```dart
 CupertinoColorPickerField(
   placeholder: 'CupertinoColorPickerField',
@@ -60,10 +63,12 @@ CupertinoColorPickerField(
 ),
 ```
 
+### A CupertinoColorPickerField inside a CupertinoFormSection using CupertinoColorPickerFormFieldRow
 ```dart
 CupertinoFormSection.insetGrouped(
   header: const Text('Section 1'),
   children: [
+    // A field with an always showing clear button
     CupertinoColorPickerFormFieldRow(
       prefix: const Text('Enter Color'),
       defaultColor: defaultColor,
@@ -77,6 +82,8 @@ CupertinoFormSection.insetGrouped(
         return null;
       },
     ),
+    
+    // A field with a reversed position and order of the chosen colors list
     CupertinoColorPickerFormFieldRow(
       prefix: const Text('Enter Color'),
       defaultColor: defaultColor,
@@ -90,6 +97,9 @@ CupertinoFormSection.insetGrouped(
         return null;
       },
     ),
+
+    // Forcing Text Direction using Directionality widget, 
+    // by default the TextDirection will be read from the Localization
     Directionality(
       textDirection: TextDirection.rtl,
       child: CupertinoColorPickerFormFieldRow(
@@ -109,14 +119,5 @@ CupertinoFormSection.insetGrouped(
 ),
 ```
 
-## Screenshots
+## [API reference](https://pub.dev/documentation/color_picker_field/latest/color_picker_field/color_picker_field-library.html)
 
-### Material
-| Material Color Picker fields | Material Color Picker screen 1 | Material Color Picker screen 2 | Material Color Picker screen 3 |
-|------------------------------|--------------------------------|--------------------------------|--------------------------------|
-|<img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_fields.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker1.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker2.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/material_color_picker3.png?raw=true" width="200" /> |
-
-### Cupertino
-| Cupertino Color Picker fields | Cupertino Color Picker screen 1 | Cupertino Color Picker screen 2 | Cupertino Color Picker screen 3 |
-|-------------------------------|---------------------------------|---------------------------------|---------------------------------|
-|<img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_fields.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker1.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker2.png?raw=true" width="200" /> | <img src="https://github.com/talamaska/flutter_color_picker_field/blob/master/screenshots/cupertino_color_picker3.png?raw=true" width="200" /> |

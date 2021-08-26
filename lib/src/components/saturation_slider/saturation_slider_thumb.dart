@@ -95,7 +95,7 @@ class SaturationSliderThumb extends RoundSliderThumbShape {
       size.width - (size.width - center.dx),
       size.height / 2,
     );
-    if (this.orientation == Orientation.landscape) {
+    if (orientation == Orientation.landscape) {
       _canvas.rotate(vm.radians(90));
     }
 

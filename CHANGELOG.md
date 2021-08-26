@@ -1,3 +1,7 @@
+## 1.1.0+1
+
+- minor readme adjustments
+
 ## 1.1.0
 
 - add: settings for turning on saturation and/or lightness sliders
