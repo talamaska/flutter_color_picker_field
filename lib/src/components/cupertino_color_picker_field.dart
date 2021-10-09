@@ -1,19 +1,19 @@
 import 'dart:async';
 
+import 'package:color_picker_field/src/models/color_state_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../models/animated_color_list_model.dart';
+import '../models/color_dialog_model.dart';
+import '../models/color_editing_value.dart';
+import '../screens/cupertino_color_dialog.dart';
 import 'color_item.dart';
 import 'color_picker_controllers.dart';
 import 'editable_color_picker_field.dart';
-import '../models/color_editing_value.dart';
-import '../models/animated_color_list_model.dart';
-import '../models/color_dialog_model.dart';
-import '../screens/cupertino_color_dialog.dart';
 
 const TextStyle _kDefaultPlaceholderStyle = TextStyle(
   fontWeight: FontWeight.w400,
@@ -109,7 +109,7 @@ class CupertinoColorPickerField extends StatefulWidget {
     this.clearButtonMode = ClearButtonVisibilityMode.never,
     this.enableLightness = false,
     this.enableSaturation = false,
-  });
+  }) : super(key: key);
 
   final FocusNode? focusNode;
 
@@ -505,8 +505,9 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
                             _effectiveController.colors.isNotEmpty;
                         _effectiveController.clear();
                         _colorListAnimated.clear();
-                        if (widget.onChanged != null && colorsChanged)
+                        if (widget.onChanged != null && colorsChanged) {
                           widget.onChanged!(_effectiveController.colors);
+                        }
                       }
                     : null,
                 child: Padding(
@@ -698,11 +699,12 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
     ColorPickerFieldController controller,
   ) {
     final int atLeastOnetoBeRemovedIndex =
-        value.colorStates.indexWhere((element) => !element.selected);
+        value.colorStates.indexWhere((ColorState element) => !element.selected);
     if (atLeastOnetoBeRemovedIndex != -1) {
-      for (var i = 0; i < value.colorStates.length; i++) {
+      for (int i = 0; i < value.colorStates.length; i++) {
         if (!value.colorStates[i].selected) {
-          var index = _colorListAnimated.indexOf(value.colorStates[i].color);
+          final int index =
+              _colorListAnimated.indexOf(value.colorStates[i].color);
           if (index != -1) {
             _colorListAnimated.removeAt(index);
           }
@@ -717,7 +719,7 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
     }
 
     controller.value =
-        ColorEditingValue(colors: List.from(_colorListAnimated.items));
+        ColorEditingValue(colors: List<Color>.from(_colorListAnimated.items));
   }
 }
 

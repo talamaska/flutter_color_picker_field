@@ -48,24 +48,22 @@ class ColorRipple extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (BuildContext context, Widget? child) {
-        return Container(
-          child: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..scale(scaleDownAnimation.value)
-              ..scale(scaleUpAnimation.value),
-            child: Opacity(
-              opacity: opacityAnimation.value,
-              child: Container(
-                width: 60.0,
-                height: 60.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: color!,
-                    style: BorderStyle.solid,
-                    width: 4.0 - (2 * controller.value),
-                  ),
+        return Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..scale(scaleDownAnimation.value)
+            ..scale(scaleUpAnimation.value),
+          child: Opacity(
+            opacity: opacityAnimation.value,
+            child: Container(
+              width: 60.0,
+              height: 60.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: color!,
+                  style: BorderStyle.solid,
+                  width: 4.0 - (2 * controller.value),
                 ),
               ),
             ),

@@ -1,22 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'cupertino_home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'cupertino_home_page.dart';
 import 'home_page.dart';
 
 // void main() => runApp(MyMaterialApp());
-void main() => runApp(MyCupertinoApp());
+void main() => runApp(const MyCupertinoApp());
 
 class MyCupertinoApp extends StatelessWidget {
+  const MyCupertinoApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return const CupertinoApp(
       title: 'Color Picker',
       theme: CupertinoThemeData(
         primaryColor: CupertinoColors.activeOrange,
         brightness: Brightness.light,
       ),
-      home: const CupertinoHomePage(title: 'Color Picker Cupertino'),
+      home: CupertinoHomePage(title: 'Color Picker Cupertino'),
       localizationsDelegates: [
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -28,6 +31,8 @@ class MyCupertinoApp extends StatelessWidget {
 }
 
 class MyMaterialApp extends StatelessWidget {
+  const MyMaterialApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,12 +42,12 @@ class MyMaterialApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       home: const MaterialHomePage(title: 'Color Picker Material'),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
-      locale: Locale('en_US'),
+      locale: const Locale('en_US'),
     );
   }
 }

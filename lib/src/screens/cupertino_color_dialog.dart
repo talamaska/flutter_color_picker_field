@@ -1,12 +1,13 @@
 import 'dart:math' as math;
-import '../components/hsl_color_picker.dart';
-import '../components/lightness_slider/lightness_slider.dart';
-import '../components/saturation_slider/saturation_slider.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../color_picker_field.dart';
 import '../components/colored_checkbox.dart';
+import '../components/hsl_color_picker.dart';
+import '../components/lightness_slider/lightness_slider.dart';
+import '../components/saturation_slider/saturation_slider.dart';
 import '../models/color_dialog_model.dart';
 import '../models/color_state_model.dart';
 import 'color_dialog.dart';
@@ -250,8 +251,8 @@ class CupertinoColorPickerDialogState
     final Widget checkboxesGrid = GridView.count(
       crossAxisCount: 4,
       shrinkWrap: false,
-      children: [
-        for (var i = 0; i < widget.colorList.length; i++)
+      children: <ColoredGridCheckbox>[
+        for (int i = 0; i < widget.colorList.length; i++)
           ColoredGridCheckbox(
             color: widget.colorList[i],
             value: _getColorState(widget.colorList[i]),

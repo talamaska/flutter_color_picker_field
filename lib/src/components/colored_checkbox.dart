@@ -24,7 +24,7 @@ class ColoredCheckbox extends StatefulWidget {
 
 class _ColoredCheckboxState extends State<ColoredCheckbox> {
   bool get enabled => widget.onChanged != null;
-  Size get size => widget.size ?? Size(44.0, 44.0);
+  Size get size => widget.size ?? const Size(44.0, 44.0);
 
   void _actionHandler() {
     switch (widget.value) {
@@ -78,10 +78,11 @@ class _ColoredCheckboxState extends State<ColoredCheckbox> {
 
 class ColoredGridCheckbox extends StatefulWidget {
   const ColoredGridCheckbox({
+    Key? key,
     required this.color,
     this.value = false,
     this.onChanged,
-  });
+  }) : super(key: key);
 
   final Color color;
   final bool value;
@@ -115,7 +116,7 @@ class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {
           color: widget.color,
           width: 1.0,
         ),
-        color: widget.value ? widget.color : Color(0xFFFFFFFF),
+        color: widget.value ? widget.color : const Color(0xFFFFFFFF),
       ),
       child: InkWell(
         onTap: _actionHandler,
@@ -133,7 +134,9 @@ class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {
                     width: 1.0,
                   ),
                   shape: BoxShape.circle,
-                  color: widget.value ? theme.primaryColor : Color(0xFFFFFFFF),
+                  color: widget.value
+                      ? theme.primaryColor
+                      : const Color(0xFFFFFFFF),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
