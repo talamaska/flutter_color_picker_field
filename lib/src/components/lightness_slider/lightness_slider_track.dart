@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 
 import 'lightness_slider.dart';
@@ -108,8 +109,8 @@ class LightnessSliderTrack extends SliderTrackShape {
     final HSLColor hsl = HSLColor.fromColor(color);
 
     List<Color> colors = <Color>[
-      Color(0xFF000000),
-      Color(0xFFFFFFFF),
+      const Color(0xFF000000),
+      const Color(0xFFFFFFFF),
     ];
     if (textDirection == TextDirection.rtl) {
       colors = colors.reversed.toList();
@@ -127,7 +128,7 @@ class LightnessSliderTrack extends SliderTrackShape {
       ..shader = ui.Gradient.linear(
         Offset.zero,
         Offset(trackRect.width, 0),
-        [
+        <Color>[
           hsl.withAlpha(0).toColor(),
           hsl.withAlpha(1.0).toColor(),
           hsl.withAlpha(0).toColor(),

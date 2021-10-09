@@ -5,18 +5,19 @@ import 'package:flutter/widgets.dart';
 
 import 'color_gradient_widget.dart';
 import 'color_picker_dial.dart';
-import 'turn_gesture_detector.dart';
 import 'hsl_color_knob.dart';
+import 'turn_gesture_detector.dart';
 
 class HSLColorPicker extends StatelessWidget {
   const HSLColorPicker({
+    Key? key,
     required this.currentColor,
     required this.hue,
     required this.saturation,
     required this.lightness,
     this.onSave,
     this.onChange,
-  });
+  }) : super(key: key);
 
   final Color currentColor;
   final double hue;
@@ -28,37 +29,35 @@ class HSLColorPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CupertinoThemeData ct = CupertinoTheme.of(context);
-    return Container(
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: ct.brightness == Brightness.dark
-                    ? Color(0x44FFFFFF)
-                    : Color(0x44000000),
-                blurRadius: 2.0,
-                spreadRadius: 1.0,
-                offset: Offset(0.0, 1.0),
-              )
-            ],
-          ),
-          child: Stack(
-            children: <Widget>[
-              ColorGradientWidget(),
-              HSLColorChooser(
-                currentColor: currentColor,
-                hue: hue,
-                saturation: saturation,
-                lightness: lightness,
-                onSave: onSave,
-                onChange: onChange,
-              ),
-            ],
-          ),
+    return AspectRatio(
+      aspectRatio: 1.0,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: ct.brightness == Brightness.dark
+                  ? const Color(0x44FFFFFF)
+                  : const Color(0x44000000),
+              blurRadius: 2.0,
+              spreadRadius: 1.0,
+              offset: const Offset(0.0, 1.0),
+            )
+          ],
+        ),
+        child: Stack(
+          children: <Widget>[
+            const ColorGradientWidget(),
+            HSLColorChooser(
+              currentColor: currentColor,
+              hue: hue,
+              saturation: saturation,
+              lightness: lightness,
+              onSave: onSave,
+              onChange: onChange,
+            ),
+          ],
         ),
       ),
     );
@@ -66,7 +65,7 @@ class HSLColorPicker extends StatelessWidget {
 }
 
 class HSLColorChooser extends StatefulWidget {
-  HSLColorChooser({
+  const HSLColorChooser({
     Key? key,
     required this.currentColor,
     required this.hue,

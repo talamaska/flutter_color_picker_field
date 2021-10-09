@@ -61,11 +61,11 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 16.0),
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: CupertinoTextField(
@@ -74,7 +74,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -87,7 +87,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                   clearButtonMode: ClearButtonVisibilityMode.always,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -103,7 +103,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                   enableSaturation: true,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -116,7 +116,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                   clearButtonMode: ClearButtonVisibilityMode.always,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -130,7 +130,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                   clearButtonMode: ClearButtonVisibilityMode.always,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -146,7 +146,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               CupertinoFormSection.insetGrouped(

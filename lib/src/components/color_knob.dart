@@ -2,14 +2,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import '../components/color_ripple.dart';
 
 class ColorKnob extends StatefulWidget {
   const ColorKnob({
+    Key? key,
     required this.color,
     required this.ratio,
     this.saveColor,
-  });
+  }) : super(key: key);
 
   final Color color;
   final double ratio;
@@ -30,12 +32,12 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
     super.initState();
     scaleAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
     );
 
     rippleAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 400),
     );
 
     scaleAnimationController.addStatusListener((AnimationStatus status) {
@@ -113,12 +115,12 @@ class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {
                           ),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                              offset: Offset(0.0, 1.0),
+                              offset: const Offset(0.0, 1.0),
                               blurRadius: 6.0,
                               spreadRadius: 1.0,
                               color: ct.brightness == Brightness.dark
-                                  ? Color(0x44FFFFFF)
-                                  : Color(0x44000000),
+                                  ? const Color(0x44FFFFFF)
+                                  : const Color(0x44000000),
                             )
                           ],
                         ),

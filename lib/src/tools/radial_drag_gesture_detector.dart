@@ -11,11 +11,12 @@ import 'package:flutter/widgets.dart';
 /// react to the respective radial drag events.
 class RadialDragGestureDetector extends StatefulWidget {
   const RadialDragGestureDetector({
+    Key? key,
     this.onRadialDragStart,
     this.onRadialDragUpdate,
     this.onRadialDragEnd,
     this.child,
-  });
+  }) : super(key: key);
 
   final RadialDragStart? onRadialDragStart;
   final RadialDragUpdate? onRadialDragUpdate;

@@ -62,11 +62,11 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 16.0),
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: TextField(
@@ -78,18 +78,18 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                 child: TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'TextFormField',
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -99,7 +99,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   defaultColor: defaultColor,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxColors: 3,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Colors ',
                     helperText: 'helper Text',
                   ),
@@ -113,7 +113,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   onSaved: _onSaved,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -125,7 +125,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   maxColors: 3,
                   enableLightness: true,
                   enableSaturation: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Colors with saturation and lightness',
                     helperText: 'helper Text',
                   ),
@@ -139,7 +139,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   onSaved: _onSaved,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -151,13 +151,13 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                     defaultColor: defaultColor,
                     onChanged: _onChanged,
                     controller: controller,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Colors rtl',
                     ),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -168,7 +168,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   colorListReversed: true,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxColors: 3,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Colors reversed',
                     helperText: 'test',
                   ),

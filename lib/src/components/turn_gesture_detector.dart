@@ -6,11 +6,12 @@ import '../tools/radial_drag_gesture_detector.dart';
 
 class TurnGestureDetector extends StatefulWidget {
   const TurnGestureDetector({
+    Key? key,
     required this.currentValue,
     required this.maxValue,
-    this.onChanged,
     this.child,
-  });
+    this.onChanged,
+  }) : super(key: key);
 
   final double currentValue;
   final double maxValue;
