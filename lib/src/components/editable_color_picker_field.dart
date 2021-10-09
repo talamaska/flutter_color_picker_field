@@ -1,11 +1,12 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+
 import '../components/color_picker_controllers.dart';
 import '../models/animated_color_list_model.dart';
 
 class EditableColorPickerField extends StatefulWidget {
-  EditableColorPickerField({
+  const EditableColorPickerField({
     Key? key,
     required this.style,
     required this.listKey,
@@ -47,7 +48,7 @@ class EditableColorPickerField extends StatefulWidget {
   final String? restorationId;
   final ScrollBehavior? scrollBehavior;
   final int itemCount;
-  final AnimatedListModel colorList;
+  final AnimatedListModel<Color> colorList;
   final AnimatedListItemBuilder itemBuilder;
   final Key listKey;
 

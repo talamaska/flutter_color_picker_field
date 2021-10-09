@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import '../tools/helpers.dart';
 
 class ColoredCheckbox extends StatefulWidget {
   const ColoredCheckbox({
+    Key? key,
+    this.size,
     required this.color,
     this.value = false,
     this.onChanged,
-    this.size,
-  });
+  }) : super(key: key);
 
   final Size? size;
   final Color color;
@@ -22,7 +24,7 @@ class ColoredCheckbox extends StatefulWidget {
 
 class _ColoredCheckboxState extends State<ColoredCheckbox> {
   bool get enabled => widget.onChanged != null;
-  Size get size => widget.size ?? Size(44.0, 44.0);
+  Size get size => widget.size ?? const Size(44.0, 44.0);
 
   void _actionHandler() {
     switch (widget.value) {
@@ -60,12 +62,12 @@ class _ColoredCheckboxState extends State<ColoredCheckbox> {
             )
           ],
           shape: BoxShape.circle,
-          color: widget.value! ? widget.color : Color(0xFFFFFFFF),
+          color: widget.value! ? widget.color : const Color(0xFFFFFFFF),
         ),
         child: Center(
           child: Icon(
             checkboxIcon,
-            color: Color(0xFFFFFFFF),
+            color: const Color(0xFFFFFFFF),
             size: size.width * 0.8,
           ),
         ),
@@ -76,10 +78,11 @@ class _ColoredCheckboxState extends State<ColoredCheckbox> {
 
 class ColoredGridCheckbox extends StatefulWidget {
   const ColoredGridCheckbox({
+    Key? key,
     required this.color,
     this.value = false,
     this.onChanged,
-  });
+  }) : super(key: key);
 
   final Color color;
   final bool value;
@@ -113,7 +116,7 @@ class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {
           color: widget.color,
           width: 1.0,
         ),
-        color: widget.value ? widget.color : Color(0xFFFFFFFF),
+        color: widget.value ? widget.color : const Color(0xFFFFFFFF),
       ),
       child: InkWell(
         onTap: _actionHandler,
@@ -131,7 +134,9 @@ class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {
                     width: 1.0,
                   ),
                   shape: BoxShape.circle,
-                  color: widget.value ? theme.primaryColor : Color(0xFFFFFFFF),
+                  color: widget.value
+                      ? theme.primaryColor
+                      : const Color(0xFFFFFFFF),
                 ),
                 alignment: Alignment.center,
                 child: Icon(

@@ -3,18 +3,19 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
-import 'color_gradient_widget.dart';
 import '../tools/helpers.dart';
+import 'color_gradient_widget.dart';
 import 'color_knob.dart';
 import 'color_picker_dial.dart';
 import 'turn_gesture_detector.dart';
 
 class ColorPicker extends StatelessWidget {
   const ColorPicker({
+    Key? key,
     required this.currentColor,
     this.onSave,
     this.onChange,
-  });
+  }) : super(key: key);
 
   final Color currentColor;
   final ValueChanged<Color>? onSave;
@@ -23,34 +24,32 @@ class ColorPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CupertinoThemeData ct = CupertinoTheme.of(context);
-    return Container(
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: ct.brightness == Brightness.dark
-                    ? Color(0x44FFFFFF)
-                    : Color(0x44000000),
-                blurRadius: 2.0,
-                spreadRadius: 1.0,
-                offset: Offset(0.0, 1.0),
-              )
-            ],
-          ),
-          child: Stack(
-            children: <Widget>[
-              ColorGradientWidget(),
-              ColorChooser(
-                currentColor: currentColor,
-                onSave: onSave,
-                onChange: onChange,
-              ),
-            ],
-          ),
+    return AspectRatio(
+      aspectRatio: 1.0,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: ct.brightness == Brightness.dark
+                  ? const Color(0x44FFFFFF)
+                  : const Color(0x44000000),
+              blurRadius: 2.0,
+              spreadRadius: 1.0,
+              offset: const Offset(0.0, 1.0),
+            )
+          ],
+        ),
+        child: Stack(
+          children: <Widget>[
+            const ColorGradientWidget(),
+            ColorChooser(
+              currentColor: currentColor,
+              onSave: onSave,
+              onChange: onChange,
+            ),
+          ],
         ),
       ),
     );
@@ -58,7 +57,7 @@ class ColorPicker extends StatelessWidget {
 }
 
 class ColorChooser extends StatefulWidget {
-  ColorChooser({
+  const ColorChooser({
     Key? key,
     required this.currentColor,
     this.onSave,

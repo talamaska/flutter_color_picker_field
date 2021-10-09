@@ -4,12 +4,13 @@ import 'color_ripple.dart';
 
 class HSLColorKnob extends StatefulWidget {
   const HSLColorKnob({
+    Key? key,
     required this.hue,
     required this.saturation,
     required this.lightness,
     required this.ratio,
     this.saveColor,
-  });
+  }) : super(key: key);
 
   final double hue;
   final double saturation;
@@ -33,12 +34,12 @@ class _HSLColorKnobState extends State<HSLColorKnob>
     super.initState();
     scaleAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
     );
 
     rippleAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 400),
     );
 
     scaleAnimationController.addStatusListener((AnimationStatus status) {
@@ -126,12 +127,12 @@ class _HSLColorKnobState extends State<HSLColorKnob>
                           ),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                              offset: Offset(0.0, 1.0),
+                              offset: const Offset(0.0, 1.0),
                               blurRadius: 6.0,
                               spreadRadius: 1.0,
                               color: ct.brightness == Brightness.dark
-                                  ? Color(0x44FFFFFF)
-                                  : Color(0x44000000),
+                                  ? const Color(0x44FFFFFF)
+                                  : const Color(0x44000000),
                             )
                           ],
                         ),

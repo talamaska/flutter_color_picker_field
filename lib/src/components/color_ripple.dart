@@ -3,8 +3,12 @@
 import 'package:flutter/widgets.dart';
 
 class ColorRipple extends StatelessWidget {
-  ColorRipple({required this.controller, this.color, this.size})
-      : scaleUpAnimation = Tween<double>(begin: 0.8, end: 5.0).animate(
+  ColorRipple({
+    Key? key,
+    required this.controller,
+    this.color,
+    this.size,
+  })  : scaleUpAnimation = Tween<double>(begin: 0.8, end: 5.0).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
@@ -29,7 +33,8 @@ class ColorRipple extends StatelessWidget {
             parent: controller,
             curve: const Interval(0.0, 0.2, curve: Curves.easeOut),
           ),
-        );
+        ),
+        super(key: key);
 
   final AnimationController controller;
   final Animation<double> scaleUpAnimation;
@@ -43,24 +48,22 @@ class ColorRipple extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (BuildContext context, Widget? child) {
-        return Container(
-          child: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..scale(scaleDownAnimation.value)
-              ..scale(scaleUpAnimation.value),
-            child: Opacity(
-              opacity: opacityAnimation.value,
-              child: Container(
-                width: 60.0,
-                height: 60.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: color!,
-                    style: BorderStyle.solid,
-                    width: 4.0 - (2 * controller.value),
-                  ),
+        return Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..scale(scaleDownAnimation.value)
+            ..scale(scaleUpAnimation.value),
+          child: Opacity(
+            opacity: opacityAnimation.value,
+            child: Container(
+              width: 60.0,
+              height: 60.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: color!,
+                  style: BorderStyle.solid,
+                  width: 4.0 - (2 * controller.value),
                 ),
               ),
             ),
