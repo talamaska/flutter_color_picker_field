@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import '../models/color_editing_value.dart';
-import '../components/color_picker_controllers.dart';
 
+import '../components/color_picker_controllers.dart';
 import '../components/color_picker_field.dart';
+import '../models/color_editing_value.dart';
 
 class ColorPickerFormField extends FormField<List<Color>> {
   ColorPickerFormField({
@@ -101,7 +100,7 @@ class ColorPickerFormField extends FormField<List<Color>> {
   final ColorPickerFieldController? controller;
 
   @override
-  _ColorPickerFormFieldState createState() => _ColorPickerFormFieldState();
+  FormFieldState<List<Color>> createState() => _ColorPickerFormFieldState();
 }
 
 class _ColorPickerFormFieldState extends FormFieldState<List<Color>> {

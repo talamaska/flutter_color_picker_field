@@ -1,13 +1,14 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import '../components/lightness_slider/lightness_slider.dart';
+
 import '../components/color_gradient_widget.dart';
 import '../components/color_item.dart';
-import '../components/hsl_color_picker.dart';
-import '../components/saturation_slider/saturation_slider.dart';
 import '../components/colored_checkbox.dart';
+import '../components/hsl_color_picker.dart';
+import '../components/lightness_slider/lightness_slider.dart';
+import '../components/saturation_slider/saturation_slider.dart';
 import '../models/color_dialog_model.dart';
-
 import '../models/color_state_model.dart';
 
 const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
@@ -23,6 +24,7 @@ class ColorPickerDialog extends StatefulWidget {
     this.backText,
     this.helpText,
     this.titleText,
+    this.titleSemanticsLabel,
     this.style,
     this.textDirection = TextDirection.ltr,
     this.enableSaturation = false,
@@ -32,6 +34,7 @@ class ColorPickerDialog extends StatefulWidget {
   final Color initialColor;
   final String? helpText;
   final String? titleText;
+  final String? titleSemanticsLabel;
   final String? cancelText;
   final String? backText;
   final String? confirmText;
@@ -81,8 +84,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     _saturationFocusNode = FocusNode();
     _lightnessFocusNode = FocusNode();
 
-    _colorListState = widget.colorList.map((Color _color) {
-      return ColorState(color: _color, selected: true);
+    _colorListState = widget.colorList.map((Color color) {
+      return ColorState(color: color, selected: true);
     }).toList();
 
     currentColor = widget.initialColor;
@@ -97,8 +100,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
       return false;
     }
 
-    return _colorListState.firstWhere((ColorState _cs) {
-      return _cs.color == color;
+    return _colorListState.firstWhere((ColorState cs) {
+      return cs.color == color;
     }, orElse: () => ColorState(color: color, selected: false)).selected;
   }
 
@@ -161,6 +164,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final Widget header = _ColorPickerHeader(
       helpText: widget.helpText,
       titleText: widget.titleText,
+      titleSemanticsLabel: widget.titleSemanticsLabel,
       titleStyle: titleStyle,
       orientation: orientation,
       isShort: orientation == Orientation.landscape,
@@ -176,8 +180,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
         textDirection: Directionality.of(context),
         children: <Widget>[
           TextButton(
-            child: Text(widget.cancelText ?? localizations.cancelButtonLabel),
             onPressed: _handleCancel,
+            child: Text(widget.cancelText ?? localizations.cancelButtonLabel),
           ),
           TextButton(
             child: Text(widget.confirmText ?? localizations.saveButtonLabel),
@@ -241,7 +245,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
             color: widget.colorList[i],
             value: _getColorState(widget.colorList[i]),
             onChanged: (bool value) {
-              _onColorSeletionChanged(value, widget.colorList[i]);
+              _onColorSelectionChanged(value, widget.colorList[i]);
             },
           )
       ],
@@ -256,7 +260,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
             color: widget.colorList[i],
             value: _getColorState(widget.colorList[i]),
             onChanged: (bool value) {
-              _onColorSeletionChanged(value, widget.colorList[i]);
+              _onColorSelectionChanged(value, widget.colorList[i]);
             },
           )
       ],
@@ -337,7 +341,9 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
           ? const EdgeInsets.symmetric(horizontal: 16.0)
           : const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: const Color(0xFFFFFFFF)),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFFFFFFF),
+        ),
         onPressed: () {
           setState(() {
             colorPickerVisible = false;
@@ -388,6 +394,11 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     return Directionality(
       textDirection: widget.textDirection,
       child: Dialog(
+        insetPadding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 24.0,
+        ),
+        clipBehavior: Clip.antiAlias,
         child: AnimatedContainer(
           width: dialogSize.width,
           height: dialogSize.height,
@@ -472,16 +483,11 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
             }),
           ),
         ),
-        insetPadding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 24.0,
-        ),
-        clipBehavior: Clip.antiAlias,
       ),
     );
   }
 
-  void _onColorSeletionChanged(bool value, Color color) {
+  void _onColorSelectionChanged(bool value, Color color) {
     setState(() {
       _colorListState = _colorListState.map((ColorState cs) {
         if (cs.color == color) {
@@ -496,20 +502,20 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     });
   }
 
-  List<ColoredCheckbox> _getColorCheckboxes() {
-    return widget.colorList.map(
-      (Color color) {
-        return ColoredCheckbox(
-          color: color,
-          size: const Size(24.0, 24.0),
-          value: _getColorState(color),
-          onChanged: (bool value) {
-            _onColorSeletionChanged(value, color);
-          },
-        );
-      },
-    ).toList();
-  }
+  // List<ColoredCheckbox> _getColorCheckboxes() {
+  //   return widget.colorList.map(
+  //     (Color color) {
+  //       return ColoredCheckbox(
+  //         color: color,
+  //         size: const Size(24.0, 24.0),
+  //         value: _getColorState(color),
+  //         onChanged: (bool value) {
+  //           _onColorSelectionChanged(value, color);
+  //         },
+  //       );
+  //     },
+  //   ).toList();
+  // }
 }
 
 class _ColorPickerHeader extends StatelessWidget {

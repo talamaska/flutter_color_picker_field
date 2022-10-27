@@ -1,7 +1,6 @@
 import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 
 import 'color_gradient_widget.dart';
 import 'color_picker_dial.dart';
@@ -83,7 +82,7 @@ class HSLColorChooser extends StatefulWidget {
   final ValueChanged<Color>? onChange;
 
   @override
-  _HSLColorChooserState createState() => _HSLColorChooserState();
+  State<HSLColorChooser> createState() => _HSLColorChooserState();
 }
 
 class _HSLColorChooserState extends State<HSLColorChooser> {

@@ -1,7 +1,12 @@
+## 1.1.2
+
+change: update dependencies
+fix: various lint errors
+
 ## 1.1.1
 
-  change: update license to MIT
-  fix: various lint errors
+change: update license to MIT
+fix: various lint errors
 
 ## 1.1.0+1
 

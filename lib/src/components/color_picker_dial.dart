@@ -16,7 +16,7 @@ class ColorPickerDial extends StatefulWidget {
   final Color color;
 
   @override
-  _ColorPickerDialState createState() => _ColorPickerDialState();
+  State<ColorPickerDial> createState() => _ColorPickerDialState();
 }
 
 class _ColorPickerDialState extends State<ColorPickerDial> {

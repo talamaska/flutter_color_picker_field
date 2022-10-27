@@ -1,7 +1,4 @@
-//import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../components/color_ripple.dart';
 
@@ -18,7 +15,7 @@ class ColorKnob extends StatefulWidget {
   final VoidCallback? saveColor;
 
   @override
-  _ColorKnobState createState() => _ColorKnobState();
+  State<ColorKnob> createState() => _ColorKnobState();
 }
 
 class _ColorKnobState extends State<ColorKnob> with TickerProviderStateMixin {

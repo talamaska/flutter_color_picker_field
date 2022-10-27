@@ -4,9 +4,9 @@
 
 import 'package:flutter/cupertino.dart';
 
+import '../models/color_editing_value.dart';
 import 'color_picker_controllers.dart';
 import 'cupertino_color_picker_field.dart';
-import '../models/color_editing_value.dart';
 
 /// Creates a [CupertinoFormRow] containing a [FormField] that wraps
 /// a [CupertinoColorPickerField].
@@ -249,7 +249,7 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
   final bool enableLightness;
 
   @override
-  _CupertinoColorPickerFormFieldRowState createState() =>
+  FormFieldState<List<Color>> createState() =>
       _CupertinoColorPickerFormFieldRowState();
 }
 

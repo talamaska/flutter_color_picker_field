@@ -19,7 +19,7 @@ class HSLColorKnob extends StatefulWidget {
   final VoidCallback? saveColor;
 
   @override
-  _HSLColorKnobState createState() => _HSLColorKnobState();
+  State<HSLColorKnob> createState() => _HSLColorKnobState();
 }
 
 class _HSLColorKnobState extends State<HSLColorKnob>

@@ -1,4 +1,3 @@
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
@@ -53,7 +52,7 @@ class EditableColorPickerField extends StatefulWidget {
   final Key listKey;
 
   @override
-  _EditableColorPickerFieldState createState() =>
+  State<EditableColorPickerField> createState() =>
       _EditableColorPickerFieldState();
 }
 
@@ -79,7 +78,7 @@ class _EditableColorPickerFieldState extends State<EditableColorPickerField>
 
     if (!_didAutoFocus && widget.autofocus) {
       _didAutoFocus = true;
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           FocusScope.of(context).autofocus(widget.focusNode);
         }
@@ -110,9 +109,9 @@ class _EditableColorPickerFieldState extends State<EditableColorPickerField>
 
   void _handleFocusChanged() {
     if (_hasFocus) {
-      WidgetsBinding.instance!.addObserver(this);
+      WidgetsBinding.instance.addObserver(this);
     } else {
-      WidgetsBinding.instance!.removeObserver(this);
+      WidgetsBinding.instance.removeObserver(this);
     }
     updateKeepAlive();
   }
@@ -122,7 +121,7 @@ class _EditableColorPickerFieldState extends State<EditableColorPickerField>
     widget.controller.removeListener(_didChangeColorEditingValue);
     _focusAttachment!.detach();
     widget.focusNode.removeListener(_handleFocusChanged);
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

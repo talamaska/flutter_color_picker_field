@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:color_picker_field/src/models/color_state_model.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import '../models/animated_color_list_model.dart';
 import '../models/color_dialog_model.dart';
@@ -172,7 +170,7 @@ class ColorPickerField extends StatefulWidget {
   final InputCounterWidgetBuilder? buildCounter;
 
   @override
-  _ColorPickerFieldState createState() => _ColorPickerFieldState();
+  State<ColorPickerField> createState() => _ColorPickerFieldState();
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
@@ -497,12 +495,12 @@ class _ColorPickerFieldState extends State<ColorPickerField>
       },
     );
 
-    final int? semanticsMaxValueLength;
-    if (widget.maxColors != null && widget.maxColors! > 0) {
-      semanticsMaxValueLength = widget.maxColors;
-    } else {
-      semanticsMaxValueLength = null;
-    }
+    // final int? semanticsMaxValueLength;
+    // if (widget.maxColors != null && widget.maxColors! > 0) {
+    //   semanticsMaxValueLength = widget.maxColors;
+    // } else {
+    //   semanticsMaxValueLength = null;
+    // }
 
     return MouseRegion(
       cursor: effectiveMouseCursor,

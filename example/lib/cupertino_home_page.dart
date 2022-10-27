@@ -169,6 +169,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                     clearButtonMode: ClearButtonVisibilityMode.always,
                     placeholder: 'Enter Color',
                     onChanged: _onChanged,
+                    onSaved: _onSaved,
                     validator: (List<Color>? value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter at least one color';
@@ -181,6 +182,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                     defaultColor: defaultColor,
                     placeholder: 'Enter Color',
                     onChanged: _onChanged,
+                    onSaved: _onSaved,
                     colorListReversed: true,
                     validator: (List<Color>? value) {
                       if (value == null || value.isEmpty) {
@@ -196,6 +198,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                       defaultColor: defaultColor,
                       placeholder: 'Enter Color rtl',
                       onChanged: _onChanged,
+                      onSaved: _onSaved,
                       validator: (List<Color>? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter at least one color';
@@ -212,7 +215,7 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
                   child: const Text('Submit'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      print('form is valid');
+                      log('form is valid');
                     }
                   },
                 ),

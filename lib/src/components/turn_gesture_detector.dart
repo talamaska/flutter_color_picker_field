@@ -19,7 +19,7 @@ class TurnGestureDetector extends StatefulWidget {
   final ValueChanged<double>? onChanged;
 
   @override
-  _TurnGestureDetectorState createState() => _TurnGestureDetectorState();
+  State<TurnGestureDetector> createState() => _TurnGestureDetectorState();
 }
 
 class _TurnGestureDetectorState extends State<TurnGestureDetector> {
@@ -53,10 +53,10 @@ class _TurnGestureDetectorState extends State<TurnGestureDetector> {
   @override
   Widget build(BuildContext context) {
     return RadialDragGestureDetector(
-      child: widget.child,
       onRadialDragStart: _onRadialDragStart,
       onRadialDragUpdate: _onRadialDragUpdate,
       onRadialDragEnd: _onRadialDragEnd,
+      child: widget.child,
     );
   }
 }

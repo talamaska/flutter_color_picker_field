@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../tools/helpers.dart';
 
@@ -19,7 +18,7 @@ class ColoredCheckbox extends StatefulWidget {
   final ValueChanged<bool>? onChanged;
 
   @override
-  _ColoredCheckboxState createState() => _ColoredCheckboxState();
+  State<ColoredCheckbox> createState() => _ColoredCheckboxState();
 }
 
 class _ColoredCheckboxState extends State<ColoredCheckbox> {
@@ -89,7 +88,7 @@ class ColoredGridCheckbox extends StatefulWidget {
   final ValueChanged<bool>? onChanged;
 
   @override
-  _ColoredGridCheckboxState createState() => _ColoredGridCheckboxState();
+  State<ColoredGridCheckbox> createState() => _ColoredGridCheckboxState();
 }
 
 class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {

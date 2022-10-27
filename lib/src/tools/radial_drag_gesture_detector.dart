@@ -24,7 +24,7 @@ class RadialDragGestureDetector extends StatefulWidget {
   final Widget? child;
 
   @override
-  _RadialDragGestureDetectorState createState() =>
+  State<RadialDragGestureDetector> createState() =>
       _RadialDragGestureDetectorState();
 }
 

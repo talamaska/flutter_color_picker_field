@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:color_picker_field/color_picker_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MaterialHomePage extends StatefulWidget {
@@ -188,7 +187,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
                   child: const Text('Submit'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      print('form is valid');
+                      log('form is valid');
                       _formKey.currentState?.save();
                     }
                   },

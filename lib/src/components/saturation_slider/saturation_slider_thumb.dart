@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as vm;
 
@@ -58,29 +59,29 @@ class SaturationSliderThumb extends RoundSliderThumbShape {
         'disabledThumbColor cannot be null');
     assert(sliderTheme.thumbColor != null, 'thumbColor cannot be null');
 
-    final Canvas _canvas = context.canvas;
+    final Canvas canvas = context.canvas;
     final Tween<double> radiusTween = Tween<double>(
       begin: _disabledThumbRadius,
       end: enabledThumbRadius,
     );
 
-    final double _radius = radiusTween.evaluate(enableAnimation);
-    final Path _path = Path()
+    final double radius = radiusTween.evaluate(enableAnimation);
+    final Path path = Path()
       ..addArc(
         Rect.fromCenter(
           center: center,
-          width: 2 * _radius,
-          height: 2 * _radius,
+          width: 2 * radius,
+          height: 2 * radius,
         ),
         0,
         pi * 2,
       );
 
-    _canvas.drawShadow(_path, Colors.black, 1.5, true);
-    _canvas.drawCircle(center, _radius, Paint()..color = Colors.white);
-    _canvas.drawCircle(center, _radius - 1.8, Paint()..color = color);
+    canvas.drawShadow(path, Colors.black, 1.5, true);
+    canvas.drawCircle(center, radius, Paint()..color = Colors.white);
+    canvas.drawCircle(center, radius - 1.8, Paint()..color = color);
 
-    final TextSpan _span = TextSpan(
+    final TextSpan span = TextSpan(
       style: TextStyle(
         fontSize: enabledThumbRadius * 0.78,
         fontWeight: FontWeight.w600,
@@ -90,28 +91,28 @@ class SaturationSliderThumb extends RoundSliderThumbShape {
     );
 
     final Size size = parentBox.size;
-    _canvas.save();
-    _canvas.translate(
+    canvas.save();
+    canvas.translate(
       size.width - (size.width - center.dx),
       size.height / 2,
     );
     if (orientation == Orientation.landscape) {
-      _canvas.rotate(vm.radians(90));
+      canvas.rotate(vm.radians(90));
     }
 
-    final TextPainter _textPainter = TextPainter(
-      text: _span,
+    final TextPainter textPainter = TextPainter(
+      text: span,
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     );
-    _textPainter.layout();
+    textPainter.layout();
 
-    final Offset _textCenter = Offset(
-      -(_textPainter.width / 2),
-      -(_textPainter.height / 2),
+    final Offset textCenter = Offset(
+      -(textPainter.width / 2),
+      -(textPainter.height / 2),
     );
 
-    _textPainter.paint(_canvas, _textCenter);
-    _canvas.restore();
+    textPainter.paint(canvas, textCenter);
+    canvas.restore();
   }
 }

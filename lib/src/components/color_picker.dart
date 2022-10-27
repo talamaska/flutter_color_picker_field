@@ -1,7 +1,6 @@
 import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 
 import '../tools/helpers.dart';
 import 'color_gradient_widget.dart';
@@ -69,7 +68,7 @@ class ColorChooser extends StatefulWidget {
   final ValueChanged<Color>? onChange;
 
   @override
-  _ColorChooserState createState() => _ColorChooserState();
+  State<ColorChooser> createState() => _ColorChooserState();
 }
 
 class _ColorChooserState extends State<ColorChooser> {

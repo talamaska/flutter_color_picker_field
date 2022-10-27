@@ -119,7 +119,7 @@ ThemeData _saturationSliderTheme(
   // The thumbColor used for outline and text on [color] must have good
   // contrast with [color] so we can se it around the thumb and for text
   // written on top of the thumb fill [color].
-  final Color _thumbTextColor =
+  final Color thumbTextColor =
       ThemeData.estimateBrightnessForColor(color) == Brightness.light
           ? const Color(0xFF333333)
           : Colors.white;
@@ -129,7 +129,7 @@ ThemeData _saturationSliderTheme(
   return ThemeData.light().copyWith(
     sliderTheme: SliderThemeData(
       trackHeight: trackHeight,
-      thumbColor: _thumbTextColor,
+      thumbColor: thumbTextColor,
       // The track uses a custom slider track, with a grid image background.
       trackShape: SaturationSliderTrack(
         color: color,

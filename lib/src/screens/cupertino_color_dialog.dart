@@ -3,7 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../color_picker_field.dart';
+import '../components/color_gradient_widget.dart';
+import '../components/color_item.dart';
 import '../components/colored_checkbox.dart';
 import '../components/hsl_color_picker.dart';
 import '../components/lightness_slider/lightness_slider.dart';
@@ -35,6 +36,7 @@ class CupertinoColorPickerDialog extends StatefulWidget {
     this.backText,
     this.helpText,
     this.titleText,
+    this.titleSemanticsLabel,
     this.style,
     this.textDirection = TextDirection.ltr,
     this.decoration,
@@ -63,6 +65,7 @@ class CupertinoColorPickerDialog extends StatefulWidget {
   final Color initialColor;
   final String? helpText;
   final String? titleText;
+  final String? titleSemanticsLabel;
   final String? cancelText;
   final String? backText;
   final String? confirmText;
@@ -96,8 +99,8 @@ class CupertinoColorPickerDialogState
     _saturationFocusNode = FocusNode();
     _lightnessFocusNode = FocusNode();
 
-    _colorListState = widget.colorList.map((Color _color) {
-      return ColorState(color: _color, selected: true);
+    _colorListState = widget.colorList.map((Color color) {
+      return ColorState(color: color, selected: true);
     }).toList();
 
     currentColor = widget.initialColor;
@@ -112,8 +115,8 @@ class CupertinoColorPickerDialogState
       return false;
     }
 
-    return _colorListState.firstWhere((ColorState _cs) {
-      return _cs.color == color;
+    return _colorListState.firstWhere((ColorState cs) {
+      return cs.color == color;
     }, orElse: () => ColorState(color: color, selected: false)).selected;
   }
 
@@ -178,6 +181,7 @@ class CupertinoColorPickerDialogState
     final Widget header = _CupertinoColorPickerHeader(
       helpText: widget.helpText,
       titleText: widget.titleText,
+      titleSemanticsLabel: widget.titleSemanticsLabel,
       titleStyle: titleStyle,
       orientation: orientation,
       isShort: orientation == Orientation.landscape,
@@ -193,8 +197,8 @@ class CupertinoColorPickerDialogState
         textDirection: Directionality.of(context),
         children: <Widget>[
           CupertinoButton(
-            child: Text(widget.cancelText ?? localizations.cancelButtonLabel),
             onPressed: _handleCancel,
+            child: Text(widget.cancelText ?? localizations.cancelButtonLabel),
           ),
           CupertinoButton(
             child: Text(widget.confirmText ?? localizations.saveButtonLabel),
@@ -239,14 +243,14 @@ class CupertinoColorPickerDialogState
       onChange: _handleOnChange,
     );
 
-    final Widget checkboxes = Wrap(
-      runSpacing: 13.0,
-      spacing: 13.0,
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.start,
-      crossAxisAlignment: WrapCrossAlignment.start,
-      children: _getColorCheckboxes(),
-    );
+    // final Widget checkboxes = Wrap(
+    //   runSpacing: 13.0,
+    //   spacing: 13.0,
+    //   direction: Axis.horizontal,
+    //   alignment: WrapAlignment.start,
+    //   crossAxisAlignment: WrapCrossAlignment.start,
+    //   children: _getColorCheckboxes(),
+    // );
 
     final Widget checkboxesGrid = GridView.count(
       crossAxisCount: 4,
@@ -257,7 +261,7 @@ class CupertinoColorPickerDialogState
             color: widget.colorList[i],
             value: _getColorState(widget.colorList[i]),
             onChanged: (bool value) {
-              _onColorSeletionChanged(value, widget.colorList[i]);
+              _onColorSelectionChanged(value, widget.colorList[i]);
             },
           )
       ],
@@ -369,6 +373,11 @@ class CupertinoColorPickerDialogState
     return Directionality(
       textDirection: widget.textDirection,
       child: Dialog(
+        insetPadding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 24.0,
+        ),
+        clipBehavior: Clip.antiAlias,
         child: AnimatedContainer(
           width: dialogSize.width,
           height: dialogSize.height,
@@ -453,16 +462,11 @@ class CupertinoColorPickerDialogState
             }),
           ),
         ),
-        insetPadding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 24.0,
-        ),
-        clipBehavior: Clip.antiAlias,
       ),
     );
   }
 
-  void _onColorSeletionChanged(bool value, Color color) {
+  void _onColorSelectionChanged(bool value, Color color) {
     setState(() {
       _colorListState = _colorListState.map((ColorState cs) {
         if (cs.color == color) {
@@ -477,20 +481,20 @@ class CupertinoColorPickerDialogState
     });
   }
 
-  List<ColoredCheckbox> _getColorCheckboxes() {
-    return widget.colorList.map(
-      (Color color) {
-        return ColoredCheckbox(
-          color: color,
-          size: Size(24.0, 24.0),
-          value: _getColorState(color),
-          onChanged: (bool value) {
-            _onColorSeletionChanged(value, color);
-          },
-        );
-      },
-    ).toList();
-  }
+  // List<ColoredCheckbox> _getColorCheckboxes() {
+  //   return widget.colorList.map(
+  //     (Color color) {
+  //       return ColoredCheckbox(
+  //         color: color,
+  //         size: const Size(24.0, 24.0),
+  //         value: _getColorState(color),
+  //         onChanged: (bool value) {
+  //           _onColorSelectionChanged(value, color);
+  //         },
+  //       );
+  //     },
+  //   ).toList();
+  // }
 }
 
 class _CupertinoColorPickerHeader extends StatelessWidget {
@@ -552,16 +556,16 @@ class _CupertinoColorPickerHeader extends StatelessWidget {
     final Color onPrimarySurfaceColor =
         isDark ? theme.primaryColor : theme.primaryContrastingColor;
 
-    final TextStyle? helpStyle = textTheme.textStyle.copyWith(
+    final TextStyle hStyle = textTheme.textStyle.copyWith(
       color: onPrimarySurfaceColor,
     );
-    final TextStyle _titleStyle = titleStyle.copyWith(
+    final TextStyle tStyle = titleStyle.copyWith(
       color: onPrimarySurfaceColor,
     );
 
     final Widget help = Text(
       helpText ?? 'test',
-      style: helpStyle,
+      style: hStyle,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       textDirection: Directionality.of(context),
@@ -569,7 +573,7 @@ class _CupertinoColorPickerHeader extends StatelessWidget {
     final Text title = Text(
       titleText ?? 'Color Picker',
       semanticsLabel: titleSemanticsLabel ?? titleText,
-      style: _titleStyle,
+      style: tStyle,
       maxLines: orientation == Orientation.portrait ? 1 : 2,
       overflow: TextOverflow.ellipsis,
       textDirection: Directionality.of(context),

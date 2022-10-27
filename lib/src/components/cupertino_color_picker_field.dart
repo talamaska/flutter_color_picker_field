@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import '../models/animated_color_list_model.dart';
 import '../models/color_dialog_model.dart';
@@ -229,7 +228,7 @@ class CupertinoColorPickerField extends StatefulWidget {
   final bool enableLightness;
 
   @override
-  _CupertinoColorPickerFieldState createState() =>
+  State<CupertinoColorPickerField> createState() =>
       _CupertinoColorPickerFieldState();
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -571,7 +570,7 @@ class _CupertinoColorPickerFieldState extends State<CupertinoColorPickerField>
                 color: CupertinoDynamicColor.resolve(side.color, context));
       }
 
-      resolvedBorder = border == null || border.runtimeType != Border
+      resolvedBorder = border.runtimeType != Border
           ? border
           : Border(
               top: resolveBorderSide(border.top),
