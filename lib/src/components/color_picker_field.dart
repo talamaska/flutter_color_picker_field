@@ -63,7 +63,7 @@ class ColorPickerField extends StatefulWidget {
 
   /// This text style is used as the base style for the [decoration].
   ///
-  /// If null, defaults to the `subtitle1` text style from the current [Theme].
+  /// If null, defaults to the `titleMedium` text style from the current [Theme].
   final TextStyle? style;
 
   /// If null, defaults to default for the platform scroll physics.
