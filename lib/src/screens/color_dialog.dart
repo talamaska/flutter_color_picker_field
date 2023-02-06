@@ -156,10 +156,10 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
         ? colorScheme.onPrimary
         : colorScheme.onSurface;
     final TextStyle? titleStyle = orientation == Orientation.landscape
-        ? textTheme.headline5?.copyWith(color: onPrimarySurface)
-        : textTheme.headline4?.copyWith(color: onPrimarySurface);
+        ? textTheme.headlineSmall?.copyWith(color: onPrimarySurface)
+        : textTheme.headlineMedium?.copyWith(color: onPrimarySurface);
 
-    final TextStyle style = theme.textTheme.subtitle1!.merge(widget.style);
+    final TextStyle style = theme.textTheme.titleMedium!.merge(widget.style);
 
     final Widget header = _ColorPickerHeader(
       helpText: widget.helpText,
@@ -577,7 +577,7 @@ class _ColorPickerHeader extends StatelessWidget {
     final Color onPrimarySurfaceColor =
         isDark ? colorScheme.onSurface : colorScheme.onPrimary;
 
-    final TextStyle? helpStyle = textTheme.overline?.copyWith(
+    final TextStyle? helpStyle = textTheme.labelSmall?.copyWith(
       color: onPrimarySurfaceColor,
     );
 

@@ -295,7 +295,8 @@ class _ColorPickerFieldState extends State<ColorPickerField>
       return effectiveDecoration.copyWith(
         errorText: effectiveDecoration.errorText ?? '',
         counterStyle: effectiveDecoration.errorStyle ??
-            themeData.textTheme.caption!.copyWith(color: themeData.errorColor),
+            themeData.textTheme.bodySmall!
+                .copyWith(color: themeData.colorScheme.error),
         counterText: counterText,
         semanticCounterText: semanticCounterText,
       );
@@ -404,7 +405,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     Animation<double> animation,
   ) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle style = theme.textTheme.subtitle1!.merge(widget.style);
+    final TextStyle style = theme.textTheme.titleMedium!.merge(widget.style);
     return ScaleTransition(
       scale: CurvedAnimation(
         parent: animation,
@@ -423,7 +424,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     Animation<double> animation,
   ) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle style = theme.textTheme.subtitle1!.merge(widget.style);
+    final TextStyle style = theme.textTheme.titleMedium!.merge(widget.style);
 
     return ScaleTransition(
       scale: CurvedAnimation(
@@ -443,7 +444,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    final TextStyle style = theme.textTheme.subtitle1!.merge(widget.style);
+    final TextStyle style = theme.textTheme.titleMedium!.merge(widget.style);
     final ColorPickerFieldController controller = _effectiveController;
     final FocusNode focusNode = _effectiveFocusNode;
     final TextDirection textDirection = Directionality.of(context);

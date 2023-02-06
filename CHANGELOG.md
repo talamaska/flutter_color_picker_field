@@ -1,3 +1,10 @@
+## 2.0.0
+
+change: require dart 2.19
+change: update dependencies
+fix: changed Slider track paint interface
+
+
 ## 1.1.2
 
 change: update dependencies

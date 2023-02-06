@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 
 /// A custom slider track for the opacity slider.
@@ -73,9 +74,9 @@ class SaturationSliderTrack extends SliderTrackShape {
     required Animation<double> enableAnimation,
     required TextDirection textDirection,
     required Offset thumbCenter,
+    Offset? secondaryOffset,
     bool isDiscrete = false,
     bool isEnabled = false,
-    double additionalActiveTrackHeight = 2,
   }) {
     assert(sliderTheme.disabledActiveTrackColor != null,
         'disabledActiveTrackColor cannot be null.');
@@ -88,7 +89,7 @@ class SaturationSliderTrack extends SliderTrackShape {
     assert(sliderTheme.thumbShape != null, 'thumbShape cannot be null.');
 
     // If we have no track height, no point in doing anything, no-op exit.
-    if ((sliderTheme.trackHeight ?? 0) <= 0) {
+    if (sliderTheme.trackHeight == null || sliderTheme.trackHeight! <= 0) {
       return;
     }
 
@@ -134,12 +135,10 @@ class SaturationSliderTrack extends SliderTrackShape {
 
     final RRect shapeRect = ui.RRect.fromLTRBAndCorners(
       trackRect.left - thumbRadius,
-      (textDirection == TextDirection.ltr)
-          ? trackRect.top - (additionalActiveTrackHeight / 2)
-          : trackRect.top,
+      (textDirection == TextDirection.ltr) ? trackRect.top : trackRect.top,
       trackRect.right + thumbRadius,
       (textDirection == TextDirection.ltr)
-          ? trackRect.bottom + (additionalActiveTrackHeight / 2)
+          ? trackRect.bottom
           : trackRect.bottom,
       topLeft: (textDirection == TextDirection.ltr)
           ? activeTrackRadius

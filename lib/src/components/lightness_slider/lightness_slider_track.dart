@@ -76,9 +76,9 @@ class LightnessSliderTrack extends SliderTrackShape {
     required Animation<double> enableAnimation,
     required TextDirection textDirection,
     required Offset thumbCenter,
+    Offset? secondaryOffset,
     bool isDiscrete = false,
     bool isEnabled = false,
-    double additionalActiveTrackHeight = 2,
   }) {
     assert(sliderTheme.disabledActiveTrackColor != null,
         'disabledActiveTrackColor cannot be null.');
@@ -151,12 +151,10 @@ class LightnessSliderTrack extends SliderTrackShape {
 
     final RRect shapeRect = ui.RRect.fromLTRBAndCorners(
       trackRect.left - thumbRadius,
-      (textDirection == TextDirection.ltr)
-          ? trackRect.top - (additionalActiveTrackHeight / 2)
-          : trackRect.top,
+      (textDirection == TextDirection.ltr) ? trackRect.top : trackRect.top,
       trackRect.right + thumbRadius,
       (textDirection == TextDirection.ltr)
-          ? trackRect.bottom + (additionalActiveTrackHeight / 2)
+          ? trackRect.bottom
           : trackRect.bottom,
       topLeft: (textDirection == TextDirection.ltr)
           ? activeTrackRadius

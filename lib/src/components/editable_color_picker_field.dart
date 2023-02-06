@@ -48,7 +48,7 @@ class EditableColorPickerField extends StatefulWidget {
   final ScrollBehavior? scrollBehavior;
   final int itemCount;
   final AnimatedListModel<Color> colorList;
-  final AnimatedListItemBuilder itemBuilder;
+  final AnimatedItemBuilder itemBuilder;
   final Key listKey;
 
   @override

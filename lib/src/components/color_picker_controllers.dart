@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import '../models/color_editing_value.dart';
 
 class RestorableColorPickerFieldController
@@ -69,11 +70,6 @@ class ColorPickerFieldController extends ValueNotifier<ColorEditingValue> {
     value = value.copyWith(
       colors: newColors,
     );
-  }
-
-  @override
-  set value(ColorEditingValue newValue) {
-    super.value = newValue;
   }
 
   void clear() {

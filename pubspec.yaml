@@ -1,16 +1,16 @@
 name: color_picker_field
 description: Color Picker field for Material and Cupertino, including a Radial Color picker(Hue based)
-version: 1.1.2
+version: 2.0.0
 repository: https://github.com/talamaska/flutter_color_picker_field
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.3
-  vector_math: ^2.1.0
+  cupertino_icons: ^1.0.5
+  vector_math: ^2.1.4
 
 dev_dependencies:
   flutter_test:
@@ -19,3 +19,21 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+screenshots:
+  - description: Material color picker fields
+    path: screenshots/material_fields.png
+  - description: Cupertino color picker fields
+    path: screenshots/cupertino_fields.png
+  - description: Material color picker dialog
+    path: screenshots/material_color_picker1.png
+  - description: Material color picker dialog - editing already selected colors
+    path: screenshots/material_color_picker2.png
+  - description: Material color picker dialog - with saturation and lightness sliders
+    path: screenshots/material_color_picker3.png
+  - description: Cupertino color picker dialog
+    path: screenshots/cupertino_color_picker1.png
+  - description: Cupertino color picker dialog - editing already selected colors
+    path: screenshots/cupertino_color_picker2.png
+  - description: Cupertino color picker dialog - with saturation and lightness sliders
+    path: screenshots/cupertino_color_picker3.png

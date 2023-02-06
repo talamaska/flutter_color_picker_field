@@ -41,7 +41,7 @@ import 'cupertino_color_picker_field.dart';
 /// resources used by the object.
 ///
 /// For documentation about the various parameters, see the
-/// [CupertinoColorPickerField] class and [new CupertinoColorPickerField.borderless],
+/// [CupertinoColorPickerField] class and [CupertinoColorPickerField.borderless],
 /// the constructor.
 ///
 /// {@tool snippet}
@@ -128,7 +128,7 @@ class CupertinoColorPickerFormFieldRow extends FormField<List<Color>> {
   /// insets are intended, explicitly pass [EdgeInsets.zero] to [padding].
   ///
   /// For documentation about the various parameters, see the
-  /// [CupertinoColorPickerField] class and [new CupertinoColorPickerField.borderless],
+  /// [CupertinoColorPickerField] class and [CupertinoColorPickerField.borderless],
   /// the constructor.
   CupertinoColorPickerFormFieldRow({
     Key? key,
