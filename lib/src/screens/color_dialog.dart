@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../components/color_gradient_widget.dart';
 import '../components/color_item.dart';
+import '../components/color_picker_form_field.dart';
 import '../components/colored_checkbox.dart';
 import '../components/hsl_color_picker.dart';
 import '../components/lightness_slider/lightness_slider.dart';
@@ -29,6 +30,7 @@ class ColorPickerDialog extends StatefulWidget {
     this.textDirection = TextDirection.ltr,
     this.enableSaturation = false,
     this.enableLightness = false,
+    this.selectedColorItemBuilder,
   }) : super(key: key);
 
   final Color initialColor;
@@ -40,6 +42,7 @@ class ColorPickerDialog extends StatefulWidget {
   final String? confirmText;
   final TextStyle? style;
   final TextDirection textDirection;
+  final SelectedColorItemBuilder? selectedColorItemBuilder;
 
   final List<Color> colorList;
 
@@ -131,6 +134,17 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
       case Orientation.landscape:
         return size;
     }
+  }
+
+  static Widget _defaultSelectedColorItemBuilder(
+      Color color, bool selected, SelectionChangeCallback onSelectionChange) {
+    return ColoredGridCheckbox(
+      color: color,
+      value: selected,
+      onChanged: (bool value) {
+        onSelectionChange(selected, color);
+      },
+    );
   }
 
   @override
@@ -238,31 +252,43 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final Widget checkboxesGrid = GridView.count(
       crossAxisCount: 4,
       shrinkWrap: false,
-      children: <Widget>[
-        for (int i = 0; i < widget.colorList.length; i++)
-          ColoredGridCheckbox(
-            color: widget.colorList[i],
-            value: _getColorState(widget.colorList[i]),
-            onChanged: (bool value) {
-              _onColorSelectionChanged(value, widget.colorList[i]);
-            },
-          )
-      ],
+      children: widget.colorList.map((Color entry) {
+        if (widget.selectedColorItemBuilder != null) {
+          return widget.selectedColorItemBuilder!(entry, _getColorState(entry),
+              (bool selected, Color color) {
+            _onColorSelectionChanged(selected, color);
+          });
+        } else {
+          return _defaultSelectedColorItemBuilder(entry, _getColorState(entry),
+              (bool selected, Color color) {
+            _onColorSelectionChanged(selected, color);
+          });
+        }
+      }).toList(),
     );
 
     final Widget checkboxesGridLandscape = GridView.count(
       crossAxisCount: 8,
       shrinkWrap: false,
-      children: <Widget>[
-        for (int i = 0; i < widget.colorList.length; i++)
-          ColoredGridCheckbox(
-            color: widget.colorList[i],
-            value: _getColorState(widget.colorList[i]),
-            onChanged: (bool value) {
-              _onColorSelectionChanged(value, widget.colorList[i]);
+      children: widget.colorList.map((Color entry) {
+        if (widget.selectedColorItemBuilder != null) {
+          return widget.selectedColorItemBuilder!(
+            entry,
+            _getColorState(entry),
+            (bool selected, Color color) {
+              _onColorSelectionChanged(selected, color);
             },
-          )
-      ],
+          );
+        } else {
+          return _defaultSelectedColorItemBuilder(
+            entry,
+            _getColorState(entry),
+            (bool selected, Color color) {
+              _onColorSelectionChanged(selected, color);
+            },
+          );
+        }
+      }).toList(),
     );
 
     final Widget saturationSlider = Padding(
@@ -346,8 +372,9 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
             ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFFFFFF),
-            visualDensity: VisualDensity.compact),
+          backgroundColor: const Color(0xFFFFFFFF),
+          visualDensity: VisualDensity.compact,
+        ),
         onPressed: () {
           setState(() {
             colorPickerVisible = false;

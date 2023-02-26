@@ -13,6 +13,7 @@ import '../screens/color_dialog.dart';
 import 'color_item.dart';
 import 'color_picker_controllers.dart';
 import 'editable_color_picker_field.dart';
+import 'color_picker_form_field.dart';
 
 class ColorPickerField extends StatefulWidget {
   const ColorPickerField({
@@ -36,6 +37,7 @@ class ColorPickerField extends StatefulWidget {
     this.buildCounter,
     this.enableLightness = false,
     this.enableSaturation = false,
+    this.selectedColorItemBuilder,
   }) : super(key: key);
 
   final FocusNode? focusNode;
@@ -43,6 +45,8 @@ class ColorPickerField extends StatefulWidget {
   final bool colorListReversed;
 
   final InputDecoration? decoration;
+
+  final SelectedColorItemBuilder? selectedColorItemBuilder;
 
   /// Required. Controls the default color of the color picker launched from the field.
   final Color defaultColor;
@@ -569,6 +573,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
           textDirection: textDirection,
           enableLightness: widget.enableLightness,
           enableSaturation: widget.enableSaturation,
+          selectedColorItemBuilder: widget.selectedColorItemBuilder,
         );
       },
     );

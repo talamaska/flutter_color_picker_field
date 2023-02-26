@@ -4,6 +4,14 @@ import '../components/color_picker_controllers.dart';
 import '../components/color_picker_field.dart';
 import '../models/color_editing_value.dart';
 
+typedef SelectionChangeCallback = void Function(bool selected, Color color);
+
+typedef SelectedColorItemBuilder = Widget Function(
+  Color color,
+  bool selected,
+  SelectionChangeCallback onSelectionChange,
+);
+
 class ColorPickerFormField extends FormField<List<Color>> {
   ColorPickerFormField({
     Key? key,
@@ -27,6 +35,7 @@ class ColorPickerFormField extends FormField<List<Color>> {
     this.controller,
     this.enableLightness = false,
     this.enableSaturation = false,
+    this.selectedColorItemBuilder,
   })  : assert(initialValue == null || controller == null),
         assert(maxColors == null || maxColors > 0),
         super(
@@ -53,29 +62,32 @@ class ColorPickerFormField extends FormField<List<Color>> {
               }
 
               return ColorPickerField(
-                controller: state._effectiveController,
-                focusNode: focusNode,
-                style: style,
-                colorListReversed: colorListReversed,
-                readOnly: readOnly,
-                maxColors: maxColors,
-                enabled: enabled ?? decoration?.enabled ?? true,
-                buildCounter: buildCounter,
-                scrollController: scrollController,
-                scrollPhysics: scrollPhysics,
-                onSubmitted: onFieldSubmitted,
-                defaultColor: defaultColor,
-                colors: controller != null
-                    ? controller.value.colors
-                    : (initialValue ?? <Color>[]),
-                onChanged: onChangedHandler,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: field.errorText,
-                ),
-                enableLightness: enableLightness,
-                enableSaturation: enableSaturation,
-              );
+                  controller: state._effectiveController,
+                  focusNode: focusNode,
+                  style: style,
+                  colorListReversed: colorListReversed,
+                  readOnly: readOnly,
+                  maxColors: maxColors,
+                  enabled: enabled ?? decoration?.enabled ?? true,
+                  buildCounter: buildCounter,
+                  scrollController: scrollController,
+                  scrollPhysics: scrollPhysics,
+                  onSubmitted: onFieldSubmitted,
+                  defaultColor: defaultColor,
+                  colors: controller != null
+                      ? controller.value.colors
+                      : (initialValue ?? <Color>[]),
+                  onChanged: onChangedHandler,
+                  decoration: effectiveDecoration.copyWith(
+                    errorText: field.errorText,
+                  ),
+                  enableLightness: enableLightness,
+                  enableSaturation: enableSaturation,
+                  selectedColorItemBuilder: selectedColorItemBuilder);
             });
+
+  /// You can provide a custom widget for the selected colors list
+  final SelectedColorItemBuilder? selectedColorItemBuilder;
 
   /// Enable the saturation control for the color value.
   ///

@@ -10,12 +10,16 @@ class ColoredCheckbox extends StatefulWidget {
     required this.color,
     this.value = false,
     this.onChanged,
+    this.decoration,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   final Size? size;
   final Color color;
   final bool? value;
   final ValueChanged<bool>? onChanged;
+  final BoxDecoration? decoration;
+  final EdgeInsets padding;
 
   @override
   State<ColoredCheckbox> createState() => _ColoredCheckboxState();
@@ -46,23 +50,25 @@ class _ColoredCheckboxState extends State<ColoredCheckbox> {
       child: Container(
         width: size.width,
         height: size.width,
-        decoration: BoxDecoration(
-          border: Border.all(
-            style: BorderStyle.solid,
-            color: widget.color,
-            width: 1.0,
-          ),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: widget.color,
-              offset: const Offset(0.0, 0.0),
-              spreadRadius: widget.value! ? 1.0 : 0.0,
-              blurRadius: widget.value! ? 2.0 : 0.0,
-            )
-          ],
-          shape: BoxShape.circle,
-          color: widget.value! ? widget.color : const Color(0xFFFFFFFF),
-        ),
+        padding: widget.padding ?? EdgeInsets.zero,
+        decoration: widget.decoration ??
+            BoxDecoration(
+              border: Border.all(
+                style: BorderStyle.solid,
+                color: widget.color,
+                width: 1.0,
+              ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: widget.color,
+                  offset: const Offset(0.0, 0.0),
+                  spreadRadius: widget.value! ? 1.0 : 0.0,
+                  blurRadius: widget.value! ? 2.0 : 0.0,
+                )
+              ],
+              shape: BoxShape.circle,
+              color: widget.value! ? widget.color : const Color(0xFFFFFFFF),
+            ),
         child: Center(
           child: Icon(
             checkboxIcon,
@@ -81,11 +87,15 @@ class ColoredGridCheckbox extends StatefulWidget {
     required this.color,
     this.value = false,
     this.onChanged,
+    this.decoration,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   final Color color;
   final bool value;
   final ValueChanged<bool>? onChanged;
+  final BoxDecoration? decoration;
+  final EdgeInsets padding;
 
   @override
   State<ColoredGridCheckbox> createState() => _ColoredGridCheckboxState();
@@ -109,42 +119,44 @@ class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          style: BorderStyle.solid,
-          color: widget.color,
-          width: 1.0,
-        ),
-        color: widget.value ? widget.color : const Color(0xFFFFFFFF),
-      ),
+      padding: widget.padding ?? EdgeInsets.zero,
+      decoration: widget.decoration ??
+          BoxDecoration(
+            border: Border.all(
+              style: BorderStyle.solid,
+              color: widget.color,
+              width: 1.0,
+            ),
+            color: widget.value ? widget.color : const Color(0xFFFFFFFF),
+          ),
       child: InkWell(
         onTap: _actionHandler,
         child: Align(
-            alignment: AlignmentDirectional.bottomEnd,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 16.0,
-                width: 16.0,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    style: BorderStyle.solid,
-                    color: theme.primaryColor,
-                    width: 1.0,
-                  ),
-                  shape: BoxShape.circle,
-                  color: widget.value
-                      ? theme.primaryColor
-                      : const Color(0xFFFFFFFF),
+          alignment: AlignmentDirectional.bottomEnd,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 16.0,
+              width: 16.0,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  style: BorderStyle.solid,
+                  color: theme.primaryColor,
+                  width: 1.0,
                 ),
-                alignment: Alignment.center,
-                child: Icon(
-                  widget.value ? Icons.check : null,
-                  color: theme.colorScheme.onPrimary,
-                  size: 14,
-                ),
+                shape: BoxShape.circle,
+                color:
+                    widget.value ? theme.primaryColor : const Color(0xFFFFFFFF),
               ),
-            )),
+              alignment: Alignment.center,
+              child: Icon(
+                widget.value ? Icons.check : null,
+                color: theme.colorScheme.onPrimary,
+                size: 14,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
