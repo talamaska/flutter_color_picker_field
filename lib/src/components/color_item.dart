@@ -14,10 +14,13 @@ class ColorItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return Container(
       width: size,
       height: size,
-      margin: EdgeInsets.only(right: size! * 0.2),
+      margin: orientation == Orientation.portrait
+          ? EdgeInsets.only(right: size! * 0.2)
+          : EdgeInsets.only(bottom: size! * 0.2),
       decoration: BoxDecoration(
         color: item,
         shape: shape,

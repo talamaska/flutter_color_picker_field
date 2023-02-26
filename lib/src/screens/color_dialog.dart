@@ -162,7 +162,6 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final TextStyle style = theme.textTheme.titleMedium!.merge(widget.style);
 
     final Widget header = _ColorPickerHeader(
-      helpText: widget.helpText,
       titleText: widget.titleText,
       titleSemanticsLabel: widget.titleSemanticsLabel,
       titleStyle: titleStyle,
@@ -339,11 +338,16 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
     final Widget switcher = Padding(
       padding: orientation == Orientation.portrait
           ? const EdgeInsets.symmetric(horizontal: 16.0)
-          : const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
+          : const EdgeInsets.only(
+              left: 8.0,
+              top: 16.0,
+              bottom: 16.0,
+              right: 24,
+            ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFFFFF),
-        ),
+            backgroundColor: const Color(0xFFFFFFFF),
+            visualDensity: VisualDensity.compact),
         onPressed: () {
           setState(() {
             colorPickerVisible = false;
@@ -522,7 +526,6 @@ class _ColorPickerHeader extends StatelessWidget {
   /// Creates a header for use in a date picker dialog.
   const _ColorPickerHeader({
     Key? key,
-    this.helpText,
     this.titleText,
     this.titleSemanticsLabel,
     required this.titleStyle,
@@ -531,14 +534,7 @@ class _ColorPickerHeader extends StatelessWidget {
     this.textDirection = TextDirection.ltr,
   }) : super(key: key);
 
-  static const double _colorPickerHeaderLandscapeWidth = 152.0;
-  static const double _colorPickerHeaderPortraitHeight = 120.0;
   static const double _headerPaddingLandscape = 16.0;
-
-  /// The text that is displayed at the top of the header.
-  ///
-  /// This is used to indicate to the user what they are selecting a date for.
-  final String? helpText;
 
   /// The text that is displayed at the center of the header.
   final String? titleText;
@@ -568,30 +564,16 @@ class _ColorPickerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
-    final TextTheme textTheme = theme.textTheme;
 
     // The header should use the primary color in light themes and surface color in dark
     final bool isDark = colorScheme.brightness == Brightness.dark;
     final Color primarySurfaceColor =
         isDark ? colorScheme.surface : colorScheme.primary;
-    final Color onPrimarySurfaceColor =
-        isDark ? colorScheme.onSurface : colorScheme.onPrimary;
 
-    final TextStyle? helpStyle = textTheme.labelSmall?.copyWith(
-      color: onPrimarySurfaceColor,
-    );
-
-    final Widget help = Text(
-      helpText ?? '',
-      style: helpStyle,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      textDirection: Directionality.of(context),
-    );
     final Text title = Text(
       titleText ?? 'Color Picker',
       semanticsLabel: titleSemanticsLabel ?? titleText,
-      style: titleStyle,
+      style: titleStyle ?? theme.dialogTheme.titleTextStyle,
       maxLines: orientation == Orientation.portrait ? 1 : 2,
       overflow: TextOverflow.ellipsis,
       textDirection: Directionality.of(context),
@@ -599,54 +581,38 @@ class _ColorPickerHeader extends StatelessWidget {
 
     switch (orientation) {
       case Orientation.portrait:
-        return SizedBox(
-          height: _colorPickerHeaderPortraitHeight,
-          child: Material(
-            color: primarySurfaceColor,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(
-                start: 16,
-                end: 16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                textDirection: textDirection,
-                children: <Widget>[
-                  const SizedBox(height: 16),
-                  help,
-                  const Flexible(child: SizedBox(height: 38)),
-                  title
-                ],
-              ),
+        return Material(
+          color: primarySurfaceColor,
+          child: Padding(
+            padding: const EdgeInsetsDirectional.only(
+              start: 24,
+              end: 24,
+              bottom: 16,
+              top: 24,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              textDirection: textDirection,
+              children: <Widget>[title],
             ),
           ),
         );
       case Orientation.landscape:
-        return SizedBox(
-          width: _colorPickerHeaderLandscapeWidth,
-          child: Material(
-            color: primarySurfaceColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(height: 16),
-                Padding(
+        return Material(
+          color: primarySurfaceColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Padding(
                   padding: const EdgeInsets.symmetric(
+                    vertical: 24,
                     horizontal: _headerPaddingLandscape,
                   ),
-                  child: help,
+                  child: title,
                 ),
-                SizedBox(height: isShort ? 16 : 56),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: _headerPaddingLandscape,
-                    ),
-                    child: title,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
     }

@@ -28,35 +28,37 @@ class HSLColorPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CupertinoThemeData ct = CupertinoTheme.of(context);
-    return AspectRatio(
-      aspectRatio: 1.0,
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: ct.brightness == Brightness.dark
-                  ? const Color(0x44FFFFFF)
-                  : const Color(0x44000000),
-              blurRadius: 2.0,
-              spreadRadius: 1.0,
-              offset: const Offset(0.0, 1.0),
-            )
-          ],
-        ),
-        child: Stack(
-          children: <Widget>[
-            const ColorGradientWidget(),
-            HSLColorChooser(
-              currentColor: currentColor,
-              hue: hue,
-              saturation: saturation,
-              lightness: lightness,
-              onSave: onSave,
-              onChange: onChange,
-            ),
-          ],
+    return Center(
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: ct.brightness == Brightness.dark
+                    ? const Color(0x44FFFFFF)
+                    : const Color(0x44000000),
+                blurRadius: 2.0,
+                spreadRadius: 1.0,
+                offset: const Offset(0.0, 1.0),
+              )
+            ],
+          ),
+          child: Stack(
+            children: <Widget>[
+              const ColorGradientWidget(),
+              HSLColorChooser(
+                currentColor: currentColor,
+                hue: hue,
+                saturation: saturation,
+                lightness: lightness,
+                onSave: onSave,
+                onChange: onChange,
+              ),
+            ],
+          ),
         ),
       ),
     );
