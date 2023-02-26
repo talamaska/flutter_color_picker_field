@@ -118,41 +118,44 @@ class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Container(
+    return Padding(
       padding: widget.padding ?? EdgeInsets.zero,
-      decoration: widget.decoration ??
-          BoxDecoration(
-            border: Border.all(
-              style: BorderStyle.solid,
-              color: widget.color,
-              width: 1.0,
-            ),
-            color: widget.value ? widget.color : const Color(0xFFFFFFFF),
-          ),
-      child: InkWell(
-        onTap: _actionHandler,
-        child: Align(
-          alignment: AlignmentDirectional.bottomEnd,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 16.0,
-              width: 16.0,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  style: BorderStyle.solid,
-                  color: theme.primaryColor,
-                  width: 1.0,
-                ),
-                shape: BoxShape.circle,
-                color:
-                    widget.value ? theme.primaryColor : const Color(0xFFFFFFFF),
+      child: Container(
+        decoration: widget.decoration ??
+            BoxDecoration(
+              border: Border.all(
+                style: BorderStyle.solid,
+                color: widget.color,
+                width: 1.0,
               ),
-              alignment: Alignment.center,
-              child: Icon(
-                widget.value ? Icons.check : null,
-                color: theme.colorScheme.onPrimary,
-                size: 14,
+              color: widget.value ? widget.color : const Color(0xFFFFFFFF),
+            ),
+        child: InkWell(
+          onTap: _actionHandler,
+          child: Align(
+            alignment: AlignmentDirectional.bottomEnd,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                height: 24.0,
+                width: 24.0,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    style: BorderStyle.solid,
+                    color: theme.primaryColor,
+                    width: 2.0,
+                  ),
+                  shape: BoxShape.circle,
+                  color: widget.value
+                      ? theme.primaryColor
+                      : const Color(0xFFFFFFFF),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  widget.value ? Icons.check : null,
+                  color: theme.colorScheme.onPrimary,
+                  size: 16,
+                ),
               ),
             ),
           ),
