@@ -50,7 +50,7 @@ class _ColoredCheckboxState extends State<ColoredCheckbox> {
       child: Container(
         width: size.width,
         height: size.width,
-        padding: widget.padding ?? EdgeInsets.zero,
+        padding: widget.padding,
         decoration: widget.decoration ??
             BoxDecoration(
               border: Border.all(
@@ -119,7 +119,7 @@ class _ColoredGridCheckboxState extends State<ColoredGridCheckbox> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Padding(
-      padding: widget.padding ?? EdgeInsets.zero,
+      padding: widget.padding,
       child: Container(
         decoration: widget.decoration ??
             BoxDecoration(

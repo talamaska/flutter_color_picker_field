@@ -443,36 +443,42 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
               if (colorPickerVisible) {
                 switch (orientation) {
                   case Orientation.portrait:
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        header,
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: picker,
-                        ),
-                        if (widget.enableSaturation) saturationSlider,
-                        if (widget.enableLightness) lightnessSlider,
-                        if (widget.colorList.isNotEmpty) switcher,
-                      ],
-                    );
-                  case Orientation.landscape:
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        header,
-                        Flexible(
-                          child: Padding(
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          header,
+                          Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: picker,
                           ),
-                        ),
-                        if (widget.enableSaturation) saturationSlider,
-                        if (widget.enableLightness) lightnessSlider,
-                        if (widget.colorList.isNotEmpty) switcher,
-                      ],
+                          if (widget.enableSaturation) saturationSlider,
+                          if (widget.enableLightness) lightnessSlider,
+                          if (widget.colorList.isNotEmpty) switcher,
+                        ],
+                      ),
+                    );
+                  case Orientation.landscape:
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          header,
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: picker,
+                            ),
+                          ),
+                          if (widget.enableSaturation) saturationSlider,
+                          if (widget.enableLightness) lightnessSlider,
+                          if (widget.colorList.isNotEmpty) switcher,
+                        ],
+                      ),
                     );
                 }
               } else {

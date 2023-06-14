@@ -57,7 +57,7 @@ class ColorPickerField extends StatefulWidget {
   /// An initial list of colors, if not passed, default to an empty list
   final List<Color> colors;
 
-  /// A callback triggered everytime a color was added or removed to/from the field
+  /// A callback triggered every time a color was added or removed to/from the field
   final ValueChanged<List<Color>>? onChanged;
 
   final ValueChanged<String>? onSubmitted;
@@ -459,6 +459,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
         child: EditableColorPickerField(
           listKey: _listKey,
           colorList: _colorListAnimated,
+          itemCount: _colorListAnimated.length,
           controller: controller,
           scrollController: widget.scrollController,
           scrollPhysics: widget.scrollPhysics,
@@ -532,7 +533,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
             //   },
             //   child: child,
             // );
-            return InkWell(
+            return GestureDetector(
               onTap: (widget.readOnly ?? false)
                   ? null
                   : () {
@@ -566,6 +567,7 @@ class _ColorPickerFieldState extends State<ColorPickerField>
     final DialogRoute<ColorPickerDialogModel> dialog =
         DialogRoute<ColorPickerDialogModel>(
       context: context,
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return ColorPickerDialog(
           initialColor: widget.defaultColor,
